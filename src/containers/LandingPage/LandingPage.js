@@ -67,7 +67,25 @@ export const LandingPageComponent = props => {
             <li className={css.section}>
               <div className={css.sectionContentFirstChild}>
                 {/* <SectionLocations /> */}
-                <SectionProduct />
+                <SectionProduct category='hero' />
+              </div>
+            </li>
+            <li className={css.section}>
+              <div className={css.sectionContentFirstChild}>
+                {/* <SectionLocations /> */}
+                <SectionProduct category='newlyList' />
+              </div>
+            </li>
+            <li className={css.section}>
+              <div className={css.sectionContentFirstChild}>
+                {/* <SectionLocations /> */}
+                <SectionProduct category='mostView' />
+              </div>
+            </li>
+            <li className={css.section}>
+              <div className={css.sectionContentFirstChild}>
+                {/* <SectionLocations /> */}
+                <SectionProduct category='watching' />
               </div>
             </li>
             <li className={css.section}>

@@ -22,7 +22,6 @@ const LazyImage = lazyLoadWithDimensions(ProductImage);
 
 const productLink = (name, image, searchQuery) => {
   const nameText = <span className={css.productName}>{name}</span>;
-  console.log(searchQuery)
   return (
     <NamedLink name="SearchPage" to={{ search: searchQuery }} className={css.product}>
       <div className={css.imageWrapper}>
@@ -41,14 +40,30 @@ const productLink = (name, image, searchQuery) => {
 };
 
 const SectionProduct = props => {
+  console.log(props);
   const { rootClassName, className } = props;
 
   const classes = classNames(rootClassName || css.root, className);
+  let id;
+  switch (props.category) {
+    case 'hero':
+      id = "SectionProduct.hero"
+      break;
+    case 'newlyList':
+      id = "SectionProduct.newlyList"
+      break;
+    case 'mostView':
+      id = "SectionProduct.mostView"
+      break;
+    case 'watching':
+      id = "SectionProduct.watching"
+      break;
+  }
 
   return (
     <div className={classes}>
       <div className={css.title}>
-        <FormattedMessage id="SectionProduct.title" />
+        <FormattedMessage id={id} />
       </div>
       <div className={css.products}>
         {productLink(
