@@ -97,8 +97,7 @@ export class ListingPageComponent extends Component {
     this.onSubmitEnquiry = this.onSubmitEnquiry.bind(this);
   }
 
-  handleSubmit(values) {
-    console.log(values);
+  handleSubmit() {
     const {
       history,
       getListing,
