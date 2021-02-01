@@ -53,14 +53,14 @@
   flex-basis: 6rem;
   flex-grow: 0;
   flex-shrink: 0;
-  transition: opacity .1s;
+  transition: opacity 0.1s;
   cursor: pointer;
 }
 .listImageContent .rootForImage {
-  margin: 0 .5rem;
-  opacity: .99;
-  -webkit-transition: opacity .5s;
-  transition: opacity .5s;
+  margin: 0 0.5rem;
+  opacity: 0.99;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 
 .threeToTwoWrapper {
@@ -178,7 +178,7 @@
     max-height: 50vh;
     object-fit: cover;
     border-radius: var(--borderRadius);
-/* 
+    /* 
     &:hover {
       transform: scale(1.005);
       box-shadow: var(--boxShadowListingCard);
@@ -227,6 +227,22 @@
   width: 100%;
   height: 100%;
 }
+.containerFluid {
+  @media (--viewportMedium) {
+    max-width: 100%;
+    margin: 24px;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 1428px;
+    margin: 0 auto;
+  }
+
+  @media (--viewportXLarge) {
+    max-width: 1256px;
+    padding: 0;
+  }
+}
 .wrapper {
   padding: 2rem;
   max-width: unset;
@@ -269,30 +285,31 @@
 }
 
 .mainContent {
-
   @media (--viewportMedium) {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 0%;
-    margin-right: 3rem;
+    margin-right: 2rem;
   }
 
   @media (--viewportLarge) {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 0%;
-    margin-right: 3rem;
+    margin-right: 2rem;
   }
 }
 
 .bookingPanel {
   @media (--viewportMedium) {
-    flex: 1 0 20rem;
-  }
-  @media (--viewportLarge) {
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: 30rem;
+    flex-basis: 0%;
+  }
+  @media (--viewportLarge) {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0%;
   }
 }
 
