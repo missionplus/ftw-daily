@@ -30,7 +30,7 @@ const SectionHero = props => {
         slidesPerPage={3}
         slidesPerScroll={1}
         animationSpeed={1500}
-        autoPlay={5000}
+        autoPlay={3000}
         stopAutoPlayOnHover
         infinite
         clickToChange
