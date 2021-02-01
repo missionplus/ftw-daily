@@ -35,7 +35,7 @@ export class BookingDatesFormComponent extends Component {
   // In case start or end date for the booking is missing
   // focus on that input, otherwise continue with the
   // default handleSubmit function.
-  handleFormSubmit() {
+  handleFormSubmit(e) {
     // const { startDate, endDate } = e.bookingDates || {};
     // if (!startDate) {
     //   e.preventDefault();
@@ -47,17 +47,17 @@ export class BookingDatesFormComponent extends Component {
     //   this.props.onSubmit(e);
     // }
 
-    //Mock Data
-    // const startDate = new Date(2021, 3, 14, 0, 0, 0);
-    // const endDate = new Date(2021, 3, 15, 0, 0, 0);
+    // Mock Data
+    const startDate = new Date(2021, 3, 18, 0, 0, 0);
+    const endDate = new Date(2021, 3, 19, 0, 0, 0);
 
-    // const fakeBookingDates = {
-    //   bookingDates: {
-    //     startDate,
-    //     endDate,
-    //   }
-    // };
-    this.props.onSubmit();
+    const fakeBookingDates = {
+      bookingDates: {
+        startDate,
+        endDate,
+      }
+    };
+    this.props.onSubmit(fakeBookingDates);
   }
 
   // When the values of the form are updated we need to fetch
