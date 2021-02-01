@@ -327,9 +327,9 @@ export class ListingPageComponent extends Component {
     const handlePhotosClick = (e, index) => {
       e.stopPropagation();
       this.setState({
-        indexImages: index
+        indexImages: index,
       });
-    }
+    };
     const authorAvailable = currentListing && currentListing.author;
     const userAndListingAuthorAvailable = !!(currentUser && authorAvailable);
     const isOwnListing =
@@ -420,91 +420,93 @@ export class ListingPageComponent extends Component {
         <LayoutSingleColumn className={css.pageRoot}>
           <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
           <LayoutWrapperMain>
-            <div className={css.wrapper}>
-              <div className={css.wrapperContent}>
-                <div className={css.imageContent}>
-                <SectionImages
-                  title={title}
-                  indexImages={this.state.indexImages}
-                  listing={currentListing}
-                  isOwnListing={isOwnListing}
-                  editParams={{
-                    id: listingId.uuid,
-                    slug: listingSlug,
-                    type: listingType,
-                    tab: listingTab,
-                  }}
-                  imageCarouselOpen={this.state.imageCarouselOpen}
-                  onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
-                  handleViewPhotosClick={handleViewPhotosClick}
-                  onManageDisableScrolling={onManageDisableScrolling}
-                />
-                <SectionListImages
-                  title={title}
-                  listing={currentListing}
-                  isOwnListing={isOwnListing}
-                  editParams={{
-                    id: listingId.uuid,
-                    slug: listingSlug,
-                    type: listingType,
-                    tab: listingTab,
-                  }}
-                  handlePhotosClick={handlePhotosClick}
-                />
-                </div>
-                <div className={css.container}>
-                  <div className={css.contentContainer}>
-                    {/* <SectionAvatar user={currentAuthor} params={params} /> */}
-                    <div className={css.mainContent}>
-                      <SectionHeading
-                        priceTitle={priceTitle}
-                        formattedPrice={formattedPrice}
-                        richTitle={richTitle}
-                        category={category}
-                        hostLink={hostLink}
-                        showContactUser={showContactUser}
-                        onContactUser={this.onContactUser}
-                      />
-                      <SectionDescriptionMaybe description={description} />
-                      {/* <SectionFeaturesMaybe options={amenityOptions} publicData={publicData} /> */}
-                      {/* <SectionRulesMaybe publicData={publicData} /> */}
-                      {/* <SectionMapMaybe
+            <div className={css.containerFluid}>
+              <div className={css.wrapper}>
+                <div className={css.wrapperContent}>
+                  <div className={css.imageContent}>
+                    <SectionImages
+                      title={title}
+                      indexImages={this.state.indexImages}
+                      listing={currentListing}
+                      isOwnListing={isOwnListing}
+                      editParams={{
+                        id: listingId.uuid,
+                        slug: listingSlug,
+                        type: listingType,
+                        tab: listingTab,
+                      }}
+                      imageCarouselOpen={this.state.imageCarouselOpen}
+                      onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
+                      handleViewPhotosClick={handleViewPhotosClick}
+                      onManageDisableScrolling={onManageDisableScrolling}
+                    />
+                    <SectionListImages
+                      title={title}
+                      listing={currentListing}
+                      isOwnListing={isOwnListing}
+                      editParams={{
+                        id: listingId.uuid,
+                        slug: listingSlug,
+                        type: listingType,
+                        tab: listingTab,
+                      }}
+                      handlePhotosClick={handlePhotosClick}
+                    />
+                  </div>
+                  <div className={css.container}>
+                    <div className={css.contentContainer}>
+                      {/* <SectionAvatar user={currentAuthor} params={params} /> */}
+                      <div className={css.mainContent}>
+                        <SectionHeading
+                          priceTitle={priceTitle}
+                          formattedPrice={formattedPrice}
+                          richTitle={richTitle}
+                          category={category}
+                          hostLink={hostLink}
+                          showContactUser={showContactUser}
+                          onContactUser={this.onContactUser}
+                        />
+                        <SectionDescriptionMaybe description={description} />
+                        {/* <SectionFeaturesMaybe options={amenityOptions} publicData={publicData} /> */}
+                        {/* <SectionRulesMaybe publicData={publicData} /> */}
+                        {/* <SectionMapMaybe
                       geolocation={geolocation}
                       publicData={publicData}
                       listingId={currentListing.id}
                     /> */}
-                      <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
-                      <SectionHostMaybe
-                        title={title}
+                        <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
+                        <SectionHostMaybe
+                          title={title}
+                          listing={currentListing}
+                          authorDisplayName={authorDisplayName}
+                          onContactUser={this.onContactUser}
+                          isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
+                          onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
+                          sendEnquiryError={sendEnquiryError}
+                          sendEnquiryInProgress={sendEnquiryInProgress}
+                          onSubmitEnquiry={this.onSubmitEnquiry}
+                          currentUser={currentUser}
+                          onManageDisableScrolling={onManageDisableScrolling}
+                        />
+                      </div>
+                      <BookingPanel
+                        className={css.bookingPanel}
                         listing={currentListing}
+                        isOwnListing={isOwnListing}
+                        unitType={unitType}
+                        onSubmit={handleBookingSubmit}
+                        title={bookingTitle}
+                        subTitle={bookingSubTitle}
                         authorDisplayName={authorDisplayName}
-                        onContactUser={this.onContactUser}
-                        isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
-                        onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
-                        sendEnquiryError={sendEnquiryError}
-                        sendEnquiryInProgress={sendEnquiryInProgress}
-                        onSubmitEnquiry={this.onSubmitEnquiry}
-                        currentUser={currentUser}
                         onManageDisableScrolling={onManageDisableScrolling}
+                        timeSlots={timeSlots}
+                        fetchTimeSlotsError={fetchTimeSlotsError}
+                        onFetchTransactionLineItems={onFetchTransactionLineItems}
+                        lineItems={lineItems}
+                        fetchLineItemsInProgress={fetchLineItemsInProgress}
+                        fetchLineItemsError={fetchLineItemsError}
                       />
                     </div>
-                    <BookingPanel
-                      className={css.bookingPanel}
-                      listing={currentListing}
-                      isOwnListing={isOwnListing}
-                      unitType={unitType}
-                      onSubmit={handleBookingSubmit}
-                      title={bookingTitle}
-                      subTitle={bookingSubTitle}
-                      authorDisplayName={authorDisplayName}
-                      onManageDisableScrolling={onManageDisableScrolling}
-                      timeSlots={timeSlots}
-                      fetchTimeSlotsError={fetchTimeSlotsError}
-                      onFetchTransactionLineItems={onFetchTransactionLineItems}
-                      lineItems={lineItems}
-                      fetchLineItemsInProgress={fetchLineItemsInProgress}
-                      fetchLineItemsError={fetchLineItemsError}
-                    />
                   </div>
                 </div>
               </div>
