@@ -109,17 +109,17 @@ export class ListingPageComponent extends Component {
     const listingId = new UUID(params.id);
     const listing = getListing(listingId);
 
-    const { bookingDates, ...bookingData } = values;
+    // const { bookingDates, ...bookingData } = values;
 
-    const initialValues = {
-      listing,
-      bookingData,
-      bookingDates: {
-        bookingStart: bookingDates.startDate,
-        bookingEnd: bookingDates.endDate,
-      },
-      confirmPaymentError: null,
-    };
+    // const initialValues = {
+    //   listing,
+    //   bookingData,
+    //   bookingDates: {
+    //     bookingStart: bookingDates.startDate,
+    //     bookingEnd: bookingDates.endDate,
+    //   },
+    //   confirmPaymentError: null,
+    // };
 
     const saveToSessionStorage = !this.props.currentUser;
 
@@ -127,7 +127,7 @@ export class ListingPageComponent extends Component {
     // Customize checkout page state with current listing and selected bookingDates
     const { setInitialValues } = findRouteByRouteName('CheckoutPage', routes);
 
-    callSetInitialValues(setInitialValues, initialValues, saveToSessionStorage);
+    callSetInitialValues(setInitialValues, saveToSessionStorage);
 
     // Clear previous Stripe errors from store if there is any
     onInitializeCardPaymentData();
@@ -346,12 +346,12 @@ export class ListingPageComponent extends Component {
 
     const { formattedPrice, priceTitle } = priceData(price, intl);
 
-    const handleBookingSubmit = values => {
+    const handleBookingSubmit = () => {
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
       if (isOwnListing || isCurrentlyClosed) {
         window.scrollTo(0, 0);
       } else {
-        this.handleSubmit(values);
+        this.handleSubmit();
       }
     };
 
