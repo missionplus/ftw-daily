@@ -97,7 +97,7 @@ export class ListingPageComponent extends Component {
     this.onSubmitEnquiry = this.onSubmitEnquiry.bind(this);
   }
 
-  handleSubmit(values) {
+  handleSubmit() {
     const {
       history,
       getListing,
@@ -108,15 +108,14 @@ export class ListingPageComponent extends Component {
     const listingId = new UUID(params.id);
     const listing = getListing(listingId);
 
-    const { bookingDates, ...bookingData } = values;
+    // const { ...bookingData } = values;
 
     const initialValues = {
       listing,
-      bookingData,
-      bookingDates: {
-        bookingStart: bookingDates.startDate,
-        bookingEnd: bookingDates.endDate,
-      },
+      // bookingDates: {
+      //   bookingStart: bookingDates.startDate,
+      //   bookingEnd: bookingDates.endDate,
+      // },
       confirmPaymentError: null,
     };
 
@@ -345,12 +344,12 @@ export class ListingPageComponent extends Component {
 
     const { formattedPrice, priceTitle } = priceData(price, intl);
 
-    const handleBookingSubmit = values => {
+    const handleBookingSubmit = () => {
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
       if (isOwnListing || isCurrentlyClosed) {
         window.scrollTo(0, 0);
       } else {
-        this.handleSubmit(values);
+        this.handleSubmit();
       }
     };
 
@@ -632,8 +631,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
   callSetInitialValues: (setInitialValues, values, saveToSessionStorage) =>
     dispatch(setInitialValues(values, saveToSessionStorage)),
-  onFetchTransactionLineItems: (bookingData, listingId, isOwnListing) =>
-    dispatch(fetchTransactionLineItems(bookingData, listingId, isOwnListing)),
+  onFetchTransactionLineItems: (listingId, isOwnListing) =>
+    dispatch(fetchTransactionLineItems(listingId, isOwnListing)),
   onSendEnquiry: (listingId, message) => dispatch(sendEnquiry(listingId, message)),
   onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
 });
