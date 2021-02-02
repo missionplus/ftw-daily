@@ -83,6 +83,37 @@ const SignupFormComponent = props => (
         passwordMaxLength
       );
 
+      // Password confirm
+      const passwordConfirmLabel = intl.formatMessage({
+        id: 'SignupForm.passwordConfirmLabel',
+      });
+      const passwordConfirmPlaceholder = intl.formatMessage({
+        id: 'SignupForm.passwordConfirmPlaceholder',
+      });
+      const passwordConfirmRequiredMessage = intl.formatMessage(
+        {
+          id: 'SignupForm.passwordConfirmRequired',
+        }
+      );
+
+      const passwordConfirmRequired = validators.requiredStringNoTrim(passwordConfirmRequiredMessage);
+      const passwordConfirmNotMatchRequired = intl.formatMessage(
+        {
+          id: 'SignupForm.passwordConfirmNotMatchRequired',
+        },
+        {
+          oldPassword: fieldRenderProps.values.password
+        }
+      );
+      const passwordConfirmNotMatch = validators.notMatch(
+        passwordConfirmNotMatchRequired,
+        fieldRenderProps.values.password
+      );
+      const passwordConfirmValidators = validators.composeValidators(
+        passwordConfirmRequired,
+        passwordConfirmNotMatch
+      );
+
       // firstName
       const firstNameLabel = intl.formatMessage({
         id: 'SignupForm.firstNameLabel',
@@ -173,9 +204,22 @@ const SignupFormComponent = props => (
               placeholder={passwordPlaceholder}
               validate={passwordValidators}
             />
+            <FieldTextInput
+              className={css.confirm_password}
+              type="password"
+              id={formId ? `${formId}.confirm_password` : 'confirm_password'}
+              name="confirm_password"
+              autoComplete="confirm_password"
+              label={passwordConfirmLabel}
+              placeholder={passwordConfirmPlaceholder}
+              validate={passwordConfirmValidators}
+            />
           </div>
 
           <div className={css.bottomWrapper}>
+            <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
+              <FormattedMessage id="SignupForm.signUp" />
+            </PrimaryButton>
             <p className={css.bottomWrapperText}>
               <span className={css.termsText}>
                 <FormattedMessage
@@ -184,9 +228,6 @@ const SignupFormComponent = props => (
                 />
               </span>
             </p>
-            <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
-              <FormattedMessage id="SignupForm.signUp" />
-            </PrimaryButton>
           </div>
         </Form>
       );
