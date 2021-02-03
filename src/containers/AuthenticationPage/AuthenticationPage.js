@@ -402,7 +402,9 @@ export class AuthenticationPageComponent extends Component {
       >
         <LayoutSingleColumn>
           <LayoutWrapperTopbar>
-            <TopbarContainer className={topbarClasses} />
+            <div className={css.hidden}>
+              <TopbarContainer className={topbarClasses} />
+            </div>
           </LayoutWrapperTopbar>
           <LayoutWrapperMain className={css.layoutWrapperMain}>
             <div className={css.root}>
@@ -424,7 +426,9 @@ export class AuthenticationPageComponent extends Component {
             </Modal>
           </LayoutWrapperMain>
           <LayoutWrapperFooter>
-            <Footer />
+            <div className={css.hidden}>
+              <Footer />
+            </div>
           </LayoutWrapperFooter>
         </LayoutSingleColumn>
       </Page>
@@ -502,10 +506,7 @@ const mapDispatchToProps = dispatch => ({
 // See: https://github.com/ReactTraining/react-router/issues/4671
 const AuthenticationPage = compose(
   withRouter,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   injectIntl
 )(AuthenticationPageComponent);
 

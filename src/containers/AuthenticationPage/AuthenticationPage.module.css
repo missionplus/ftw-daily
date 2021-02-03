@@ -2,6 +2,7 @@
 
 .layoutWrapperMain {
   min-height: calc(100vh - var(--topbarHeight));
+  padding: 0;
 
   @media (--viewportMedium) {
     min-height: calc(100vh - var(--topbarHeightDesktop));
@@ -12,7 +13,12 @@
   @apply --marketplaceModalRootStyles;
 
   @media (--viewportMedium) {
-    @apply --backgroundImage;
+    /* @apply --backgroundImage; */
+    /* background: #000; */
+    background-color: var(--matterColor);
+    background-size: cover;
+    background-position: center center;
+    
   }
 }
 
@@ -249,4 +255,7 @@
   padding: 0 20px 0 20px;
   position: relative;
   margin: 0;
+}
+.hidden {
+  display: none;
 }
