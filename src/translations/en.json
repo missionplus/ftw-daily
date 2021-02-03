@@ -1063,5 +1063,15 @@
   "UserCard.showFullBioLink": "more",
   "UserCard.viewProfileLink": "View profile",
   "UserDisplayName.banned": "Banned user",
-  "UserDisplayName.deleted": "Deleted user"
+  "UserDisplayName.deleted": "Deleted user",
+  "SellOrConsignPage.sellTitle": "Sell",
+  "SellOrConsignPage.consignTitle": "Consign",
+  "SellOrConsignPage.textDescription": "Text",
+  "SellOrConsignPage.sellDescription": "How to sell infomation",
+  "SellOrConsignPage.consignDescription": "How to consign infomation",
+  "SellOrConsignPage.processDescription": "Process",
+  "SellOrConsignPage.feeDescription": "Fee Structure",
+  "SellOrConsignPage.faqsDescription": "FAQs",
+  "SellOrConsignPage.ctaButtonSell": "I want to submit items to sell",
+  "SellOrConsignPage.ctaButtonConsign": "I want to submit items to consign"
 }
