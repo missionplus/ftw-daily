@@ -17,6 +17,7 @@ import {
 import css from './BookingTimeInfo.module.css';
 
 const bookingData = (unitType, tx, isOrder, intl) => {
+  if(tx?.booking?.attributes) {
   // Attributes: displayStart and displayEnd can be used to differentiate shown time range
   // from actual start and end times used for availability reservation. It can help in situations
   // where there are preparation time needed between bookings.
@@ -28,7 +29,7 @@ const bookingData = (unitType, tx, isOrder, intl) => {
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isUnits = unitType === LINE_ITEM_UNITS;
   const isSingleDay = !isNightly && daysBetween(startDate, endDateRaw) <= 1;
-  const bookingStart = formatDateToText(intl, startDate);
+  // const bookingStart = formatDateToText(intl, startDate);
   // Shift the exclusive API end date with daily bookings
   const endDate =
     isDaily || isUnits
@@ -36,8 +37,9 @@ const bookingData = (unitType, tx, isOrder, intl) => {
           .subtract(1, 'days')
           .toDate()
       : endDateRaw;
-  const bookingEnd = formatDateToText(intl, endDate);
-  return { bookingStart, bookingEnd, isSingleDay };
+  // const bookingEnd = formatDateToText(intl, endDate);
+  return isSingleDay;
+  }
 };
 
 const BookingTimeInfoComponent = props => {
@@ -50,34 +52,34 @@ const BookingTimeInfoComponent = props => {
 
   const bookingTimes = bookingData(unitType, tx, isOrder, intl);
 
-  const { bookingStart, bookingEnd, isSingleDay } = bookingTimes;
+  const isSingleDay = bookingTimes;
 
   if (isSingleDay && dateType === DATE_TYPE_DATE) {
     return (
       <div className={classNames(css.bookingInfo, bookingClassName)}>
-        <span className={css.dateSection}>{`${bookingStart.date}`}</span>
+        {/* <span className={css.dateSection}>{`${bookingStart.date}`}</span> */}
       </div>
     );
   } else if (dateType === DATE_TYPE_DATE) {
     return (
       <div className={classNames(css.bookingInfo, bookingClassName)}>
-        <span className={css.dateSection}>{`${bookingStart.date} -`}</span>
-        <span className={css.dateSection}>{`${bookingEnd.date}`}</span>
+        {/* <span className={css.dateSection}>{`${bookingStart.date} -`}</span>
+        <span className={css.dateSection}>{`${bookingEnd.date}`}</span> */}
       </div>
     );
   } else if (isSingleDay && dateType === DATE_TYPE_DATETIME) {
     return (
       <div className={classNames(css.bookingInfo, bookingClassName)}>
         <span className={css.dateSection}>
-          {`${bookingStart.date}, ${bookingStart.time} - ${bookingEnd.time}`}
+          {/* {`${bookingStart.date}, ${bookingStart.time} - ${bookingEnd.time}`} */}
         </span>
       </div>
     );
   } else {
     return (
       <div className={classNames(css.bookingInfo, bookingClassName)}>
-        <span className={css.dateSection}>{`${bookingStart.dateAndTime} - `}</span>
-        <span className={css.dateSection}>{`${bookingEnd.dateAndTime}`}</span>
+        {/* <span className={css.dateSection}>{`${bookingStart.dateAndTime} - `}</span>
+        <span className={css.dateSection}>{`${bookingEnd.dateAndTime}`}</span> */}
       </div>
     );
   }
