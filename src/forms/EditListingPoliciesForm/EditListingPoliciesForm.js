@@ -61,8 +61,40 @@ export const EditListingPoliciesFormComponent = props => (
             name="rules"
             className={css.policy}
             type="textarea"
-            label={rulesLabelMessage}
-            placeholder={rulesPlaceholderMessage}
+            label='Brand'
+
+          />
+
+          <FieldTextInput
+            id="model"
+            name="model"
+            className={css.policy}
+            type="textarea"
+            label='Model'
+          />
+
+          <FieldTextInput
+            id="year"
+            name="year"
+            className={css.policy}
+            type="textarea"
+            label='Year'
+          />
+
+          <FieldTextInput
+            id="color"
+            name="color"
+            className={css.policy}
+            type="textarea"
+            label='Color'
+          />
+
+          <FieldTextInput
+            id="quantity"
+            name="quantity"
+            className={css.policy}
+            type="textarea"
+            label='Quantity'
           />
 
           <Button

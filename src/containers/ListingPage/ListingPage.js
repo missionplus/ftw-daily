@@ -257,9 +257,9 @@ export class ListingPageComponent extends Component {
       </span>
     );
 
-    const bookingTitle = (
-      <FormattedMessage id="ListingPage.bookingTitle" values={{ title: richTitle }} />
-    );
+    // const bookingTitle = (
+    //   <FormattedMessage id="ListingPage.bookingTitle" values={{ title: richTitle }} />
+    // );
     const bookingSubTitle = intl.formatMessage({ id: 'ListingPage.bookingSubTitle' });
 
     const topbar = <TopbarContainer />;
@@ -493,7 +493,7 @@ export class ListingPageComponent extends Component {
                         isOwnListing={isOwnListing}
                         unitType={unitType}
                         onSubmit={handleBookingSubmit}
-                        title={bookingTitle}
+                        // title={bookingTitle}
                         subTitle={bookingSubTitle}
                         authorDisplayName={authorDisplayName}
                         onManageDisableScrolling={onManageDisableScrolling}
