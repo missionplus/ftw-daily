@@ -117,6 +117,34 @@ const BookingPanel = props => {
         <div className={css.bookingHeading}>
           <h2 className={titleClasses}>{title}</h2>
           {/* {subTitleText ? <div className={css.bookingHelp}>{subTitleText}</div> : null} */}
+          <div className={css.priceContainer}>
+            <div className={css.askingPrice}>
+              <FormattedMessage id="BookingPanel.askingPrice" />
+            </div>
+            <div className={css.priceValue} title={priceTitle}>
+              {formattedPrice}
+            </div>
+          </div>
+          <div className={css.priceContainer}>
+            <div className={css.askingPrice}>
+              <FormattedMessage id="BookingPanel.offer" />
+            </div>
+            <div className={css.priceValue}>
+              <form>
+                <input id="price" name="price" className={css.priceInput} autoFocus />
+              </form>
+            </div>
+          </div>
+          <div className={css.priceContainer}>
+            <div className={css.askingPrice}>
+              <FormattedMessage id="BookingPanel.yourOffer" />
+            </div>
+            <div className={css.priceValue}>
+            <form>
+                <input id="price" name="price" className={css.priceInput} autoFocus />
+              </form>
+            </div>
+          </div>
         </div>
         {showBookingDatesForm ? (
           <BookingDatesForm
@@ -208,7 +236,4 @@ BookingPanel.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default compose(
-  withRouter,
-  injectIntl
-)(BookingPanel);
+export default compose(withRouter, injectIntl)(BookingPanel);
