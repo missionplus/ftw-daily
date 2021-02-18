@@ -289,6 +289,22 @@
   width: calc(66% - 9px);
 }
 
+.city {
+  width: calc(40% - 9px);
+}
+
+.state {
+  width: calc(20% - 9px);
+}
+
+.zip {
+  width: calc(40% - 9px);
+}
+
+.country {
+  width: calc(30% - 9px);
+}
+
 .bioInfo {
   color: var(--matterColorAnti);
   margin-top: 11px;

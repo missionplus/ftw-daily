@@ -277,7 +277,7 @@ class ProfileSettingsFormComponent extends Component {
                   />
                 </div>
               </div>
-              <div className={classNames(css.sectionContainer, css.lastSection)}>
+              <div className={classNames(css.sectionContainer)}>
                 <h3 className={css.sectionTitle}>
                   <FormattedMessage id="ProfileSettingsForm.bioHeading" />
                 </h3>
@@ -288,9 +288,60 @@ class ProfileSettingsFormComponent extends Component {
                   label={bioLabel}
                   placeholder={bioPlaceholder}
                 />
-                <p className={css.bioInfo}>
+                {/* <p className={css.bioInfo}>
                   <FormattedMessage id="ProfileSettingsForm.bioInfo" />
-                </p>
+                </p> */}
+              </div>
+              <div className={classNames(css.sectionContainer)}>
+                <h3 className={css.sectionTitle}>
+                  <FormattedMessage id="ProfileSettingsForm.addressHeading" />
+                </h3>
+                <FieldTextInput
+                  type="text"
+                  id="address"
+                  name="address"
+                  label={"Address"}
+                  placeholder={"101 Amp St."}
+                />
+                <div className={css.nameContainer}>
+                  <FieldTextInput
+                    className={css.city}
+                    type="text"
+                    id="city"
+                    name="city"
+                    label={"City"}
+                    placeholder={"Hollywood"}
+                  />
+                  <FieldTextInput
+                    className={css.state}
+                    type="text"
+                    id="state"
+                    name="state"
+                    label={"State"}
+                    placeholder={"CA"}
+                  />
+                  <FieldTextInput
+                    className={css.zip}
+                    type="text"
+                    id="zip"
+                    name="zip"
+                    label={"Zip"}
+                    placeholder={"90069"}
+                  />
+                </div>
+                <div className={css.nameContainer}>
+                  <FieldTextInput
+                    className={css.country}
+                    type="text"
+                    id="country"
+                    name="country"
+                    label={"Country"}
+                    placeholder={"USA"}
+                  />
+                </div>
+                {/* <p className={css.bioInfo}>
+                  <FormattedMessage id="ProfileSettingsForm.bioInfo" />
+                </p> */}
               </div>
               {submitError}
               <Button
