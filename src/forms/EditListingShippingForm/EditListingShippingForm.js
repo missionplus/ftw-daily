@@ -5,7 +5,8 @@ import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
-import { Form, Button, FieldTextInput } from '../../components';
+import { Form, Button, FieldTextInput, FieldCurrencyInput } from '../../components';
+import config from '../../config';
 
 import css from './EditListingShippingForm.module.css';
 
@@ -49,19 +50,21 @@ export const EditListingShippingFormComponent = props => (
           {errorMessage}
           {errorMessageShowListing}
 
-          <FieldTextInput
+          <FieldCurrencyInput
             id="domestic"
             name="domestic"
             className={css.shipping}
-            type="textarea"
+            autoFocus
+            currencyConfig={config.currencyConfig}
             label="Shipping Fees Domestic"
           />
 
-          <FieldTextInput
+          <FieldCurrencyInput
             id="international"
             name="international"
             className={css.shipping}
-            type="textarea"
+            autoFocus
+            currencyConfig={config.currencyConfig}
             label="Shipping Fees International"
           />
 
