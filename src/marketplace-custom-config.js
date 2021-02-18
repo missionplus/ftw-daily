@@ -108,8 +108,8 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'news', label: 'News' },
-        { key: 'olds', label: 'Olds' },
+        { key: 'new', label: 'New' },
+        { key: 'used', label: 'Used' },
 
       ],
     },
