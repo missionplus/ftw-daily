@@ -8,6 +8,7 @@ import { EditListingPricingForm } from '../../forms';
 import { ensureOwnListing } from '../../util/data';
 import { types as sdkTypes } from '../../util/sdkLoader';
 import config from '../../config';
+import { findOptionsForSelectFilter } from '../../util/search';
 
 import css from './EditListingPricingPanel.module.css';
 
@@ -30,7 +31,7 @@ const EditListingPricingPanel = props => {
 
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureOwnListing(listing);
-  const { price } = currentListing.attributes;
+  const { price, publicData } = currentListing.attributes;
 
   const isPublished = currentListing.id && currentListing.attributes.state !== LISTING_STATE_DRAFT;
   const panelTitle = isPublished ? (
@@ -42,12 +43,25 @@ const EditListingPricingPanel = props => {
     <FormattedMessage id="EditListingPricingPanel.createListingTitle" />
   );
 
+  const askingPriceOptions = findOptionsForSelectFilter('askingPrice', config.custom.filters);
+  const acceptOfferOptions = findOptionsForSelectFilter('acceptOffer', config.custom.filters);
+
   const priceCurrencyValid = price instanceof Money ? price.currency === config.currency : true;
   const form = priceCurrencyValid ? (
     <EditListingPricingForm
       className={css.form}
-      initialValues={{ price }}
-      onSubmit={onSubmit}
+      initialValues={{ price, askingPrice: publicData.askingPrice, acceptOffer: publicData.acceptOffer }}
+      onSubmit={values => {
+        const { price , askingPrice, acceptOffer } = values;
+        const updateValues = {
+          price,
+          publicData: {
+            askingPrice,
+            acceptOffer
+          },
+        };
+        onSubmit(updateValues);
+      }}
       onChange={onChange}
       saveActionMsg={submitButtonText}
       disabled={disabled}
@@ -55,6 +69,8 @@ const EditListingPricingPanel = props => {
       updated={panelUpdated}
       updateInProgress={updateInProgress}
       fetchErrors={errors}
+      askingPrice={askingPriceOptions}
+      acceptOffer={acceptOfferOptions}
     />
   ) : (
     <div className={css.priceCurrencyInvalid}>

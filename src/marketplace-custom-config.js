@@ -96,6 +96,60 @@ export const filters = [
       ],
     },
   },
+  {
+    id: 'condition',
+    label: 'Condition',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_condition'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'news', label: 'News' },
+        { key: 'olds', label: 'Olds' },
+
+      ],
+    },
+  },
+  {
+    id: 'askingPrice',
+    label: 'AskingPrice',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_askingPrice'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'y', label: 'Y' },
+        { key: 'n', label: 'N' },
+
+      ],
+    },
+  },
+  {
+    id: 'acceptOffer',
+    label: 'AcceptOffer',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_acceptOffer'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'y', label: 'Y' },
+        { key: 'n', label: 'N' },
+
+      ],
+    },
+  },
   // {
   //   id: 'amenities',
   //   label: 'Amenities',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { arrayOf, bool, func, shape, string } from 'prop-types';
+import { bool, func, shape, string } from 'prop-types';
 import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
@@ -7,15 +7,13 @@ import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { Form, Button, FieldTextInput } from '../../components';
 
-import css from './EditListingPoliciesForm.module.css';
-import CustomConditionSelectFieldMaybe from './CustomConditionSelectFieldMaybe';
+import css from './EditListingShippingForm.module.css';
 
-export const EditListingPoliciesFormComponent = props => (
+export const EditListingShippingFormComponent = props => (
   <FinalForm
     {...props}
     render={formRenderProps => {
       const {
-        condition,
         className,
         disabled,
         ready,
@@ -28,13 +26,6 @@ export const EditListingPoliciesFormComponent = props => (
         updateInProgress,
         fetchErrors,
       } = formRenderProps;
-
-      const rulesLabelMessage = intl.formatMessage({
-        id: 'EditListingPoliciesForm.rulesLabel',
-      });
-      const rulesPlaceholderMessage = intl.formatMessage({
-        id: 'EditListingPoliciesForm.rulesPlaceholder',
-      });
 
       const { updateListingError, showListingsError } = fetchErrors || {};
       const errorMessage = updateListingError ? (
@@ -59,58 +50,27 @@ export const EditListingPoliciesFormComponent = props => (
           {errorMessageShowListing}
 
           <FieldTextInput
-            id="rules"
-            name="rules"
-            className={css.policy}
+            id="domestic"
+            name="domestic"
+            className={css.shipping}
             type="textarea"
-            label="Brand"
+            label="Shipping Fees Domestic"
           />
 
           <FieldTextInput
-            id="model"
-            name="model"
-            className={css.policy}
+            id="international"
+            name="international"
+            className={css.shipping}
             type="textarea"
-            label="Model"
+            label="Shipping Fees International"
           />
 
           <FieldTextInput
-            id="year"
-            name="year"
-            className={css.policy}
+            id="payment"
+            name="payment"
+            className={css.shipping}
             type="textarea"
-            label="Year"
-          />
-
-          <FieldTextInput
-            id="color"
-            name="color"
-            className={css.policy}
-            type="textarea"
-            label="Color"
-          />
-
-          <CustomConditionSelectFieldMaybe
-            id="condition"
-            name="condition"
-            condition={condition}
-            intl={intl}
-          />
-
-          <FieldTextInput
-            id="quantity"
-            name="quantity"
-            className={css.policy}
-            type="textarea"
-            label="Quantity"
-          />
-
-          <FieldTextInput
-            id="serial"
-            name="serial"
-            className={css.policy}
-            type="textarea"
-            label="Serial #s"
+            label="Payment Methods"
           />
 
           <Button
@@ -128,12 +88,12 @@ export const EditListingPoliciesFormComponent = props => (
   />
 );
 
-EditListingPoliciesFormComponent.defaultProps = {
+EditListingShippingFormComponent.defaultProps = {
   selectedPlace: null,
   updateError: null,
 };
 
-EditListingPoliciesFormComponent.propTypes = {
+EditListingShippingFormComponent.propTypes = {
   intl: intlShape.isRequired,
   onSubmit: func.isRequired,
   saveActionMsg: string.isRequired,
@@ -146,12 +106,6 @@ EditListingPoliciesFormComponent.propTypes = {
     showListingsError: propTypes.error,
     updateListingError: propTypes.error,
   }),
-  condition: arrayOf(
-    shape({
-      key: string.isRequired,
-      label: string.isRequired,
-    })
-  ),
 };
 
-export default compose(injectIntl)(EditListingPoliciesFormComponent);
+export default compose(injectIntl)(EditListingShippingFormComponent);
