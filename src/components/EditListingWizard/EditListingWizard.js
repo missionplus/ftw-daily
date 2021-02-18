@@ -59,16 +59,10 @@ const tabLabel = (intl, tab) => {
   let key = null;
   if (tab === DESCRIPTION) {
     key = 'EditListingWizard.tabLabelDescription';
-    // } else if (tab === FEATURES) {
-    //   key = 'EditListingWizard.tabLabelFeatures';
   } else if (tab === POLICY) {
     key = 'EditListingWizard.tabLabelPolicy';
-  // } else if (tab === LOCATION) {
-  //   key = 'EditListingWizard.tabLabelLocation';
   } else if (tab === PRICING) {
     key = 'EditListingWizard.tabLabelPricing';
-    // } else if (tab === AVAILABILITY) {
-    //   key = 'EditListingWizard.tabLabelAvailability';
   } else if (tab === PHOTOS) {
     key = 'EditListingWizard.tabLabelPhotos';
   } else if (tab === HYPERLINK) {
@@ -99,21 +93,13 @@ const tabCompleted = (tab, listing) => {
   } = listing.attributes;
   const images = listing.images;
 
-  console.log(listing)
-
   switch (tab) {
     case DESCRIPTION:
       return !!(description && title);
-    // case FEATURES:
-    //   return !!(publicData && publicData.amenities);
     case POLICY:
-      return !!(publicData && typeof publicData.rules !== 'undefined');
-    // case LOCATION:
-    //   return !!(geolocation && publicData && publicData.location && publicData.location.address);
+      return !!(publicData && typeof publicData.brand !== 'undefined');
     case PRICING:
       return !!price;
-    // case AVAILABILITY:
-    //   return !!availabilityPlan;
     case PHOTOS:
       return images && images.length > 0;
     case HYPERLINK:

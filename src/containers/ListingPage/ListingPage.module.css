@@ -649,3 +649,19 @@
   word-break: break-word;
   hyphens: auto;
 }
+.sectionDetail {
+  padding: 0;
+}
+
+.detail {
+  margin-top: 0;
+  margin-bottom: 1rem;
+
+  /* Preserve newlines, but collapse other whitespace */
+  white-space: pre-line;
+
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+}

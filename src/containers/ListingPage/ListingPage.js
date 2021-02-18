@@ -52,6 +52,7 @@ import SectionListImages from './SectionListImage';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
 import SectionDescriptionMaybe from './SectionDescriptionMaybe';
+import SectionDetailMaybe from './SectionDetailMaybe';
 import SectionFeaturesMaybe from './SectionFeaturesMaybe';
 import SectionReviews from './SectionReviews';
 import SectionHostMaybe from './SectionHostMaybe';
@@ -390,11 +391,25 @@ export class ListingPageComponent extends Component {
 
     const amenityOptions = findOptionsForSelectFilter('amenities', filterConfig);
     const categoryOptions = findOptionsForSelectFilter('category', filterConfig);
+    const conditionOptions = findOptionsForSelectFilter('condition', filterConfig);
     const category =
       publicData && publicData.category ? (
         <span>
           {categoryLabel(categoryOptions, publicData.category)}
           <span className={css.separator}>•</span>
+        </span>
+      ) : null;
+
+    const rules = publicData && publicData.rules;
+    const model = publicData && publicData.model;
+    const year = publicData && publicData.year;
+    const color = publicData && publicData.color;
+    const quantity = publicData && publicData.quantity;
+    const serial = publicData && publicData.serial;
+    const condition =
+      publicData && publicData.condition ? (
+        <span>
+          {categoryLabel(conditionOptions, publicData.condition)}
         </span>
       ) : null;
 
@@ -465,6 +480,15 @@ export class ListingPageComponent extends Component {
                           onContactUser={this.onContactUser}
                         />
                         <SectionDescriptionMaybe description={description} />
+                        <SectionDetailMaybe
+                          rules={rules}
+                          model={model}
+                          year={year}
+                          color={color}
+                          quantity={quantity}
+                          serial={serial}
+                          condition={condition}
+                        />
                         {/* <SectionFeaturesMaybe options={amenityOptions} publicData={publicData} /> */}
                         {/* <SectionRulesMaybe publicData={publicData} /> */}
                         {/* <SectionMapMaybe

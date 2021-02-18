@@ -47,7 +47,7 @@ const EditListingPoliciesPanel = props => {
         className={css.form}
         publicData={publicData}
         initialValues={{
-          rules: publicData.rules,
+          brand: publicData.brand,
           model: publicData.model,
           year: publicData.year,
           color: publicData.color,
@@ -56,10 +56,10 @@ const EditListingPoliciesPanel = props => {
           condition: publicData.condition,
         }}
         onSubmit={values => {
-          const { rules = '', model, year, color, quantity, serial, condition } = values;
+          const { brand, model, year, color, quantity, serial, condition } = values;
           const updateValues = {
             publicData: {
-              rules,
+              brand,
               model,
               year,
               color,
