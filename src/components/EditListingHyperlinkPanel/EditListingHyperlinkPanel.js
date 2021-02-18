@@ -5,13 +5,11 @@ import { FormattedMessage } from '../../util/reactIntl';
 import { LISTING_STATE_DRAFT } from '../../util/types';
 import { ensureOwnListing } from '../../util/data';
 import { ListingLink } from '../../components';
-import { EditListingPoliciesForm } from '../../forms';
-import { findOptionsForSelectFilter } from '../../util/search';
-import config from '../../config';
+import { EditListingHyperlinkForm } from '../../forms';
 
-import css from './EditListingPoliciesPanel.module.css';
+import css from './EditListingHyperlinkPanel.module.css';
 
-const EditListingPoliciesPanel = props => {
+const EditListingHyperlinkPanel = props => {
   const {
     className,
     rootClassName,
@@ -37,35 +35,23 @@ const EditListingPoliciesPanel = props => {
       values={{ listingTitle: <ListingLink listing={listing} /> }}
     />
   ) : (
-    <FormattedMessage id="EditListingPoliciesPanel.createListingTitle" />
+    <FormattedMessage id="EditListingHyperlinkPanel.createListingTitle" />
   );
-  const conditionOptions = findOptionsForSelectFilter('condition', config.custom.filters);
+
+  const hyperlink = publicData && publicData.hyperlink;
+  const initialValues = { hyperlink };
   return (
     <div className={classes}>
       <h1 className={css.title}>{panelTitle}</h1>
-      <EditListingPoliciesForm
+      <EditListingHyperlinkForm
         className={css.form}
         publicData={publicData}
-        initialValues={{
-          rules: publicData.rules,
-          model: publicData.model,
-          year: publicData.year,
-          color: publicData.color,
-          quantity: publicData.quantity,
-          serial: publicData.serial,
-          condition: publicData.condition,
-        }}
+        initialValues={initialValues}
         onSubmit={values => {
-          const { rules = '', model, year, color, quantity, serial, condition } = values;
+          const { hyperlink = [] } = values;
           const updateValues = {
             publicData: {
-              rules,
-              model,
-              year,
-              color,
-              quantity,
-              serial,
-              condition,
+              hyperlink,
             },
           };
           onSubmit(updateValues);
@@ -77,7 +63,6 @@ const EditListingPoliciesPanel = props => {
         updated={panelUpdated}
         updateInProgress={updateInProgress}
         fetchErrors={errors}
-        condition={conditionOptions}
       />
     </div>
   );
@@ -85,13 +70,13 @@ const EditListingPoliciesPanel = props => {
 
 const { func, object, string, bool } = PropTypes;
 
-EditListingPoliciesPanel.defaultProps = {
+EditListingHyperlinkPanel.defaultProps = {
   className: null,
   rootClassName: null,
   listing: null,
 };
 
-EditListingPoliciesPanel.propTypes = {
+EditListingHyperlinkPanel.propTypes = {
   className: string,
   rootClassName: string,
 
@@ -108,4 +93,4 @@ EditListingPoliciesPanel.propTypes = {
   errors: object.isRequired,
 };
 
-export default EditListingPoliciesPanel;
+export default EditListingHyperlinkPanel;

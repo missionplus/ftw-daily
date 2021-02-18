@@ -26,6 +26,8 @@ import EditListingWizardTab, {
   LOCATION,
   PRICING,
   PHOTOS,
+  HYPERLINK,
+  SHIPPING,
 } from './EditListingWizardTab';
 import css from './EditListingWizard.module.css';
 
@@ -40,10 +42,12 @@ export const TABS = [
   DESCRIPTION,
   // FEATURES,
   POLICY,
-  LOCATION,
+  // LOCATION,
   PRICING,
-  // ...availabilityMaybe,
+  ...availabilityMaybe,
   PHOTOS,
+  HYPERLINK,
+  SHIPPING,
 ];
 
 // Tabs are horizontal in small screens
@@ -56,18 +60,22 @@ const tabLabel = (intl, tab) => {
   let key = null;
   if (tab === DESCRIPTION) {
     key = 'EditListingWizard.tabLabelDescription';
-  // } else if (tab === FEATURES) {
-  //   key = 'EditListingWizard.tabLabelFeatures';
+    // } else if (tab === FEATURES) {
+    //   key = 'EditListingWizard.tabLabelFeatures';
   } else if (tab === POLICY) {
     key = 'EditListingWizard.tabLabelPolicy';
-  } else if (tab === LOCATION) {
-    key = 'EditListingWizard.tabLabelLocation';
+  // } else if (tab === LOCATION) {
+  //   key = 'EditListingWizard.tabLabelLocation';
   } else if (tab === PRICING) {
     key = 'EditListingWizard.tabLabelPricing';
-  // } else if (tab === AVAILABILITY) {
-  //   key = 'EditListingWizard.tabLabelAvailability';
+    // } else if (tab === AVAILABILITY) {
+    //   key = 'EditListingWizard.tabLabelAvailability';
   } else if (tab === PHOTOS) {
     key = 'EditListingWizard.tabLabelPhotos';
+  } else if (tab === HYPERLINK) {
+    key = 'EditListingWizard.tabLabelHyperlink';
+  } else if (tab === SHIPPING) {
+    key = 'EditListingWizard.tabLabelShipping';
   }
 
   return intl.formatMessage({ id: key });
@@ -92,6 +100,8 @@ const tabCompleted = (tab, listing) => {
   } = listing.attributes;
   const images = listing.images;
 
+  console.log(listing)
+
   switch (tab) {
     case DESCRIPTION:
       return !!(description && title);
@@ -99,14 +109,18 @@ const tabCompleted = (tab, listing) => {
     //   return !!(publicData && publicData.amenities);
     case POLICY:
       return !!(publicData && typeof publicData.rules !== 'undefined');
-    case LOCATION:
-      return !!(geolocation && publicData && publicData.location && publicData.location.address);
+    // case LOCATION:
+    //   return !!(geolocation && publicData && publicData.location && publicData.location.address);
     case PRICING:
       return !!price;
     // case AVAILABILITY:
     //   return !!availabilityPlan;
     case PHOTOS:
       return images && images.length > 0;
+    case HYPERLINK:
+      return !!(publicData && publicData.hyperlink);
+    case SHIPPING:
+      return !!(publicData && publicData.shipping);
     default:
       return false;
   }
@@ -538,7 +552,4 @@ EditListingWizard.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default compose(
-  withViewport,
-  injectIntl
-)(EditListingWizard);
+export default compose(withViewport, injectIntl)(EditListingWizard);
