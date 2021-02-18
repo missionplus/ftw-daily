@@ -400,19 +400,6 @@ export class ListingPageComponent extends Component {
         </span>
       ) : null;
 
-    const rules = publicData && publicData.rules;
-    const model = publicData && publicData.model;
-    const year = publicData && publicData.year;
-    const color = publicData && publicData.color;
-    const quantity = publicData && publicData.quantity;
-    const serial = publicData && publicData.serial;
-    const condition =
-      publicData && publicData.condition ? (
-        <span>
-          {categoryLabel(conditionOptions, publicData.condition)}
-        </span>
-      ) : null;
-
     return (
       <Page
         title={schemaTitle}
@@ -480,15 +467,7 @@ export class ListingPageComponent extends Component {
                           onContactUser={this.onContactUser}
                         />
                         <SectionDescriptionMaybe description={description} />
-                        <SectionDetailMaybe
-                          rules={rules}
-                          model={model}
-                          year={year}
-                          color={color}
-                          quantity={quantity}
-                          serial={serial}
-                          condition={condition}
-                        />
+                        <SectionDetailMaybe publicData={publicData}/>
                         {/* <SectionFeaturesMaybe options={amenityOptions} publicData={publicData} /> */}
                         {/* <SectionRulesMaybe publicData={publicData} /> */}
                         {/* <SectionMapMaybe
