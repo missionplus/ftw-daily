@@ -35,17 +35,29 @@ export class BookingDatesFormComponent extends Component {
   // In case start or end date for the booking is missing
   // focus on that input, otherwise continue with the
   // default handleSubmit function.
-  handleFormSubmit(e) {
-    const { startDate, endDate } = e.bookingDates || {};
-    if (!startDate) {
-      e.preventDefault();
-      this.setState({ focusedInput: START_DATE });
-    } else if (!endDate) {
-      e.preventDefault();
-      this.setState({ focusedInput: END_DATE });
-    } else {
-      this.props.onSubmit(e);
-    }
+  handleFormSubmit() {
+    // const { startDate, endDate } = e.bookingDates || {};
+    // if (!startDate) {
+    //   e.preventDefault();
+    //   this.setState({ focusedInput: START_DATE });
+    // } else if (!endDate) {
+    //   e.preventDefault();
+    //   this.setState({ focusedInput: END_DATE });
+    // } else {
+    //   this.props.onSubmit(e);
+    // }
+
+    // Mock Data
+    // const startDate = new Date(2021, 3, 18, 0, 0, 0);
+    // const endDate = new Date(2021, 3, 19, 0, 0, 0);
+
+    // const fakeBookingDates = {
+    //   bookingDates: {
+    //     startDate,
+    //     endDate,
+    //   }
+    // };
+    this.props.onSubmit();
   }
 
   // When the values of the form are updated we need to fetch
@@ -200,29 +212,6 @@ export class BookingDatesFormComponent extends Component {
                   this.handleOnChange(values);
                 }}
               />
-              <FieldDateRangeInput
-                className={css.bookingDates}
-                name="bookingDates"
-                unitType={unitType}
-                startDateId={`${formId}.bookingStartDate`}
-                startDateLabel={bookingStartLabel}
-                startDatePlaceholderText={startDatePlaceholderText}
-                endDateId={`${formId}.bookingEndDate`}
-                endDateLabel={bookingEndLabel}
-                endDatePlaceholderText={endDatePlaceholderText}
-                focusedInput={this.state.focusedInput}
-                onFocusedInputChange={this.onFocusedInputChange}
-                format={identity}
-                timeSlots={timeSlots}
-                useMobileMargins
-                validate={composeValidators(
-                  required(requiredMessage),
-                  bookingDatesRequired(startDateErrorMessage, endDateErrorMessage)
-                )}
-                disabled={fetchLineItemsInProgress}
-              />
-
-              {bookingInfoMaybe}
               {loadingSpinnerMaybe}
               {bookingInfoErrorMaybe}
 

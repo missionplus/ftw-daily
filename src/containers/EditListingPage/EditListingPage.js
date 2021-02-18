@@ -188,13 +188,13 @@ export const EditListingPageComponent = props => {
           history={history}
           images={images}
           listing={currentListing}
-          availability={{
-            calendar: page.availabilityCalendar,
-            onFetchAvailabilityExceptions,
-            onCreateAvailabilityException,
-            onDeleteAvailabilityException,
-            onFetchBookings,
-          }}
+          // availability={{
+          //   calendar: page.availabilityCalendar,
+          //   onFetchAvailabilityExceptions,
+          //   onCreateAvailabilityException,
+          //   onDeleteAvailabilityException,
+          //   onFetchBookings,
+          // }}
           onUpdateListing={onUpdateListing}
           onCreateListingDraft={onCreateListingDraft}
           onPublishListingDraft={onPublishListingDraft}

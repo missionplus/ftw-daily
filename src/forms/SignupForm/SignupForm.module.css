@@ -31,6 +31,9 @@
 .password {
   @apply --marketplaceModalPasswordMargins;
 }
+.confirm_password {
+  @apply --marketplaceModalPasswordMargins;
+}
 
 .bottomWrapper {
   @apply --marketplaceModalBottomWrapper;

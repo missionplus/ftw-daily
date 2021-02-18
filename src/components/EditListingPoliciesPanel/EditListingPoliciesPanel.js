@@ -6,6 +6,8 @@ import { LISTING_STATE_DRAFT } from '../../util/types';
 import { ensureOwnListing } from '../../util/data';
 import { ListingLink } from '../../components';
 import { EditListingPoliciesForm } from '../../forms';
+import { findOptionsForSelectFilter } from '../../util/search';
+import config from '../../config';
 
 import css from './EditListingPoliciesPanel.module.css';
 
@@ -37,19 +39,33 @@ const EditListingPoliciesPanel = props => {
   ) : (
     <FormattedMessage id="EditListingPoliciesPanel.createListingTitle" />
   );
-
+  const conditionOptions = findOptionsForSelectFilter('condition', config.custom.filters);
   return (
     <div className={classes}>
       <h1 className={css.title}>{panelTitle}</h1>
       <EditListingPoliciesForm
         className={css.form}
         publicData={publicData}
-        initialValues={{ rules: publicData.rules }}
+        initialValues={{
+          rules: publicData.rules,
+          model: publicData.model,
+          year: publicData.year,
+          color: publicData.color,
+          quantity: publicData.quantity,
+          serial: publicData.serial,
+          condition: publicData.condition,
+        }}
         onSubmit={values => {
-          const { rules = '' } = values;
+          const { rules = '', model, year, color, quantity, serial, condition } = values;
           const updateValues = {
             publicData: {
               rules,
+              model,
+              year,
+              color,
+              quantity,
+              serial,
+              condition,
             },
           };
           onSubmit(updateValues);
@@ -61,6 +77,7 @@ const EditListingPoliciesPanel = props => {
         updated={panelUpdated}
         updateInProgress={updateInProgress}
         fetchErrors={errors}
+        condition={conditionOptions}
       />
     </div>
   );

@@ -95,14 +95,14 @@ exports.calculateTotalPriceFromSeats = (unitPrice, unitCount, seats) => {
  *
  * @returns {number} quantity
  */
-exports.calculateQuantityFromDates = (startDate, endDate, type) => {
-  if (type === LINE_ITEM_NIGHT) {
-    return nightsBetween(startDate, endDate);
-  } else if (type === LINE_ITEM_DAY) {
-    return daysBetween(startDate, endDate);
-  }
-  throw new Error(`Can't calculate quantity from dates to unit type: ${type}`);
-};
+// exports.calculateQuantityFromDates = (startDate, endDate, type) => {
+//   if (type === LINE_ITEM_NIGHT) {
+//     return nightsBetween(startDate, endDate);
+//   } else if (type === LINE_ITEM_DAY) {
+//     return daysBetween(startDate, endDate);
+//   }
+//   throw new Error(`Can't calculate quantity from dates to unit type: ${type}`);
+// };
 
 /**
  *

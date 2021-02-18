@@ -17,6 +17,8 @@ import {
   EditListingPhotosPanel,
   EditListingPoliciesPanel,
   EditListingPricingPanel,
+  EditListingHyperlinkPanel,
+  EditListingShippingPanel
 } from '../../components';
 
 import css from './EditListingWizard.module.css';
@@ -28,16 +30,18 @@ export const POLICY = 'policy';
 export const LOCATION = 'location';
 export const PRICING = 'pricing';
 export const PHOTOS = 'photos';
+export const HYPERLINK = 'hyperlink';
+export const SHIPPING = 'shipping';
 
 // EditListingWizardTab component supports these tabs
 export const SUPPORTED_TABS = [
   DESCRIPTION,
-  FEATURES,
   POLICY,
   LOCATION,
   PRICING,
-  AVAILABILITY,
   PHOTOS,
+  HYPERLINK,
+  SHIPPING
 ];
 
 const pathParamsToNextTab = (params, tab, marketplaceTabs) => {
@@ -81,7 +85,7 @@ const EditListingWizardTab = props => {
     newListingPublished,
     history,
     images,
-    availability,
+    // availability,
     listing,
     handleCreateFlowTabScrolling,
     handlePublishListing,
@@ -171,20 +175,20 @@ const EditListingWizardTab = props => {
         />
       );
     }
-    case FEATURES: {
-      const submitButtonTranslationKey = isNewListingFlow
-        ? 'EditListingWizard.saveNewFeatures'
-        : 'EditListingWizard.saveEditFeatures';
-      return (
-        <EditListingFeaturesPanel
-          {...panelProps(FEATURES)}
-          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-          onSubmit={values => {
-            onCompleteEditListingWizardTab(tab, values);
-          }}
-        />
-      );
-    }
+    // case FEATURES: {
+    //   const submitButtonTranslationKey = isNewListingFlow
+    //     ? 'EditListingWizard.saveNewFeatures'
+    //     : 'EditListingWizard.saveEditFeatures';
+    //   return (
+    //     <EditListingFeaturesPanel
+    //       {...panelProps(FEATURES)}
+    //       submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+    //       onSubmit={values => {
+    //         onCompleteEditListingWizardTab(tab, values);
+    //       }}
+    //     />
+    //   );
+    // }
     case POLICY: {
       const submitButtonTranslationKey = isNewListingFlow
         ? 'EditListingWizard.saveNewPolicies'
@@ -199,20 +203,20 @@ const EditListingWizardTab = props => {
         />
       );
     }
-    case LOCATION: {
-      const submitButtonTranslationKey = isNewListingFlow
-        ? 'EditListingWizard.saveNewLocation'
-        : 'EditListingWizard.saveEditLocation';
-      return (
-        <EditListingLocationPanel
-          {...panelProps(LOCATION)}
-          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-          onSubmit={values => {
-            onCompleteEditListingWizardTab(tab, values);
-          }}
-        />
-      );
-    }
+    // case LOCATION: {
+    //   const submitButtonTranslationKey = isNewListingFlow
+    //     ? 'EditListingWizard.saveNewLocation'
+    //     : 'EditListingWizard.saveEditLocation';
+    //   return (
+    //     <EditListingLocationPanel
+    //       {...panelProps(LOCATION)}
+    //       submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+    //       onSubmit={values => {
+    //         onCompleteEditListingWizardTab(tab, values);
+    //       }}
+    //     />
+    //   );
+    // }
     case PRICING: {
       const submitButtonTranslationKey = isNewListingFlow
         ? 'EditListingWizard.saveNewPricing'
@@ -227,21 +231,21 @@ const EditListingWizardTab = props => {
         />
       );
     }
-    case AVAILABILITY: {
-      const submitButtonTranslationKey = isNewListingFlow
-        ? 'EditListingWizard.saveNewAvailability'
-        : 'EditListingWizard.saveEditAvailability';
-      return (
-        <EditListingAvailabilityPanel
-          {...panelProps(AVAILABILITY)}
-          availability={availability}
-          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-          onSubmit={values => {
-            onCompleteEditListingWizardTab(tab, values);
-          }}
-        />
-      );
-    }
+    // case AVAILABILITY: {
+    //   const submitButtonTranslationKey = isNewListingFlow
+    //     ? 'EditListingWizard.saveNewAvailability'
+    //     : 'EditListingWizard.saveEditAvailability';
+    //   return (
+    //     <EditListingAvailabilityPanel
+    //       {...panelProps(AVAILABILITY)}
+    //       availability={availability}
+    //       submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+    //       onSubmit={values => {
+    //         onCompleteEditListingWizardTab(tab, values);
+    //       }}
+    //     />
+    //   );
+    // }
     case PHOTOS: {
       const submitButtonTranslationKey = isNewListingFlow
         ? 'EditListingWizard.saveNewPhotos'
@@ -258,6 +262,34 @@ const EditListingWizardTab = props => {
             onCompleteEditListingWizardTab(tab, values);
           }}
           onUpdateImageOrder={onUpdateImageOrder}
+        />
+      );
+    }
+    case HYPERLINK: {
+      const submitButtonTranslationKey = isNewListingFlow
+        ? 'EditListingWizard.saveNewHyperlink'
+        : 'EditListingWizard.saveEditHyperlink';
+      return (
+        <EditListingHyperlinkPanel
+          {...panelProps(HYPERLINK)}
+          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+          onSubmit={values => {
+            onCompleteEditListingWizardTab(tab, values);
+          }}
+        />
+      );
+    }
+    case SHIPPING: {
+      const submitButtonTranslationKey = isNewListingFlow
+        ? 'EditListingWizard.saveNewShipping'
+        : 'EditListingWizard.saveEditShipping';
+      return (
+        <EditListingShippingPanel
+          {...panelProps(SHIPPING)}
+          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+          onSubmit={values => {
+            onCompleteEditListingWizardTab(tab, values);
+          }}
         />
       );
     }
@@ -294,7 +326,7 @@ EditListingWizardTab.propTypes = {
     replace: func.isRequired,
   }).isRequired,
   images: array.isRequired,
-  availability: object.isRequired,
+  // availability: object.isRequired,
 
   // We cannot use propTypes.listing since the listing might be a draft.
   listing: shape({

@@ -152,7 +152,8 @@ export const updateProfile = actionPayload => {
         if (entities.length !== 1) {
           throw new Error('Expected a resource in the sdk.currentUser.updateProfile response');
         }
-        const currentUser = entities[0];
+        console.log(entities);
+        const currentUser = {...entities[0], hoang: 'test'};
 
         // Update current user in state.user.currentUser through user.duck.js
         dispatch(currentUserShowSuccess(currentUser));

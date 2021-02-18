@@ -292,7 +292,7 @@ export class TransactionPanelComponent extends Component {
     const isDaily = unitType === LINE_ITEM_DAY;
 
     const unitTranslationKey = isNightly
-      ? 'TransactionPanel.perNight'
+      ? ' '
       : isDaily
       ? 'TransactionPanel.perDay'
       : 'TransactionPanel.perUnit';

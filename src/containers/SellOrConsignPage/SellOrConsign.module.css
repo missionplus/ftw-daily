@@ -1,0 +1,79 @@
+@import '../../styles/propertySets.css';
+
+.SellOrConsignWrapper {
+  @media (--viewportMedium) {
+    max-width: 100%;
+    margin: 24px;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 1428px;
+  }
+
+  @media (--viewportXLarge) {
+    max-width: 1256px;
+    padding: 0;
+  }
+}
+.SellOrConsignContainer {
+  padding: 2rem;
+  max-width: unset;
+}
+.SellOrConsignContent {
+  @media (--viewportMedium) {
+    display: flex;
+    flex: 1 0 auto;
+  }
+
+  @media (--viewportLarge) {
+    display: flex;
+    flex: 1 0 auto;
+  }
+
+  @media (--viewportXLarge) {
+    display: flex;
+    flex: 1 0 auto;
+  }
+}
+.SellOrConsignColumn {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0%;
+  margin-right: 2rem;
+}
+.SellOrConsignColumn:last-child {
+  margin-right: 0;
+}
+.title {
+    /* Font */
+  @apply --marketplaceModalTitleStyles;
+  color: var(--matterColor);
+
+  /* Layout */
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: center;
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+}
+.SellOrConsignDescription {
+    padding: 1rem;
+  max-width: unset;
+  border: 1px solid var(--matterColorNegative);
+}
+.routeButton {
+    @apply --marketplaceButtonStylesPrimary;
+
+  /* Clear padding that is set for link elements looking like buttons */
+  padding: 0;
+  margin-top: 2rem;
+}
+.createSellLink {
+    text-decoration: none;
+}
+.hidden {
+    display: none;
+}

@@ -31,6 +31,9 @@
   composes: formMargins;
   flex-shrink: 0;
 }
+.condition {
+  composes: formMargins;
+}
 
 .error {
   color: var(--failColor);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { bool, func, shape, string } from 'prop-types';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
 import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
@@ -8,12 +8,14 @@ import { propTypes } from '../../util/types';
 import { Form, Button, FieldTextInput } from '../../components';
 
 import css from './EditListingPoliciesForm.module.css';
+import CustomConditionSelectFieldMaybe from './CustomConditionSelectFieldMaybe';
 
 export const EditListingPoliciesFormComponent = props => (
   <FinalForm
     {...props}
     render={formRenderProps => {
       const {
+        condition,
         className,
         disabled,
         ready,
@@ -61,8 +63,54 @@ export const EditListingPoliciesFormComponent = props => (
             name="rules"
             className={css.policy}
             type="textarea"
-            label={rulesLabelMessage}
-            placeholder={rulesPlaceholderMessage}
+            label="Brand"
+          />
+
+          <FieldTextInput
+            id="model"
+            name="model"
+            className={css.policy}
+            type="textarea"
+            label="Model"
+          />
+
+          <FieldTextInput
+            id="year"
+            name="year"
+            className={css.policy}
+            type="textarea"
+            label="Year"
+          />
+
+          <FieldTextInput
+            id="color"
+            name="color"
+            className={css.policy}
+            type="textarea"
+            label="Color"
+          />
+
+          <CustomConditionSelectFieldMaybe
+            id="condition"
+            name="condition"
+            condition={condition}
+            intl={intl}
+          />
+
+          <FieldTextInput
+            id="quantity"
+            name="quantity"
+            className={css.policy}
+            type="textarea"
+            label="Quantity"
+          />
+
+          <FieldTextInput
+            id="serial"
+            name="serial"
+            className={css.policy}
+            type="textarea"
+            label="Serial #s"
           />
 
           <Button
@@ -98,6 +146,12 @@ EditListingPoliciesFormComponent.propTypes = {
     showListingsError: propTypes.error,
     updateListingError: propTypes.error,
   }),
+  condition: arrayOf(
+    shape({
+      key: string.isRequired,
+      label: string.isRequired,
+    })
+  ),
 };
 
 export default compose(injectIntl)(EditListingPoliciesFormComponent);

@@ -34,16 +34,16 @@
  */
 
 export const filters = [
-  {
-    id: 'dates',
-    label: 'Dates',
-    type: 'BookingDateRangeFilter',
-    group: 'primary',
-    // Note: BookingDateRangeFilter is fixed filter,
-    // you can't change "queryParamNames: ['dates'],"
-    queryParamNames: ['dates'],
-    config: {},
-  },
+  // {
+  //   id: 'dates',
+  //   label: 'Dates',
+  //   type: 'BookingDateRangeFilter',
+  //   group: 'primary',
+  //   // Note: BookingDateRangeFilter is fixed filter,
+  //   // you can't change "queryParamNames: ['dates'],"
+  //   queryParamNames: ['dates'],
+  //   config: {},
+  // },
   {
     id: 'price',
     label: 'Price',
@@ -60,19 +60,19 @@ export const filters = [
       step: 5,
     },
   },
-  {
-    id: 'keyword',
-    label: 'Keyword',
-    type: 'KeywordFilter',
-    group: 'primary',
-    // Note: KeywordFilter is fixed filter,
-    // you can't change "queryParamNames: ['keywords'],"
-    queryParamNames: ['keywords'],
-    // NOTE: If you are ordering search results by distance
-    // the keyword search can't be used at the same time.
-    // You can turn on/off ordering by distance from config.js file.
-    config: {},
-  },
+  // {
+  //   id: 'keyword',
+  //   label: 'Keyword',
+  //   type: 'KeywordFilter',
+  //   group: 'primary',
+  //   // Note: KeywordFilter is fixed filter,
+  //   // you can't change "queryParamNames: ['keywords'],"
+  //   queryParamNames: ['keywords'],
+  //   // NOTE: If you are ordering search results by distance
+  //   // the keyword search can't be used at the same time.
+  //   // You can turn on/off ordering by distance from config.js file.
+  //   config: {},
+  // },
   {
     id: 'category',
     label: 'Category',
@@ -85,64 +85,122 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'smoke', label: 'Smoke' },
-        { key: 'electric', label: 'Electric' },
-        { key: 'wood', label: 'Wood' },
-        { key: 'other', label: 'Other' },
+        { key: 'microphones', label: 'Microphones' },
+        { key: 'outboardGear', label: 'Outboard Gear' },
+        { key: 'consoles', label: 'Consoles' },
+        { key: 'mixers', label: 'Mixers' },
+        { key: 'recorders', label: 'Recorders' },
+        { key: 'speakers', label: 'Speakers' },
+        { key: 'amps', label: 'Amps' },
+
       ],
     },
   },
   {
-    id: 'amenities',
-    label: 'Amenities',
-    type: 'SelectMultipleFilter',
+    id: 'condition',
+    label: 'Condition',
+    type: 'SelectSingleFilter',
     group: 'secondary',
-    queryParamNames: ['pub_amenities'],
+    queryParamNames: ['pub_condition'],
     config: {
-      // Optional modes: 'has_all', 'has_any'
-      // https://www.sharetribe.com/api-reference/marketplace.html#extended-data-filtering
-      searchMode: 'has_all',
-
       // "key" is the option you see in Flex Console.
-      // "label" is set here for this web app's UI only.
+      // "label" is set here for the UI only.
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        {
-          key: 'towels',
-          label: 'Towels',
-        },
-        {
-          key: 'bathroom',
-          label: 'Bathroom',
-        },
-        {
-          key: 'swimming_pool',
-          label: 'Swimming pool',
-        },
-        {
-          key: 'own_drinks',
-          label: 'Own drinks allowed',
-        },
-        {
-          key: 'jacuzzi',
-          label: 'Jacuzzi',
-        },
-        {
-          key: 'audiovisual_entertainment',
-          label: 'Audiovisual entertainment',
-        },
-        {
-          key: 'barbeque',
-          label: 'Barbeque',
-        },
-        {
-          key: 'own_food_allowed',
-          label: 'Own food allowed',
-        },
+        { key: 'news', label: 'News' },
+        { key: 'olds', label: 'Olds' },
+
       ],
     },
   },
+  {
+    id: 'askingPrice',
+    label: 'AskingPrice',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_askingPrice'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'y', label: 'Y' },
+        { key: 'n', label: 'N' },
+
+      ],
+    },
+  },
+  {
+    id: 'acceptOffer',
+    label: 'AcceptOffer',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_acceptOffer'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'y', label: 'Y' },
+        { key: 'n', label: 'N' },
+
+      ],
+    },
+  },
+  // {
+  //   id: 'amenities',
+  //   label: 'Amenities',
+  //   type: 'SelectMultipleFilter',
+  //   group: 'secondary',
+  //   queryParamNames: ['pub_amenities'],
+  //   config: {
+  //     // Optional modes: 'has_all', 'has_any'
+  //     // https://www.sharetribe.com/api-reference/marketplace.html#extended-data-filtering
+  //     searchMode: 'has_all',
+
+  //     // "key" is the option you see in Flex Console.
+  //     // "label" is set here for this web app's UI only.
+  //     // Note: label is not added through the translation files
+  //     // to make filter customizations a bit easier.
+  //     options: [
+  //       {
+  //         key: 'towels',
+  //         label: 'Towels',
+  //       },
+  //       {
+  //         key: 'bathroom',
+  //         label: 'Bathroom',
+  //       },
+  //       {
+  //         key: 'swimming_pool',
+  //         label: 'Swimming pool',
+  //       },
+  //       {
+  //         key: 'own_drinks',
+  //         label: 'Own drinks allowed',
+  //       },
+  //       {
+  //         key: 'jacuzzi',
+  //         label: 'Jacuzzi',
+  //       },
+  //       {
+  //         key: 'audiovisual_entertainment',
+  //         label: 'Audiovisual entertainment',
+  //       },
+  //       {
+  //         key: 'barbeque',
+  //         label: 'Barbeque',
+  //       },
+  //       {
+  //         key: 'own_food_allowed',
+  //         label: 'Own food allowed',
+  //       },
+  //     ],
+  //   },
+  // },
 ];
 
 export const sortConfig = {

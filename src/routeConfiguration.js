@@ -23,6 +23,7 @@ import {
   StyleguidePage,
   TermsOfServicePage,
   TransactionPage,
+  SellOrConsignPage
 } from './containers';
 
 // routeConfiguration needs to initialize containers first
@@ -56,7 +57,10 @@ const routeConfiguration = () => {
     {
       path: '/',
       name: 'LandingPage',
+      auth: true,
+      authPage: 'SignupPage',
       component: props => <LandingPage {...props} />,
+      loadData: LandingPage.loadData,
     },
     {
       path: '/about',
@@ -123,6 +127,12 @@ const routeConfiguration = () => {
           params={{ slug: draftSlug, id: draftId, type: 'new', tab: 'description' }}
         />
       ),
+    },
+    {
+      path: '/l/sorc',
+      name: 'SellOrConsignPage',
+      component: props => <SellOrConsignPage {...props} />,
+      loadData: SellOrConsignPage.loadData,
     },
     {
       path: '/l/:slug/:id/:type/:tab',
