@@ -132,7 +132,6 @@ const routeConfiguration = () => {
       path: '/l/sorc',
       name: 'SellOrConsignPage',
       component: props => <SellOrConsignPage {...props} />,
-      loadData: SellOrConsignPage.loadData,
     },
     {
       path: '/l/:slug/:id/:type/:tab',
