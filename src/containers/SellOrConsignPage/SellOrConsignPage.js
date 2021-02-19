@@ -23,35 +23,71 @@ import {
 
 import { ensureCurrentUser } from '../../util/data';
 import { Modal, NamedRedirect, Tabs, StripeConnectAccountStatusBox } from '../../components';
-import { StripeConnectAccountForm } from '../../forms';
+import { VerifyingUserForm, ProfileSettingsForm } from '../../forms';
+import {
+  stripeAccountClearError,
+  createStripeAccount,
+  getStripeConnectAccountLink,
+} from '../../ducks/stripeConnectAccount.duck';
 
 import css from './SellOrConsign.module.css';
+import { updateProfile } from '../ProfileSettingsPage/ProfileSettingsPage.duck';
 
+const getStripeAccountData = stripeAccount => stripeAccount.attributes.stripeAccountData || null;
+
+// Get last 4 digits of bank account returned in Stripe account
+const getBankAccountLast4Digits = stripeAccountData =>
+  stripeAccountData && stripeAccountData.external_accounts.data.length > 0
+    ? stripeAccountData.external_accounts.data[0].last4
+    : null;
+
+const hasRequirements = (stripeAccountData, requirementType) =>
+  stripeAccountData != null &&
+  stripeAccountData.requirements &&
+  Array.isArray(stripeAccountData.requirements[requirementType]) &&
+  stripeAccountData.requirements[requirementType].length > 0;
+
+const handleGetStripeConnectAccountLinkFn = (getLinkFn, commonParams) => type => () => {
+  getLinkFn({ type, ...commonParams })
+    .then(url => {
+      window.location.href = url;
+    })
+    .catch(err => console.error(err));
+};
 export class SellOrConsignPageComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      draftId: null,
       showPayoutDetails: false,
     };
+    this.handleVerifyingUser = this.handleVerifyingUser.bind(this);
     this.handlePayoutModalClose = this.handlePayoutModalClose.bind(this);
-    this.handlePayoutSubmit = this.handlePayoutSubmit.bind(this);
   }
 
   handlePayoutModalClose() {
     this.setState({ showPayoutDetails: false });
   }
 
-  handlePayoutSubmit(values) {
-    this.props
-      .onPayoutDetailsSubmit(values)
-      .then(response => {
-        this.props.onManageDisableScrolling('EditListingWizard.payoutModal', false);
-      })
-      .catch(() => {
-        // do nothing
+  handleVerifyingUser() {
+    const { currentUser, stripeAccount, history } = this.props;
+    const stripeConnected =
+      currentUser && currentUser.stripeAccount && !!currentUser.stripeAccount.id;
+
+    const stripeAccountData = stripeConnected ? getStripeAccountData(stripeAccount) : null;
+
+    const requirementsMissing =
+      stripeAccount &&
+      (hasRequirements(stripeAccountData, 'past_due') ||
+        hasRequirements(stripeAccountData, 'currently_due'));
+
+    if (stripeConnected && !requirementsMissing) {
+      history.push('/l/new');
+    } else {
+      this.setState({
+        showPayoutDetails: true,
       });
+    }
   }
 
   render() {
@@ -84,7 +120,7 @@ export class SellOrConsignPageComponent extends Component {
         routes,
         { ...pathParams, returnURLType },
         {}
-      );  
+      );
       const root = rootURL.replace(/\/$/, '');
       return `${root}${path}`;
     };
@@ -108,20 +144,13 @@ export class SellOrConsignPageComponent extends Component {
       routes,
       pathParams
     );
-    
-    const stripeAccountError = createStripeAccountError || updateStripeAccountError || fetchStripeAccountError
-    
+
+    const stripeAccountError =
+      createStripeAccountError || updateStripeAccountError || fetchStripeAccountError;
+
     const ensuredCurrentUser = ensureCurrentUser(currentUser);
     const currentUserLoaded = !!ensuredCurrentUser.id;
-    const getStripeAccountData = stripeAccount =>
-      stripeAccount.attributes.stripeAccountData || null;
 
-    // Get last 4 digits of bank account returned in Stripe account
-    const getBankAccountLast4Digits = stripeAccountData =>
-      stripeAccountData && stripeAccountData.external_accounts.data.length > 0
-        ? stripeAccountData.external_accounts.data[0].last4
-        : null;
-        
     const stripeConnected = currentUserLoaded && !!stripeAccount && !!stripeAccount.id;
 
     const accountId = stripeConnected ? stripeAccount.id : null;
@@ -136,9 +165,15 @@ export class SellOrConsignPageComponent extends Component {
 
     const formDisabled = getAccountLinkInProgress;
 
-
     const returnedNormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_SUCCESS;
     const returnedAbnormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_FAILURE;
+
+    const showVerificationNeeded = stripeConnected && requirementsMissing;
+
+    // Redirect from success URL to basic path for StripePayoutPage
+    if (returnedNormallyFromStripe && stripeConnected && !requirementsMissing) {
+      return <NamedRedirect name="SellOrConsignPage" params={pathParams} />;
+    }
 
     const classes = classNames(rootClassName || css.root, className);
     const sellTitle = <FormattedMessage id="SellOrConsignPage.sellTitle" />;
@@ -149,14 +184,6 @@ export class SellOrConsignPageComponent extends Component {
     const processDescription = <FormattedMessage id="SellOrConsignPage.processDescription" />;
     const feeDescription = <FormattedMessage id="SellOrConsignPage.feeDescription" />;
     const faqsDescription = <FormattedMessage id="SellOrConsignPage.faqsDescription" />;
-
-    const handleGetStripeConnectAccountLinkFn = (getLinkFn, commonParams) => type => () => {
-      getLinkFn({ type, ...commonParams })
-        .then(url => {
-          window.location.href = url;
-        })
-        .catch(err => console.error(err));
-    };
 
     const handleGetStripeConnectAccountLink = handleGetStripeConnectAccountLinkFn(
       onGetStripeConnectAccountLink,
@@ -196,11 +223,13 @@ export class SellOrConsignPageComponent extends Component {
                         <p>{feeDescription}</p>
                         <p>{faqsDescription}</p>
                       </div>
-                      <NamedLink className={css.createSellLink} name="NewListingPage">
-                        <PrimaryButton rootClassName={css.routeButton} type="submit">
-                          <FormattedMessage id="SellOrConsignPage.ctaButtonSell" />
-                        </PrimaryButton>
-                      </NamedLink>
+                      <PrimaryButton
+                        onClick={this.handleVerifyingUser}
+                        rootClassName={css.routeButton}
+                        type="submit"
+                      >
+                        <FormattedMessage id="SellOrConsignPage.ctaButtonSell" />
+                      </PrimaryButton>
                     </div>
                     <div className={css.SellOrConsignColumn}>
                       <h1 className={css.title}>{consignTitle}</h1>
@@ -211,11 +240,9 @@ export class SellOrConsignPageComponent extends Component {
                         <p>{feeDescription}</p>
                         <p>{faqsDescription}</p>
                       </div>
-                      {/* <NamedLink className={css.createListingLink} name="NewListingPage"> */}
                       <PrimaryButton rootClassName={css.routeButton} type="submit">
                         <FormattedMessage id="SellOrConsignPage.ctaButtonConsign" />
                       </PrimaryButton>
-                      {/* </NamedLink> */}
                     </div>
                   </div>
                 </div>
@@ -252,7 +279,7 @@ export class SellOrConsignPageComponent extends Component {
                 <p className={css.modalMessage}>
                   <FormattedMessage id="EditListingWizard.payoutModalInfo" />
                 </p>
-                <StripeConnectAccountForm
+                <VerifyingUserForm
                   disabled={formDisabled}
                   inProgress={page.payoutDetailsSaveInProgress}
                   ready={page.payoutDetailsSaved}
@@ -288,7 +315,7 @@ export class SellOrConsignPageComponent extends Component {
                       )}
                     />
                   ) : null}
-                </StripeConnectAccountForm>
+                </VerifyingUserForm>
               </>
             )}
           </div>
@@ -340,12 +367,34 @@ const mapStateToProps = state => {
     scrollingDisabled: isScrollingDisabled(state),
   };
 };
+const mapValueProfile = data => {
+  const { address, city, state, zip, country } = data;
+
+  const publicData = {
+    address: address,
+    city: city,
+    state: state,
+    zip: zip,
+    country: country,
+  };
+
+  const profile = {
+    publicData,
+  };
+
+  console.log(profile);
+
+  return { ...profile };
+};
 
 const mapDispatchToProps = dispatch => ({
   onManageDisableScrolling: (componentId, disableScrolling) =>
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
   onPayoutDetailsFormChange: () => dispatch(stripeAccountClearError()),
-  onPayoutDetailsSubmit: values => dispatch(createStripeAccount(values)),
+  onPayoutDetailsSubmit: values => {
+    dispatch(updateProfile(mapValueProfile(values)));
+    dispatch(createStripeAccount(values));
+  },
   onPayoutDetailsFormSubmit: (values, isUpdateCall) =>
     dispatch(savePayoutDetails(values, isUpdateCall)),
   onGetStripeConnectAccountLink: params => dispatch(getStripeConnectAccountLink(params)),
