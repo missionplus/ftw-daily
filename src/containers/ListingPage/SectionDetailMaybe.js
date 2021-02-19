@@ -7,57 +7,67 @@ import css from './ListingPage.module.css';
 const MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION = 20;
 
 const SectionDetailMaybe = props => {
-  const { rules, model, year, color, quantity, serial, condition } = props;
-  return rules ? (
+  const { publicData } = props;
+  if (!publicData) {
+    return null;
+  }
+  const brand = publicData && publicData.brand;
+  const model = publicData && publicData.model;
+  const year = publicData && publicData.year;
+  const color = publicData && publicData.color;
+  const quantity = publicData && publicData.quantity;
+  const serial = publicData && publicData.serial;
+  const condition = publicData && publicData.condition;
+  return (
     <div className={css.sectionDescription}>
       <h2 className={css.descriptionTitle}>
         <FormattedMessage id="ListingPage.detailTitle" />
       </h2>
       <ul className={css.sectionDetail}>
         <li className={css.detail}>
-          <FormattedMessage id="ListingPage.brand" />
-          {richText(rules, {
+          {brand && brand.length > 0 ? <FormattedMessage id="ListingPage.brand" /> : null}
+          {richText(brand, {
             longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
             longWordClass: css.longWord,
           })}
         </li>
         <li className={css.detail}>
-          <FormattedMessage id="ListingPage.model" />
+          { model && model.length > 0 ? <FormattedMessage id="ListingPage.model" /> : null }
           {richText(model, {
             longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
             longWordClass: css.longWord,
           })}
         </li>
         <li className={css.detail}>
-          <FormattedMessage id="ListingPage.year" />
+          { year && year.length > 0 ? <FormattedMessage id="ListingPage.year" /> : null }
           {richText(year, {
             longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
             longWordClass: css.longWord,
           })}
         </li>
         <li className={css.detail}>
-          <FormattedMessage id="ListingPage.color" />
+          { color && color.length > 0 ? <FormattedMessage id="ListingPage.color" /> : null }
           {richText(color, {
             longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
             longWordClass: css.longWord,
           })}
         </li>
         <li className={css.detail}>
-          <FormattedMessage id="ListingPage.quantity" />
+          { quantity && quantity.length > 0 ? <FormattedMessage id="ListingPage.quantity" /> : null }
           {richText(quantity, {
             longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
             longWordClass: css.longWord,
           })}
         </li>
         <li className={css.detail}>
-          <FormattedMessage id="ListingPage.serial" />
+          { serial && serial.length > 0 ? <FormattedMessage id="ListingPage.serial" /> : null }
           {richText(serial, {
             longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
             longWordClass: css.longWord,
           })}
         </li>
         <li className={css.detail}>
-          <FormattedMessage id="ListingPage.condition" />
+          { condition && condition.length > 0 ? <FormattedMessage id="ListingPage.condition" /> : null }
           {richText(condition, {
             longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
             longWordClass: css.longWord,
@@ -65,7 +75,7 @@ const SectionDetailMaybe = props => {
         </li>
       </ul>
     </div>
-  ) : null;
+  );
 };
 
 export default SectionDetailMaybe;
