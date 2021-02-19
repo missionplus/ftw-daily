@@ -78,7 +78,7 @@ export const EditListingPoliciesFormComponent = props => (
             id="year"
             name="year"
             className={css.policy}
-            type="textarea"
+            type="number"
             label="Year"
           />
 
@@ -101,7 +101,7 @@ export const EditListingPoliciesFormComponent = props => (
             id="quantity"
             name="quantity"
             className={css.policy}
-            type="textarea"
+            type="number"
             label="Quantity"
           />
 
