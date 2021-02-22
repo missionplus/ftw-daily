@@ -5,17 +5,19 @@ import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
 import { Field, Form as FinalForm } from 'react-final-form';
 import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
+import config from '../../config';
 import { ensureCurrentUser } from '../../util/data';
 import { propTypes } from '../../util/types';
 import * as validators from '../../util/validators';
 import { isUploadImageOverLimitError } from '../../util/errors';
-import { Form, Avatar, Button, ImageFromFile, IconSpinner, FieldTextInput } from '../../components';
+import { Form, Avatar, Button, ImageFromFile, IconSpinner, FieldTextInput, FieldSelect, FieldPhoneNumberInput } from '../../components';
 
 import css from './ProfileSettingsForm.module.css';
 
 const ACCEPT_IMAGES = 'image/*';
 const UPLOAD_CHANGE_DELAY = 2000; // Show spinner so that browser has time to load img srcset
 
+const supportedCountries = config.stripe.supportedCountries.map(c => c.code);
 class ProfileSettingsFormComponent extends Component {
   constructor(props) {
     super(props);
@@ -300,8 +302,8 @@ class ProfileSettingsFormComponent extends Component {
                   type="text"
                   id="address"
                   name="address"
-                  label={"Address"}
-                  placeholder={"101 Amp St."}
+                  label={'Address'}
+                  placeholder={'101 Amp St.'}
                 />
                 <div className={css.nameContainer}>
                   <FieldTextInput
@@ -309,36 +311,55 @@ class ProfileSettingsFormComponent extends Component {
                     type="text"
                     id="city"
                     name="city"
-                    label={"City"}
-                    placeholder={"Hollywood"}
+                    label={'City'}
+                    placeholder={'Hollywood'}
                   />
                   <FieldTextInput
                     className={css.state}
                     type="text"
                     id="state"
                     name="state"
-                    label={"State"}
-                    placeholder={"CA"}
+                    label={'State'}
+                    placeholder={'CA'}
                   />
-                  <FieldTextInput
+                  <FieldPhoneNumberInput
                     className={css.zip}
-                    type="text"
+                    onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 || e.keyCode === 189 ) && e.preventDefault() }
+                    type="number"
                     id="zip"
                     name="zip"
-                    label={"Zip"}
-                    placeholder={"90069"}
+                    label={'Zip'}
+                    placeholder={'90069'}
                   />
                 </div>
                 <div className={css.nameContainer}>
-                  <FieldTextInput
+                  {/* <FieldTextInput
                     className={css.country}
                     type="text"
                     id="country"
                     name="country"
                     label={"Country"}
                     placeholder={"USA"}
-                  />
+                  /> */}
+                  <FieldSelect
+                    id="country"
+                    name="country"
+                    // disabled={disabled}
+                    className={css.country}
+                    autoComplete="country"
+                    label={"Country"}
+                  >
+                    <option disabled value="">
+                      {intl.formatMessage({ id: 'StripeConnectAccountForm.countryPlaceholder' })}
+                    </option>
+                    {supportedCountries.map(c => (
+                      <option key={c} value={c}>
+                        {intl.formatMessage({ id: `StripeConnectAccountForm.countryNames.${c}` })}
+                      </option>
+                    ))}
+                  </FieldSelect>
                 </div>
+
                 {/* <p className={css.bioInfo}>
                   <FormattedMessage id="ProfileSettingsForm.bioInfo" />
                 </p> */}

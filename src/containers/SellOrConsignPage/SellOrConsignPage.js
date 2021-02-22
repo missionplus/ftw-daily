@@ -151,6 +151,10 @@ export class SellOrConsignPageComponent extends Component {
     const ensuredCurrentUser = ensureCurrentUser(currentUser);
     const currentUserLoaded = !!ensuredCurrentUser.id;
 
+    const { publicData } = ensuredCurrentUser.attributes.profile;
+
+    const { address, city, state, zip, country } = publicData || {};
+
     const stripeConnected = currentUserLoaded && !!stripeAccount && !!stripeAccount.id;
 
     const accountId = stripeConnected ? stripeAccount.id : null;
@@ -284,6 +288,7 @@ export class SellOrConsignPageComponent extends Component {
                   inProgress={page.payoutDetailsSaveInProgress}
                   ready={page.payoutDetailsSaved}
                   currentUser={ensuredCurrentUser}
+                  initialValues={{ address, city, state, zip, country }}
                   stripeBankAccountLastDigits={getBankAccountLast4Digits(stripeAccountData)}
                   savedCountry={savedCountry}
                   submitButtonText={intl.formatMessage({
