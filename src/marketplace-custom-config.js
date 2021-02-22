@@ -108,8 +108,45 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'new', label: 'New' },
-        { key: 'used', label: 'Used' },
+        { key: 'vintage', label: 'Vintage' },
+        { key: 'reissue', label: 'Reissue' },
+        { key: 'notSure', label: 'Not Sure' },
+
+      ],
+    },
+  },
+  {
+    id: 'sellingPair',
+    label: 'SellingPair',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_sellingPair'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'y', label: 'Y' },
+        { key: 'n', label: 'N' },
+
+      ],
+    },
+  },
+  {
+    id: 'sequentSerial',
+    label: 'SequentSerial',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_sequentSerial'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'y', label: 'Y' },
+        { key: 'n', label: 'N' },
 
       ],
     },
@@ -146,6 +183,43 @@ export const filters = [
       options: [
         { key: 'y', label: 'Y' },
         { key: 'n', label: 'N' },
+
+      ],
+    },
+  },
+  {
+    id: 'original',
+    label: 'Original',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_original'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'yes', label: 'Yes' },
+        { key: 'no', label: 'No' },
+        { key: 'notSure', label: 'Not Sure' },
+
+      ],
+    },
+  },
+  {
+    id: 'micPair',
+    label: 'MicPair',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_micPair'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'yes', label: 'Yes' },
+        { key: 'no', label: 'No' },
 
       ],
     },

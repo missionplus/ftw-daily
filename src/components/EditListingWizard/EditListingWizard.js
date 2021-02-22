@@ -96,7 +96,7 @@ const tabCompleted = (tab, listing) => {
     case DESCRIPTION:
       return !!(description && title);
     case POLICY:
-      return !!(publicData && typeof publicData.brand !== 'undefined');
+      return !!(publicData && publicData.category == 'microphones' ? publicData.sellingPair : publicData.condition); 
     case PRICING:
       return !!price;
     case PHOTOS:
