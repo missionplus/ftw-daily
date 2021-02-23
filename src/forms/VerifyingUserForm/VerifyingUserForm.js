@@ -20,6 +20,7 @@ import {
   FieldRadioButton,
   Form,
   StripeBankAccountTokenInputField,
+  FieldFileInput
 } from '../../components';
 import { ensureCurrentUser } from '../../util/data';
 
@@ -48,6 +49,26 @@ const VerifyUserFields = props => {
       id: 'StripeConnectAccountForm.countryRequired',
     })
   );
+  const addressRequired = validators.required(
+    intl.formatMessage({
+      id: 'StripeConnectAccountForm.countryRequired',
+    })
+  );
+  const cityRequired = validators.required(
+    intl.formatMessage({
+      id: 'StripeConnectAccountForm.countryRequired',
+    })
+  );
+  const stateRequired = validators.required(
+    intl.formatMessage({
+      id: 'StripeConnectAccountForm.countryRequired',
+    })
+  );
+  const zipRequired = validators.required(
+    intl.formatMessage({
+      id: 'StripeConnectAccountForm.countryRequired',
+    })
+  );
 
   return (
     <div className={classNames(css.sectionContainer)}>
@@ -59,6 +80,7 @@ const VerifyUserFields = props => {
         id="address"
         name="address"
         label={'Address'}
+        validate={addressRequired}
         placeholder={'101 Amp St.'}
       />
       <div className={css.nameContainer}>
@@ -68,6 +90,7 @@ const VerifyUserFields = props => {
           id="city"
           name="city"
           label={'City'}
+          validate={cityRequired}
           placeholder={'Hollywood'}
         />
         <FieldTextInput
@@ -76,14 +99,17 @@ const VerifyUserFields = props => {
           id="state"
           name="state"
           label={'State'}
+          validate={stateRequired}
           placeholder={'CA'}
         />
         <FieldTextInput
           className={css.zip}
-          type="text"
+          onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 || e.keyCode === 189 ) && e.preventDefault() }
+          type="number"
           id="zip"
           name="zip"
           label={'Zip'}
+          validate={zipRequired}
           placeholder={'90069'}
         />
       </div>
@@ -105,6 +131,7 @@ const VerifyUserFields = props => {
           </option>
         ))}
       </FieldSelect>
+      {/* <FieldFileInput name="files"/> */}
     </div>
   );
 };
