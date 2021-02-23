@@ -49,7 +49,7 @@ const SectionImages = props => {
     <div className={css.sectionImages}>
       <div className={css.threeToTwoWrapper}>
         <div className={css.aspectWrapper} onClick={handleViewPhotosClick}>
-          {actionBar}
+          {/* {actionBar} */}
           <ResponsiveImage
             rootClassName={css.rootForImage}
             alt={title}

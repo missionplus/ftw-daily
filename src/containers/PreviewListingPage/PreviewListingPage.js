@@ -46,19 +46,19 @@ import {
   loadData,
   setInitialValues,
   fetchTransactionLineItems,
-} from './ListingPage.duck';
-import SectionImages from './SectionImages';
-import SectionListImages from './SectionListImage';
-import SectionAvatar from './SectionAvatar';
-import SectionHeading from './SectionHeading';
-import SectionDescriptionMaybe from './SectionDescriptionMaybe';
-import SectionDetailMaybe from './SectionDetailMaybe';
-import SectionFeaturesMaybe from './SectionFeaturesMaybe';
-import SectionReviews from './SectionReviews';
-import SectionHostMaybe from './SectionHostMaybe';
-import SectionRulesMaybe from './SectionRulesMaybe';
-import SectionMapMaybe from './SectionMapMaybe';
-import css from './ListingPage.module.css';
+} from '../ListingPage/ListingPage.duck';
+import SectionImages from '../ListingPage/SectionImages';
+import SectionListImages from '../ListingPage/SectionListImage';
+import SectionAvatar from '../ListingPage/SectionAvatar';
+import SectionHeading from '../ListingPage/SectionHeading';
+import SectionDescriptionMaybe from '../ListingPage/SectionDescriptionMaybe';
+import SectionDetailMaybe from '../ListingPage/SectionDetailMaybe';
+import SectionFeaturesMaybe from '../ListingPage/SectionFeaturesMaybe';
+import SectionReviews from '../ListingPage/SectionReviews';
+import SectionHostMaybe from '../ListingPage/SectionHostMaybe';
+import SectionRulesMaybe from '../ListingPage/SectionRulesMaybe';
+import SectionMapMaybe from '../ListingPage/SectionMapMaybe';
+import css from './PreviewListingPage.module.css';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -82,10 +82,10 @@ const categoryLabel = (categories, key) => {
   return cat ? cat.label : key;
 };
 
-export class ListingPageComponent extends Component {
+export class PreviewListingPageComponent extends Component {
   constructor(props) {
     super(props);
-    const { enquiryModalOpenForListingId, params, editParams } = props;
+    const { enquiryModalOpenForListingId, params } = props;
     this.state = {
       pageClassNames: [],
       imageCarouselOpen: false,
@@ -96,50 +96,20 @@ export class ListingPageComponent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onContactUser = this.onContactUser.bind(this);
     this.onSubmitEnquiry = this.onSubmitEnquiry.bind(this);
+    this.handlePublishPreview = this.handlePublishPreview.bind(this);
   }
 
-  handleSubmit() {
-    const {
-      history,
-      getListing,
-      params,
-      callSetInitialValues,
-      onInitializeCardPaymentData,
-    } = this.props;
-    const listingId = new UUID(params.id);
-    const listing = getListing(listingId);
+  handlePublishPreview() {
+    const { publishPreview, isPreview, page } = this.props;
+    const listingId = page.submittedListingId || (id ? new UUID(id) : null);
+    const currentListing = ensureOwnListing(getOwnListing(listingId));
 
-    // const { ...bookingData } = values;
+    const listingSlug = currentListing ? createSlug(currentListing.attributes.title) : null;
 
-    const initialValues = {
-      listing,
-      // bookingDates: {
-      //   bookingStart: bookingDates.startDate,
-      //   bookingEnd: bookingDates.endDate,
-      // },
-      confirmPaymentError: null,
-    };
-
-    const saveToSessionStorage = !this.props.currentUser;
-
-    const routes = routeConfiguration();
-    // Customize checkout page state with current listing and selected bookingDates
-    const { setInitialValues } = findRouteByRouteName('CheckoutPage', routes);
-
-    callSetInitialValues(setInitialValues, initialValues, saveToSessionStorage);
-
-    // Clear previous Stripe errors from store if there is any
-    onInitializeCardPaymentData();
-
-    // Redirect to CheckoutPage
-    history.push(
-      createResourceLocatorString(
-        'CheckoutPage',
-        routes,
-        { id: listing.id.uuid, slug: createSlug(listing.attributes.title) },
-        {}
-      )
-    );
+    if (isPreview) {
+      publishPreview(false);
+      return <NamedRedirect name = 'ListingPage' params= { id=listingId.uuid, slug= listingSlug } />;
+    }
   }
 
   onContactUser() {
@@ -203,7 +173,10 @@ export class ListingPageComponent extends Component {
       lineItems,
       fetchLineItemsInProgress,
       fetchLineItemsError,
+      isPreview,
     } = this.props;
+
+    console.log('Test', 123);
 
     const listingId = new UUID(rawParams.id);
     const isPendingApprovalVariant = rawParams.variant === LISTING_PAGE_PENDING_APPROVAL_VARIANT;
@@ -348,7 +321,11 @@ export class ListingPageComponent extends Component {
     const handleBookingSubmit = () => {
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
       if (isOwnListing || isCurrentlyClosed) {
-        window.scrollTo(0, 0);
+        if (isPreview) {
+          this.handlePublishPreview();
+        } else {
+          window.scrollTo(0, 0);
+        }
       } else {
         this.handleSubmit();
       }
@@ -475,8 +452,8 @@ export class ListingPageComponent extends Component {
                       publicData={publicData}
                       listingId={currentListing.id}
                     /> */}
-                        <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
-                        <SectionHostMaybe
+                        {/* <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} /> */}
+                        {/* <SectionHostMaybe
                           title={title}
                           listing={currentListing}
                           authorDisplayName={authorDisplayName}
@@ -488,20 +465,14 @@ export class ListingPageComponent extends Component {
                           onSubmitEnquiry={this.onSubmitEnquiry}
                           currentUser={currentUser}
                           onManageDisableScrolling={onManageDisableScrolling}
-                        />
+                        /> */}
                       </div>
-                      <BookingPanel
+                      {/* <BookingPanel
                         className={css.bookingPanel}
                         listing={currentListing}
                         isOwnListing={isOwnListing}
                         unitType={unitType}
                         onSubmit={handleBookingSubmit}
-                        editParams={{
-                          id: listingId.uuid,
-                          slug: listingSlug,
-                          type: listingType,
-                          tab: listingTab,
-                        }}
                         // title={bookingTitle}
                         subTitle={bookingSubTitle}
                         authorDisplayName={authorDisplayName}
@@ -512,7 +483,7 @@ export class ListingPageComponent extends Component {
                         lineItems={lineItems}
                         fetchLineItemsInProgress={fetchLineItemsInProgress}
                         fetchLineItemsError={fetchLineItemsError}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>
@@ -528,7 +499,7 @@ export class ListingPageComponent extends Component {
   }
 }
 
-ListingPageComponent.defaultProps = {
+PreviewListingPageComponent.defaultProps = {
   unitType: config.bookingUnitType,
   currentUser: null,
   enquiryModalOpenForListingId: null,
@@ -543,7 +514,7 @@ ListingPageComponent.defaultProps = {
   fetchLineItemsError: null,
 };
 
-ListingPageComponent.propTypes = {
+PreviewListingPageComponent.propTypes = {
   // from withRouter
   history: shape({
     push: func.isRequired,
@@ -578,6 +549,7 @@ ListingPageComponent.propTypes = {
   sendEnquiryInProgress: bool.isRequired,
   sendEnquiryError: propTypes.error,
   onSendEnquiry: func.isRequired,
+  publishPreview: func.isRequired,
   onInitializeCardPaymentData: func.isRequired,
   filterConfig: array,
   onFetchTransactionLineItems: func.isRequired,
@@ -600,6 +572,7 @@ const mapStateToProps = state => {
     fetchLineItemsInProgress,
     fetchLineItemsError,
     enquiryModalOpenForListingId,
+    isPreview,
   } = state.ListingPage;
   const { currentUser } = state.user;
 
@@ -632,6 +605,7 @@ const mapStateToProps = state => {
     fetchLineItemsError,
     sendEnquiryInProgress,
     sendEnquiryError,
+    isPreview,
   };
 };
 
@@ -644,6 +618,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchTransactionLineItems(listingId, isOwnListing)),
   onSendEnquiry: (listingId, message) => dispatch(sendEnquiry(listingId, message)),
   onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
+  publishPreview: value => dispatch(publishPreview(value)),
 });
 
 // Note: it is important that the withRouter HOC is **outside** the
@@ -652,13 +627,13 @@ const mapDispatchToProps = dispatch => ({
 // lifecycle hook.
 //
 // See: https://github.com/ReactTraining/react-router/issues/4671
-const ListingPage = compose(
+const PreviewListingPage = compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   injectIntl
-)(ListingPageComponent);
+)(PreviewListingPageComponent);
 
-ListingPage.setInitialValues = initialValues => setInitialValues(initialValues);
-ListingPage.loadData = loadData;
+PreviewListingPage.setInitialValues = initialValues => setInitialValues(initialValues);
+PreviewListingPage.loadData = loadData;
 
-export default ListingPage;
+export default PreviewListingPage;

@@ -46,7 +46,7 @@ const SectionListImages = props => {
     <div className={css.sectionListImages}>
       <div className={css.imageWrapper}>
         <div className={css.listImageContent}>
-          {actionBar}
+          {/* {actionBar} */}
           {firstImage}
         </div>
       </div>

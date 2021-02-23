@@ -9,7 +9,7 @@ import { required, bookingDatesRequired, composeValidators } from '../../util/va
 import { START_DATE, END_DATE } from '../../util/dates';
 import { propTypes } from '../../util/types';
 import config from '../../config';
-import { Form, IconSpinner, PrimaryButton, FieldDateRangeInput } from '../../components';
+import { Form, IconSpinner, PrimaryButton, FieldDateRangeInput, NamedLink } from '../../components';
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
 
 import css from './BookingDatesForm.module.css';
@@ -123,24 +123,10 @@ export class BookingDatesFormComponent extends Component {
             lineItems,
             fetchLineItemsInProgress,
             fetchLineItemsError,
+            editParams,
           } = fieldRenderProps;
           const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
 
-          const bookingStartLabel = intl.formatMessage({
-            id: 'BookingDatesForm.bookingStartTitle',
-          });
-          const bookingEndLabel = intl.formatMessage({
-            id: 'BookingDatesForm.bookingEndTitle',
-          });
-          const requiredMessage = intl.formatMessage({
-            id: 'BookingDatesForm.requiredDate',
-          });
-          const startDateErrorMessage = intl.formatMessage({
-            id: 'FieldDateRangeInput.invalidStartDate',
-          });
-          const endDateErrorMessage = intl.formatMessage({
-            id: 'FieldDateRangeInput.invalidEndDate',
-          });
           const timeSlotsError = fetchTimeSlotsError ? (
             <p className={css.sideBarError}>
               <FormattedMessage id="BookingDatesForm.timeSlotsError" />
@@ -214,7 +200,6 @@ export class BookingDatesFormComponent extends Component {
               />
               {loadingSpinnerMaybe}
               {bookingInfoErrorMaybe}
-
               <p className={css.smallPrint}>
                 <FormattedMessage
                   id={
@@ -224,11 +209,22 @@ export class BookingDatesFormComponent extends Component {
                   }
                 />
               </p>
-              <div className={submitButtonClasses}>
-                <PrimaryButton type="submit">
-                  <FormattedMessage id="BookingDatesForm.requestToBook" />
-                </PrimaryButton>
-              </div>
+              {!isOwnListing && (
+                <div className={submitButtonClasses}>
+                  <PrimaryButton type="submit">
+                    <FormattedMessage id="BookingDatesForm.requestToBook" />
+                  </PrimaryButton>
+                </div>
+              )}
+              {isOwnListing && (
+                <div className={submitButtonClasses}>
+                  <NamedLink name="EditListingPage" params={editParams}>
+                  <PrimaryButton type="submit">
+                    <FormattedMessage id="BookingDatesForm.editListing" />
+                  </PrimaryButton>
+                  </NamedLink>
+                </div>
+              )}
             </Form>
           );
         }}

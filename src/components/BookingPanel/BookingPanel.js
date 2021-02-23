@@ -69,6 +69,7 @@ const BookingPanel = props => {
     lineItems,
     fetchLineItemsInProgress,
     fetchLineItemsError,
+    editParams
   } = props;
 
   const price = listing.attributes.price;
@@ -125,26 +126,30 @@ const BookingPanel = props => {
               {formattedPrice}
             </div>
           </div>
-          <div className={css.priceContainer}>
-            <div className={css.askingPrice}>
-              <FormattedMessage id="BookingPanel.offer" />
+          {!isOwnListing && (
+            <div className={css.priceContainer}>
+              <div className={css.askingPrice}>
+                <FormattedMessage id="BookingPanel.offer" />
+              </div>
+              <div className={css.priceValue}>
+                <form>
+                  <input id="price" name="price" className={css.priceInput} autoFocus />
+                </form>
+              </div>
             </div>
-            <div className={css.priceValue}>
-              <form>
-                <input id="price" name="price" className={css.priceInput} autoFocus />
-              </form>
+          )}
+          {!isOwnListing && (
+            <div className={css.priceContainer}>
+              <div className={css.askingPrice}>
+                <FormattedMessage id="BookingPanel.yourOffer" />
+              </div>
+              <div className={css.priceValue}>
+                <form>
+                  <input id="price" name="price" className={css.priceInput} autoFocus />
+                </form>
+              </div>
             </div>
-          </div>
-          <div className={css.priceContainer}>
-            <div className={css.askingPrice}>
-              <FormattedMessage id="BookingPanel.yourOffer" />
-            </div>
-            <div className={css.priceValue}>
-            <form>
-                <input id="price" name="price" className={css.priceInput} autoFocus />
-              </form>
-            </div>
-          </div>
+          )}
         </div>
         {showBookingDatesForm ? (
           <BookingDatesForm
@@ -154,6 +159,7 @@ const BookingPanel = props => {
             unitType={unitType}
             onSubmit={onSubmit}
             price={price}
+            editParams={editParams}
             listingId={listing.id}
             isOwnListing={isOwnListing}
             timeSlots={timeSlots}
