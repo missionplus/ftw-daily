@@ -9,7 +9,7 @@ import { Form, Button, FieldTextInput } from '../../components';
 import CustomSellingPairSelectFieldMaybe from './CustomSellingPairSelectFieldMaybe';
 import CustomOriginalSelectFieldMaybe from './CustomOriginalSelectFieldMaybe';
 import CustomMicPairSelectFieldMaybe from './CustomMicpairSelectFieldMaybe';
-import CustomConditionSelectFieldMaybe from '../EditListingPoliciesForm/CustomConditionSelectFieldMaybe';
+import CustomConditionSelect from './CustomConditionSelect';
 
 import css from './EditListingMicPairForm.module.css';
 import { Fragment } from 'react';
@@ -48,7 +48,6 @@ export const EditListingMicPairFormComponent = props => (
           <FormattedMessage id="EditListingPoliciesForm.showListingFailed" />
         </p>
       ) : null;
-      console.log(values);
       const classes = classNames(css.root, className);
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
@@ -76,7 +75,7 @@ export const EditListingMicPairFormComponent = props => (
             id="serialMicPair"
             name="serialMicPair"
             className={css.micpair}
-            type="number"
+            type="textarea"
             label="Serial #s"
           />
 
@@ -97,9 +96,9 @@ export const EditListingMicPairFormComponent = props => (
           />
 
           {values.sellingPair &&
-            (values.sellingPair == 'y' ? (
+            (values.sellingPair == 'yes' ? (
               <Fragment>
-                                <div className={css.wrapper}>
+                <div className={css.wrapper}>
                   <div className={css.content}>
                     <h2 className={css.titleContent}>A</h2>
                     <FieldTextInput
@@ -116,7 +115,7 @@ export const EditListingMicPairFormComponent = props => (
                       type="textarea"
                       label="Color"
                     />
-                    <CustomConditionSelectFieldMaybe
+                    <CustomConditionSelect
                       id="conditionMicPairA"
                       name="conditionMicPairA"
                       conditionMicPairA={conditionMicPair}
@@ -139,7 +138,7 @@ export const EditListingMicPairFormComponent = props => (
                       type="textarea"
                       label="Color"
                     />
-                    <CustomConditionSelectFieldMaybe
+                    <CustomConditionSelect
                       id="conditionMicPairB"
                       name="conditionMicPairB"
                       conditionMicPairB={conditionMicPair}
@@ -471,7 +470,6 @@ export const EditListingMicPairFormComponent = props => (
                     />
                   </div>
                 </div>
-
               </Fragment>
             ) : (
               <Fragment>
@@ -491,7 +489,7 @@ export const EditListingMicPairFormComponent = props => (
                   label="Color"
                 />
 
-                <CustomConditionSelectFieldMaybe
+                <CustomConditionSelect
                   id="conditionMicPair"
                   name="conditionMicPair"
                   condition={conditionMicPair}

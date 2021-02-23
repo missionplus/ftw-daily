@@ -127,8 +127,8 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'y', label: 'Y' },
-        { key: 'n', label: 'N' },
+        { key: 'yes', label: 'Yes' },
+        { key: 'no', label: 'No' },
 
       ],
     },
@@ -145,8 +145,8 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'y', label: 'Y' },
-        { key: 'n', label: 'N' },
+        { key: 'yes', label: 'Yes' },
+        { key: 'no', label: 'No' },
 
       ],
     },
@@ -163,8 +163,8 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'y', label: 'Y' },
-        { key: 'n', label: 'N' },
+        { key: 'yes', label: 'Yes' },
+        { key: 'no', label: 'No' },
 
       ],
     },
@@ -181,8 +181,8 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'y', label: 'Y' },
-        { key: 'n', label: 'N' },
+        { key: 'yes', label: 'Yes' },
+        { key: 'no', label: 'No' },
 
       ],
     },
