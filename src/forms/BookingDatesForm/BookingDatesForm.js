@@ -200,7 +200,7 @@ export class BookingDatesFormComponent extends Component {
               />
               {loadingSpinnerMaybe}
               {bookingInfoErrorMaybe}
-              <p className={css.smallPrint}>
+              {/* <p className={css.smallPrint}>
                 <FormattedMessage
                   id={
                     isOwnListing
@@ -208,23 +208,12 @@ export class BookingDatesFormComponent extends Component {
                       : 'BookingDatesForm.youWontBeChargedInfo'
                   }
                 />
-              </p>
-              {!isOwnListing && (
-                <div className={submitButtonClasses}>
-                  <PrimaryButton type="submit">
-                    <FormattedMessage id="BookingDatesForm.requestToBook" />
-                  </PrimaryButton>
-                </div>
-              )}
-              {isOwnListing && (
-                <div className={submitButtonClasses}>
-                  <NamedLink name="EditListingPage" params={editParams}>
-                  <PrimaryButton type="submit">
-                    <FormattedMessage id="BookingDatesForm.editListing" />
-                  </PrimaryButton>
-                  </NamedLink>
-                </div>
-              )}
+              </p> */}
+              <div className={submitButtonClasses}>
+                <PrimaryButton type="submit">
+                  <FormattedMessage id="BookingDatesForm.requestToBook" />
+                </PrimaryButton>
+              </div>
             </Form>
           );
         }}

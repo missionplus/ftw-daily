@@ -69,7 +69,7 @@ const BookingPanel = props => {
     lineItems,
     fetchLineItemsInProgress,
     fetchLineItemsError,
-    editParams
+    editParams,
   } = props;
 
   const price = listing.attributes.price;
@@ -126,30 +126,27 @@ const BookingPanel = props => {
               {formattedPrice}
             </div>
           </div>
-          {!isOwnListing && (
-            <div className={css.priceContainer}>
-              <div className={css.askingPrice}>
-                <FormattedMessage id="BookingPanel.offer" />
-              </div>
-              <div className={css.priceValue}>
-                <form>
-                  <input id="price" name="price" className={css.priceInput} autoFocus />
-                </form>
-              </div>
+          <div className={css.priceContainer}>
+            <div className={css.askingPrice}>
+              <FormattedMessage id="BookingPanel.offer" />
             </div>
-          )}
-          {!isOwnListing && (
-            <div className={css.priceContainer}>
-              <div className={css.askingPrice}>
-                <FormattedMessage id="BookingPanel.yourOffer" />
-              </div>
-              <div className={css.priceValue}>
-                <form>
-                  <input id="price" name="price" className={css.priceInput} autoFocus />
-                </form>
-              </div>
+            <div className={css.priceValue}>
+              <form>
+                <input id="price" name="price" className={css.priceInput} autoFocus />
+              </form>
             </div>
-          )}
+          </div>
+
+          <div className={css.priceContainer}>
+            <div className={css.askingPrice}>
+              <FormattedMessage id="BookingPanel.yourOffer" />
+            </div>
+            <div className={css.priceValue}>
+              <form>
+                <input id="price" name="price" className={css.priceInput} autoFocus />
+              </form>
+            </div>
+          </div>
         </div>
         {showBookingDatesForm ? (
           <BookingDatesForm
