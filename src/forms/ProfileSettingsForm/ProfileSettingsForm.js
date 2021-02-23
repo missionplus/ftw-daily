@@ -322,7 +322,7 @@ class ProfileSettingsFormComponent extends Component {
                     label={'State'}
                     placeholder={'CA'}
                   />
-                  <FieldPhoneNumberInput
+                  <FieldTextInput
                     className={css.zip}
                     onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 || e.keyCode === 189 ) && e.preventDefault() }
                     type="number"
