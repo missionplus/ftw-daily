@@ -125,3 +125,45 @@
     border-color: var(--matterColor);
   }
 }
+
+.nameContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+
+  @media (--viewportMedium) {
+    margin-top: 24px;
+  }
+}
+
+.firstName {
+  width: calc(50% - 9px);
+}
+
+.lastName {
+  width: calc(50% - 9px);
+}
+
+.lastName {
+  width: calc(50% - 9px);
+}
+
+.lastName {
+  width: calc(50% - 9px);
+}
+
+.city {
+  width: calc(40% - 9px);
+}
+
+.state {
+  width: calc(20% - 9px);
+}
+
+.zip {
+  width: calc(40% - 9px);
+}
+
+.country {
+  width: calc(30% - 9px);
+}

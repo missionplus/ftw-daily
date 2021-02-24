@@ -20,7 +20,6 @@ import {
   FieldRadioButton,
   Form,
   StripeBankAccountTokenInputField,
-  FieldFileInput
 } from '../../components';
 import { ensureCurrentUser } from '../../util/data';
 
@@ -43,7 +42,7 @@ const countryCurrency = countryCode => {
 };
 
 const VerifyUserFields = props => {
-  const { intl, disabled, countryLabel } = props;
+  const { intl, disabled, countryLabel, formId } = props;
   const countryRequired = validators.required(
     intl.formatMessage({
       id: 'StripeConnectAccountForm.countryRequired',
@@ -69,9 +68,70 @@ const VerifyUserFields = props => {
       id: 'StripeConnectAccountForm.countryRequired',
     })
   );
+  const firstNameRequired = validators.required(
+    intl.formatMessage({
+      id: 'StripeConnectAccountForm.countryRequired',
+    })
+  );
+  const lastNameRequired = validators.required(
+    intl.formatMessage({
+      id: 'StripeConnectAccountForm.countryRequired',
+    })
+  );
+  const displayNameRequired = validators.required(
+    intl.formatMessage({
+      id: 'StripeConnectAccountForm.countryRequired',
+    })
+  );
 
   return (
     <div className={classNames(css.sectionContainer)}>
+      <h3 className={css.sectionTitle}>
+        <FormattedMessage id="ProfileSettingsForm.contactHeading" />
+      </h3>
+      <FieldTextInput
+          className={css.email}
+          type="email"
+          name="email"
+          // id={formId ? `${formId}.email` : 'email'}
+          readOnly="readOnly"
+          id={'email'}
+          label={'Your email address'}
+          // placeholder={emailPlaceholder}
+          // validate={validators.composeValidators(emailRequired, emailValid)}
+          // customErrorText={emailTouched ? null : emailTakenErrorText}
+        />
+      <div className={css.nameContainer}>
+        <FieldTextInput
+          className={css.firstName}
+          type="text"
+          id="firstName"
+          name="firstName"
+          label={"First Name"}
+          // placeholder={firstNamePlaceholder}
+          validate={firstNameRequired}
+        />
+        <FieldTextInput
+          className={css.lastName}
+          type="text"
+          id="lastName"
+          name="lastName"
+          label={'Last Name'}
+          // placeholder={lastNamePlaceholder}
+          validate={lastNameRequired}
+        />
+      </div>
+      <div className={css.nameContainer}>
+        <FieldTextInput
+          className={css.displayName}
+          type="text"
+          id="displayName"
+          name="displayName"
+          label={'Display Name'}
+          // placeholder={lastNamePlaceholder}
+          validate={displayNameRequired}
+        />
+      </div>
       <h3 className={css.sectionTitle}>
         <FormattedMessage id="ProfileSettingsForm.addressHeading" />
       </h3>
@@ -104,7 +164,9 @@ const VerifyUserFields = props => {
         />
         <FieldTextInput
           className={css.zip}
-          onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 || e.keyCode === 189 ) && e.preventDefault() }
+          onKeyDown={e =>
+            (e.keyCode === 69 || e.keyCode === 190 || e.keyCode === 189) && e.preventDefault()
+          }
           type="number"
           id="zip"
           name="zip"
@@ -304,6 +366,7 @@ const VerifyingUserFormComponent = props => {
           stripeAccountLinkError,
           disabled,
           handleSubmit,
+          formId,
           inProgress,
           intl,
           invalid,
@@ -369,7 +432,7 @@ const VerifyingUserFormComponent = props => {
         );
 
         const profileSettingFields = (
-          <VerifyUserFields values={values} intl={intl} countryLabel={countryLabel} />
+          <VerifyUserFields formId={formId} values={values} intl={intl} countryLabel={countryLabel} />
         );
 
         const stripeConnectedAccountTermsLink = (

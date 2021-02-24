@@ -151,7 +151,14 @@ export class SellOrConsignPageComponent extends Component {
     const ensuredCurrentUser = ensureCurrentUser(currentUser);
     const currentUserLoaded = !!ensuredCurrentUser.id;
 
-    const { publicData } = ensuredCurrentUser.attributes.profile;
+    const currentEmail = ensuredCurrentUser.attributes.email;
+
+    const {
+      firstName,
+      lastName,
+      displayName,
+      publicData,
+    } = ensuredCurrentUser.attributes.profile;
 
     const { address, city, state, zip, country } = publicData || {};
 
@@ -288,7 +295,17 @@ export class SellOrConsignPageComponent extends Component {
                   inProgress={page.payoutDetailsSaveInProgress}
                   ready={page.payoutDetailsSaved}
                   currentUser={ensuredCurrentUser}
-                  initialValues={{ address, city, state, zip, country }}
+                  initialValues={{
+                    firstName: firstName,
+                    lastName: lastName,
+                    displayName: displayName,
+                    address: address,
+                    city: city,
+                    state: state,
+                    zip: zip,
+                    country: country,
+                    email: currentEmail,
+                  }}
                   stripeBankAccountLastDigits={getBankAccountLast4Digits(stripeAccountData)}
                   savedCountry={savedCountry}
                   submitButtonText={intl.formatMessage({
@@ -372,8 +389,8 @@ const mapStateToProps = state => {
     scrollingDisabled: isScrollingDisabled(state),
   };
 };
-const mapValueProfile = data => {
-  const { address, city, state, zip, country } = data;
+const mapValueProfile = values => {
+  const { firstName, lastName, displayName, address, city, state, zip, country } = values;
 
   const publicData = {
     address: address,
@@ -384,10 +401,11 @@ const mapValueProfile = data => {
   };
 
   const profile = {
+    firstName,
+    lastName,
+    displayName,
     publicData,
   };
-
-  console.log(profile);
 
   return { ...profile };
 };
