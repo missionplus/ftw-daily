@@ -61,6 +61,7 @@ import SectionMapMaybe from './SectionMapMaybe';
 import SectionWatchList from './SectionWatchList';
 import SectionMessageSeller from './SectionMessageSeller';
 import SectionMakeOffer from './SectionMakeOffer';
+import SectionPrice from './SectionPrice';
 import css from './ListingPage.module.css';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
@@ -343,7 +344,6 @@ export class ListingPageComponent extends Component {
     const currentAuthor = authorAvailable ? currentListing.author : null;
     const ensuredAuthor = ensureUser(currentAuthor);
 
-
     // When user is banned or deleted the listing is also deleted.
     // Because listing can be never showed with banned or deleted user we don't have to provide
     // banned or deleted display names for the function
@@ -478,12 +478,9 @@ export class ListingPageComponent extends Component {
                 </div>
               </div>
               <div className={css.sidebar}>
-                <SectionHeading
-                  richTitle={richTitle}
-                  category={category}
-                  hostLink={hostLink}
-                />
-
+                <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
+                <SectionPrice priceTitle={priceTitle} formattedPrice={formattedPrice} />
+                {!isOwnListing && <SectionMakeOffer />}
                 <BookingPanel
                   className={css.bookingPanel}
                   listing={currentListing}
@@ -507,20 +504,29 @@ export class ListingPageComponent extends Component {
                   fetchLineItemsInProgress={fetchLineItemsInProgress}
                   fetchLineItemsError={fetchLineItemsError}
                 />
-                {!isOwnListing && <SectionMakeOffer /> }
 
                 {!isOwnListing && (
                   <div className={css.ctaButton}>
-                  <div className={css.ctaButtonMain}>
-                    <SectionWatchList />
+                    <div className={css.ctaButtonMain}>
+                      <SectionWatchList />
+                    </div>
+                    <div className={css.ctaButtonMain}>
+                      <SectionMessageSeller
+                        title={title}
+                        authorDisplayName={authorDisplayName}
+                        showContactUser={showContactUser}
+                        onContactUser={this.onContactUser}
+                        isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
+                        onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
+                        sendEnquiryError={sendEnquiryError}
+                        sendEnquiryInProgress={sendEnquiryInProgress}
+                        onSubmitEnquiry={this.onSubmitEnquiry}
+                        currentUser={currentUser}
+                        onManageDisableScrolling={onManageDisableScrolling}
+                      />
+                    </div>
                   </div>
-                  <div className={css.ctaButtonMain}>
-                    <SectionMessageSeller showContactUser={showContactUser}
-                    onContactUser={this.onContactUser} />
-                  </div>
-                </div>
                 )}
-                
               </div>
             </div>
           </LayoutWrapperMain>

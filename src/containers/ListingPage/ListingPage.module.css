@@ -678,7 +678,6 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-bottom: 12.5vh;
   }
 }
 .ctaButtonMain {
@@ -698,14 +697,14 @@
     padding: var(--modalPaddingMedium);
     background-color: var(--matterColorLight);
     margin-top: 12.5vh;
-    margin-bottom: 6.5vh;
+    margin-bottom: 20px;
   }
 
   @media (--viewportLarge) {
     padding: 0;
     background-color: transparent;
     margin-top: 0;
-    margin-bottom: 6.5vh;
+    margin-bottom: 20px;
   }
 }
 .btn {
@@ -723,4 +722,22 @@
   box-shadow: none;
   color: #2ecc71;
   fill: #2ecc71;
+}
+.sectionPrice {
+  display: block;
+  margin-bottom: 20px;
+}
+.priceContainer {
+  /* Layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 0;
+}
+.container {
+  flex: 1;
+}
+.askingPrice {
+  min-width: 100px;
+  margin-right: 30px;
 }
