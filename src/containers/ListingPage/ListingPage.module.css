@@ -227,14 +227,8 @@
   height: 100%;
 }
 .containerFluid {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
   align-items: flex-start;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 
   @media (--viewportMedium) {
@@ -260,11 +254,7 @@
 }
 
 .sidebar {
-  -webkit-box-ordinal-group: 3;
-  -ms-flex-order: 2;
   order: 2;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 34%;
   flex: 0 0 34%;
   font-size: 1.6rem;
   max-width: 34%;
@@ -684,7 +674,6 @@
 }
 
 .ctaButton {
-
   @media (--viewportMedium) {
     display: flex;
     flex-direction: row;
@@ -697,4 +686,41 @@
 }
 .ctaButtonMain:last-child {
   margin-left: 30px;
+}
+.sectionMakeOffer {
+  @apply --marketplaceModalInMobileBaseStyles;
+
+  height: 100vh;
+
+  @media (--viewportMedium) {
+    flex-basis: 576px;
+    height: 100%;
+    padding: var(--modalPaddingMedium);
+    background-color: var(--matterColorLight);
+    margin-top: 12.5vh;
+    margin-bottom: 6.5vh;
+  }
+
+  @media (--viewportLarge) {
+    padding: 0;
+    background-color: transparent;
+    margin-top: 0;
+    margin-bottom: 6.5vh;
+  }
+}
+.btn {
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #414141;
+  fill: #414141;
+  width: 100%;
+  white-space: normal;
+  min-height: 50px;
+}
+.btn:hover,
+.btn:focus {
+  background-color: #fff;
+  box-shadow: none;
+  color: #2ecc71;
+  fill: #2ecc71;
 }

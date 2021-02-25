@@ -219,6 +219,7 @@ export class ListingPageComponent extends Component {
     const listingSlug = rawParams.slug || createSlug(currentListing.attributes.title || '');
     const params = { slug: listingSlug, ...rawParams };
 
+
     const listingType = isDraftVariant
       ? LISTING_PAGE_PARAM_TYPE_DRAFT
       : LISTING_PAGE_PARAM_TYPE_EDIT;
@@ -340,6 +341,7 @@ export class ListingPageComponent extends Component {
 
     const currentAuthor = authorAvailable ? currentListing.author : null;
     const ensuredAuthor = ensureUser(currentAuthor);
+
 
     // When user is banned or deleted the listing is also deleted.
     // Because listing can be never showed with banned or deleted user we don't have to provide
@@ -485,6 +487,8 @@ export class ListingPageComponent extends Component {
                   onContactUser={this.onContactUser}
                 />
 
+                {!isOwnListing ? <SectionMakeOffer /> : null }
+
                 <BookingPanel
                   className={css.bookingPanel}
                   listing={currentListing}
@@ -508,7 +512,8 @@ export class ListingPageComponent extends Component {
                   fetchLineItemsInProgress={fetchLineItemsInProgress}
                   fetchLineItemsError={fetchLineItemsError}
                 />
-                <div className={css.ctaButton}>
+                {!isOwnListing ? (
+                  <div className={css.ctaButton}>
                   <div className={css.ctaButtonMain}>
                     <SectionWatchList />
                   </div>
@@ -516,7 +521,8 @@ export class ListingPageComponent extends Component {
                     <SectionMessageSeller />
                   </div>
                 </div>
-                <SectionMakeOffer />
+                ) : null}
+                
               </div>
             </div>
           </LayoutWrapperMain>

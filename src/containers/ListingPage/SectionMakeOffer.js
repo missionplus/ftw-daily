@@ -7,7 +7,7 @@ const SectionMakeOffer = props => {
   const {} = props;
 
   return (
-    <div id="offer" className={css.sectionHost}>
+    <div id="offer" className={css.sectionMakeOffer}>
         <MakeOfferForm onSubmit={values => {}} />
     </div>
   );
