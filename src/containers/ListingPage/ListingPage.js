@@ -218,8 +218,9 @@ export class ListingPageComponent extends Component {
 
     const listingSlug = rawParams.slug || createSlug(currentListing.attributes.title || '');
     const params = { slug: listingSlug, ...rawParams };
-
-
+    const user = currentListing.author;
+    const userIsCurrentUser = user && user.type === 'currentUser';
+    const ensuredUser = userIsCurrentUser ? ensureCurrentUser(user) : ensureUser(user);
     const listingType = isDraftVariant
       ? LISTING_PAGE_PARAM_TYPE_DRAFT
       : LISTING_PAGE_PARAM_TYPE_EDIT;
@@ -386,8 +387,8 @@ export class ListingPageComponent extends Component {
     const hostLink = (
       <NamedLink
         className={css.authorNameLink}
-        name="ListingPage"
-        params={params}
+        name="ProfilePage"
+        params={{ id: ensuredUser.id.uuid }}
         to={{ hash: '#host' }}
       >
         {authorDisplayName}
@@ -461,7 +462,7 @@ export class ListingPageComponent extends Component {
                   <SectionDescriptionMaybe description={description} />
                   <SectionDetailMaybe publicData={publicData} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
-                  <SectionHostMaybe
+                  {/* <SectionHostMaybe
                     title={title}
                     listing={currentListing}
                     authorDisplayName={authorDisplayName}
@@ -473,7 +474,7 @@ export class ListingPageComponent extends Component {
                     onSubmitEnquiry={this.onSubmitEnquiry}
                     currentUser={currentUser}
                     onManageDisableScrolling={onManageDisableScrolling}
-                  />
+                  /> */}
                 </div>
               </div>
               <div className={css.sidebar}>
@@ -482,8 +483,6 @@ export class ListingPageComponent extends Component {
                   category={category}
                   hostLink={hostLink}
                 />
-
-                {!isOwnListing ? <SectionMakeOffer /> : null }
 
                 <BookingPanel
                   className={css.bookingPanel}
@@ -508,7 +507,9 @@ export class ListingPageComponent extends Component {
                   fetchLineItemsInProgress={fetchLineItemsInProgress}
                   fetchLineItemsError={fetchLineItemsError}
                 />
-                {!isOwnListing ? (
+                {!isOwnListing && <SectionMakeOffer /> }
+
+                {!isOwnListing && (
                   <div className={css.ctaButton}>
                   <div className={css.ctaButtonMain}>
                     <SectionWatchList />
@@ -518,7 +519,7 @@ export class ListingPageComponent extends Component {
                     onContactUser={this.onContactUser} />
                   </div>
                 </div>
-                ) : null}
+                )}
                 
               </div>
             </div>
