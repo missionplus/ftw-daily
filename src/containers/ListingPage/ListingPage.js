@@ -100,6 +100,12 @@ export class ListingPageComponent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onContactUser = this.onContactUser.bind(this);
     this.onSubmitEnquiry = this.onSubmitEnquiry.bind(this);
+    this.handleOffer = this.handleOffer.bind(this);
+  }
+
+  handleOffer() {
+    const { onInitializeCardPaymentData } = this.props;
+    onInitializeCardPaymentData();
   }
 
   handleSubmit() {
@@ -351,6 +357,10 @@ export class ListingPageComponent extends Component {
 
     const { formattedPrice, priceTitle } = priceData(price, intl);
 
+    const handleOfferSubmit = () => {
+      this.handleOffer();
+    };
+
     const handleBookingSubmit = () => {
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
       if (isOwnListing || isCurrentlyClosed) {
@@ -480,7 +490,8 @@ export class ListingPageComponent extends Component {
               <div className={css.sidebar}>
                 <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
                 <SectionPrice priceTitle={priceTitle} formattedPrice={formattedPrice} />
-                {!isOwnListing && <SectionMakeOffer />}
+                {!isOwnListing && <SectionMakeOffer  onSubmit={handleOfferSubmit} />}
+
                 <BookingPanel
                   className={css.bookingPanel}
                   listing={currentListing}
@@ -523,6 +534,8 @@ export class ListingPageComponent extends Component {
                         onSubmitEnquiry={this.onSubmitEnquiry}
                         currentUser={currentUser}
                         onManageDisableScrolling={onManageDisableScrolling}
+                        showContactUser={showContactUser}
+                        onContactUser={this.onContactUser}
                       />
                     </div>
                   </div>

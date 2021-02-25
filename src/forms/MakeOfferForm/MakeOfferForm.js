@@ -12,10 +12,7 @@ export const MakeOfferFormComponent = props => (
   <FinalForm
     {...props}
     render={formRenderProps => {
-      const {
-        className,
-        handleSubmit,
-      } = formRenderProps;
+      const { className, handleSubmit } = formRenderProps;
 
       const classes = classNames(css.root, className);
 
@@ -30,10 +27,7 @@ export const MakeOfferFormComponent = props => (
             label="Make Offer"
           />
 
-          <Button
-            className={css.submitButton}
-            type="submit"
-          >
+          <Button className={css.submitButton} type="submit">
             <FormattedMessage id="MakeOffer.ctaButtonMessage" />
           </Button>
         </Form>

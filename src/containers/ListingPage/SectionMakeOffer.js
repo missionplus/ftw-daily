@@ -4,11 +4,13 @@ import css from './ListingPage.module.css';
 import { MakeOfferForm } from '../../forms';
 
 const SectionMakeOffer = props => {
-  const {} = props;
+  const {
+    onSubmit
+  } = props;
 
   return (
     <div id="offer" className={css.sectionMakeOffer}>
-        <MakeOfferForm onSubmit={values => {}} />
+        <MakeOfferForm onSubmit={onSubmit} />
     </div>
   );
 };
