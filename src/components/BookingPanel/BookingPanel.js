@@ -120,7 +120,7 @@ const BookingPanel = props => {
         <div className={css.bookingHeading}>
           <h2 className={titleClasses}>{title}</h2>
           {/* {subTitleText ? <div className={css.bookingHelp}>{subTitleText}</div> : null} */}
-          <div className={css.priceContainer}>
+          {/* <div className={css.priceContainer}>
             <div className={`${css.askingPrice} ${css.container}`}>
               <FormattedMessage id="BookingPanel.askingPrice" />
             </div>
@@ -135,7 +135,7 @@ const BookingPanel = props => {
             <div className={`${css.priceValue} ${css.container}`}>
               {formattedOffer}
             </div>
-          </div>
+          </div> */}
 
           {/* <div className={css.priceContainer}>
             <div className={css.askingPrice}>
