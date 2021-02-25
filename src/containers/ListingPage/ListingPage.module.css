@@ -407,9 +407,9 @@
   }
 }
 
-.authorNameLink {
+/* .authorNameLink {
   color: var(--matterColor);
-}
+} */
 
 .contactWrapper {
   display: none;

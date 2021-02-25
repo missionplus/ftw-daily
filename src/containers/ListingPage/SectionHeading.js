@@ -8,13 +8,9 @@ import css from './ListingPage.module.css';
 
 const SectionHeading = props => {
   const {
-    priceTitle,
-    formattedPrice,
     richTitle,
     category,
     hostLink,
-    showContactUser,
-    onContactUser,
   } = props;
 
   const unitType = config.bookingUnitType;
@@ -34,24 +30,8 @@ const SectionHeading = props => {
         <div className={css.author}>
           {category}
           <FormattedMessage id="ListingPage.hostedBy" values={{ name: hostLink }} />
-          {showContactUser ? (
-            <span className={css.contactWrapper}>
-              <span className={css.separator}>•</span>
-              <InlineTextButton rootClassName={css.contactLink} onClick={onContactUser}>
-                <FormattedMessage id="ListingPage.contactUser" />
-              </InlineTextButton>
-            </span>
-          ) : null}
         </div>
       </div>
-      {/* <div className={css.desktopPriceContainer}>
-        <div className={css.desktopPriceValue} title={priceTitle}>
-          {formattedPrice}
-        </div>
-        <div className={css.desktopPerUnit}>
-          <FormattedMessage id={unitTranslationKey} />
-        </div>
-      </div> */}
     </div>
   );
 };
