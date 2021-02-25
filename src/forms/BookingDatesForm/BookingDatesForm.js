@@ -209,11 +209,22 @@ export class BookingDatesFormComponent extends Component {
                   }
                 />
               </p> */}
-              <div className={submitButtonClasses}>
-                <PrimaryButton type="submit">
-                  <FormattedMessage id="BookingDatesForm.requestToBook" />
-                </PrimaryButton>
-              </div>
+              {!isOwnListing && (
+                <div className={submitButtonClasses}>
+                  <PrimaryButton type="submit">
+                    <FormattedMessage id="BookingDatesForm.requestToBook" />
+                  </PrimaryButton>
+                </div>
+              )}
+              {isOwnListing && (
+                <div className={submitButtonClasses}>
+                  <NamedLink name="EditListingPage" params={editParams}>
+                    <PrimaryButton>
+                      <FormattedMessage id="BookingDatesForm.editListing" />
+                    </PrimaryButton>
+                  </NamedLink>
+                </div>
+              )}
             </Form>
           );
         }}
