@@ -8,7 +8,7 @@ import css from './ListingPage.module.css';
 const SectionMessageSeller = props => {
   return (
     <div className={css.SectionWatchList}>
-      <PrimaryButton type="submit">
+      <PrimaryButton type="submit" className={css.btn}>
         <FormattedMessage id="ListingPage.ctaButtonMessageSeller" />
       </PrimaryButton>
     </div>

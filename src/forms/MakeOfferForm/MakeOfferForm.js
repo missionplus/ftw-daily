@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import { injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
-import { Form, PrimaryButton, FieldCurrencyInput } from '../../components';
+import { Form, Button, FieldCurrencyInput } from '../../components';
 import config from '../../config';
 
 import css from './MakeOfferForm.module.css';
@@ -30,12 +30,12 @@ export const MakeOfferFormComponent = props => (
             label="Make Offer"
           />
 
-          <PrimaryButton
+          <Button
             className={css.submitButton}
             type="submit"
           >
             <FormattedMessage id="MakeOffer.ctaButtonMessage" />
-          </PrimaryButton>
+          </Button>
         </Form>
       );
     }}

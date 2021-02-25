@@ -13,14 +13,14 @@
     padding: var(--modalPaddingMedium);
     background-color: var(--matterColorLight);
     margin-top: 12.5vh;
-    margin-bottom: 12.5vh;
+    margin-bottom: 6.5vh;
   }
 
   @media (--viewportLarge) {
     padding: 0;
     background-color: transparent;
     margin-top: 0;
-    margin-bottom: 12.5vh;
+    margin-bottom: 6.5vh;
   }
 }
 
