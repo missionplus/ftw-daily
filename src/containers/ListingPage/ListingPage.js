@@ -478,13 +478,9 @@ export class ListingPageComponent extends Component {
               </div>
               <div className={css.sidebar}>
                 <SectionHeading
-                  priceTitle={priceTitle}
-                  formattedPrice={formattedPrice}
                   richTitle={richTitle}
                   category={category}
                   hostLink={hostLink}
-                  showContactUser={showContactUser}
-                  onContactUser={this.onContactUser}
                 />
 
                 {!isOwnListing ? <SectionMakeOffer /> : null }
@@ -518,7 +514,8 @@ export class ListingPageComponent extends Component {
                     <SectionWatchList />
                   </div>
                   <div className={css.ctaButtonMain}>
-                    <SectionMessageSeller />
+                    <SectionMessageSeller showContactUser={showContactUser}
+                    onContactUser={this.onContactUser} />
                   </div>
                 </div>
                 ) : null}

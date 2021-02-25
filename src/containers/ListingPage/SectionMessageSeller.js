@@ -6,11 +6,16 @@ import { FormattedMessage } from '../../util/reactIntl';
 import css from './ListingPage.module.css';
 
 const SectionMessageSeller = props => {
+  const { showContactUser, onContactUser } = props;
   return (
     <div className={css.SectionWatchList}>
-      <PrimaryButton type="submit" className={css.btn}>
-        <FormattedMessage id="ListingPage.ctaButtonMessageSeller" />
-      </PrimaryButton>
+        {showContactUser ? (
+          <span className={css.contactWrapper}>
+            <PrimaryButton type="submit" className={css.btn} onClick={onContactUser}>
+              <FormattedMessage id="ListingPage.ctaButtonMessageSeller" />
+            </PrimaryButton>
+          </span>
+        ) : null}
     </div>
   );
 };
