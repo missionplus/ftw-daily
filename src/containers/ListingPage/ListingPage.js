@@ -58,6 +58,9 @@ import SectionReviews from './SectionReviews';
 import SectionHostMaybe from './SectionHostMaybe';
 import SectionRulesMaybe from './SectionRulesMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
+import SectionWatchList from './SectionWatchList';
+import SectionMessageSeller from './SectionMessageSeller';
+import SectionMakeOffer from './SectionMakeOffer';
 import css from './ListingPage.module.css';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
@@ -421,101 +424,99 @@ export class ListingPageComponent extends Component {
           <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
           <LayoutWrapperMain>
             <div className={css.containerFluid}>
-              <div className={css.wrapper}>
-                <div className={css.wrapperContent}>
-                  <div className={css.imageContent}>
-                    <SectionImages
-                      title={title}
-                      indexImages={this.state.indexImages}
-                      listing={currentListing}
-                      isOwnListing={isOwnListing}
-                      editParams={{
-                        id: listingId.uuid,
-                        slug: listingSlug,
-                        type: listingType,
-                        tab: listingTab,
-                      }}
-                      imageCarouselOpen={this.state.imageCarouselOpen}
-                      onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
-                      handleViewPhotosClick={handleViewPhotosClick}
-                      onManageDisableScrolling={onManageDisableScrolling}
-                    />
-                    <SectionListImages
-                      title={title}
-                      listing={currentListing}
-                      isOwnListing={isOwnListing}
-                      editParams={{
-                        id: listingId.uuid,
-                        slug: listingSlug,
-                        type: listingType,
-                        tab: listingTab,
-                      }}
-                      handlePhotosClick={handlePhotosClick}
-                    />
+              <div className={css.twoColMain}>
+                <div className={css.imageContent}>
+                  <SectionImages
+                    title={title}
+                    indexImages={this.state.indexImages}
+                    listing={currentListing}
+                    isOwnListing={isOwnListing}
+                    editParams={{
+                      id: listingId.uuid,
+                      slug: listingSlug,
+                      type: listingType,
+                      tab: listingTab,
+                    }}
+                    imageCarouselOpen={this.state.imageCarouselOpen}
+                    onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
+                    handleViewPhotosClick={handleViewPhotosClick}
+                    onManageDisableScrolling={onManageDisableScrolling}
+                  />
+                  <SectionListImages
+                    title={title}
+                    listing={currentListing}
+                    isOwnListing={isOwnListing}
+                    editParams={{
+                      id: listingId.uuid,
+                      slug: listingSlug,
+                      type: listingType,
+                      tab: listingTab,
+                    }}
+                    handlePhotosClick={handlePhotosClick}
+                  />
+                </div>
+                <div className={css.descriptionContent}>
+                  <SectionDescriptionMaybe description={description} />
+                  <SectionDetailMaybe publicData={publicData} />
+                  <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
+                  <SectionHostMaybe
+                    title={title}
+                    listing={currentListing}
+                    authorDisplayName={authorDisplayName}
+                    onContactUser={this.onContactUser}
+                    isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
+                    onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
+                    sendEnquiryError={sendEnquiryError}
+                    sendEnquiryInProgress={sendEnquiryInProgress}
+                    onSubmitEnquiry={this.onSubmitEnquiry}
+                    currentUser={currentUser}
+                    onManageDisableScrolling={onManageDisableScrolling}
+                  />
+                </div>
+              </div>
+              <div className={css.sidebar}>
+                <SectionHeading
+                  priceTitle={priceTitle}
+                  formattedPrice={formattedPrice}
+                  richTitle={richTitle}
+                  category={category}
+                  hostLink={hostLink}
+                  showContactUser={showContactUser}
+                  onContactUser={this.onContactUser}
+                />
+
+                <BookingPanel
+                  className={css.bookingPanel}
+                  listing={currentListing}
+                  isOwnListing={isOwnListing}
+                  unitType={unitType}
+                  onSubmit={handleBookingSubmit}
+                  editParams={{
+                    id: listingId.uuid,
+                    slug: listingSlug,
+                    type: listingType,
+                    tab: listingTab,
+                  }}
+                  // title={bookingTitle}
+                  subTitle={bookingSubTitle}
+                  authorDisplayName={authorDisplayName}
+                  onManageDisableScrolling={onManageDisableScrolling}
+                  timeSlots={timeSlots}
+                  fetchTimeSlotsError={fetchTimeSlotsError}
+                  onFetchTransactionLineItems={onFetchTransactionLineItems}
+                  lineItems={lineItems}
+                  fetchLineItemsInProgress={fetchLineItemsInProgress}
+                  fetchLineItemsError={fetchLineItemsError}
+                />
+                <div className={css.ctaButton}>
+                  <div className={css.ctaButtonMain}>
+                    <SectionWatchList />
                   </div>
-                  <div className={css.container}>
-                    <div className={css.contentContainer}>
-                      {/* <SectionAvatar user={currentAuthor} params={params} /> */}
-                      <div className={css.mainContent}>
-                        <SectionHeading
-                          priceTitle={priceTitle}
-                          formattedPrice={formattedPrice}
-                          richTitle={richTitle}
-                          category={category}
-                          hostLink={hostLink}
-                          showContactUser={showContactUser}
-                          onContactUser={this.onContactUser}
-                        />
-                        <SectionDescriptionMaybe description={description} />
-                        <SectionDetailMaybe publicData={publicData} />
-                        {/* <SectionFeaturesMaybe options={amenityOptions} publicData={publicData} /> */}
-                        {/* <SectionRulesMaybe publicData={publicData} /> */}
-                        {/* <SectionMapMaybe
-                      geolocation={geolocation}
-                      publicData={publicData}
-                      listingId={currentListing.id}
-                    /> */}
-                        <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
-                        <SectionHostMaybe
-                          title={title}
-                          listing={currentListing}
-                          authorDisplayName={authorDisplayName}
-                          onContactUser={this.onContactUser}
-                          isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
-                          onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
-                          sendEnquiryError={sendEnquiryError}
-                          sendEnquiryInProgress={sendEnquiryInProgress}
-                          onSubmitEnquiry={this.onSubmitEnquiry}
-                          currentUser={currentUser}
-                          onManageDisableScrolling={onManageDisableScrolling}
-                        />
-                      </div>
-                      <BookingPanel
-                        className={css.bookingPanel}
-                        listing={currentListing}
-                        isOwnListing={isOwnListing}
-                        unitType={unitType}
-                        onSubmit={handleBookingSubmit}
-                        editParams={{
-                          id: listingId.uuid,
-                          slug: listingSlug,
-                          type: listingType,
-                          tab: listingTab,
-                        }}
-                        // title={bookingTitle}
-                        subTitle={bookingSubTitle}
-                        authorDisplayName={authorDisplayName}
-                        onManageDisableScrolling={onManageDisableScrolling}
-                        timeSlots={timeSlots}
-                        fetchTimeSlotsError={fetchTimeSlotsError}
-                        onFetchTransactionLineItems={onFetchTransactionLineItems}
-                        lineItems={lineItems}
-                        fetchLineItemsInProgress={fetchLineItemsInProgress}
-                        fetchLineItemsError={fetchLineItemsError}
-                      />
-                    </div>
+                  <div className={css.ctaButtonMain}>
+                    <SectionMessageSeller />
                   </div>
                 </div>
+                <SectionMakeOffer />
               </div>
             </div>
           </LayoutWrapperMain>

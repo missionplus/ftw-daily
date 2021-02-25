@@ -72,6 +72,8 @@ const BookingPanel = props => {
     editParams,
   } = props;
 
+  const formattedOffer = 0;
+
   const price = listing.attributes.price;
   const hasListingState = !!listing.attributes.state;
   const isClosed = hasListingState && listing.attributes.state === LISTING_STATE_CLOSED;
@@ -119,37 +121,32 @@ const BookingPanel = props => {
           <h2 className={titleClasses}>{title}</h2>
           {/* {subTitleText ? <div className={css.bookingHelp}>{subTitleText}</div> : null} */}
           <div className={css.priceContainer}>
-            <div className={css.askingPrice}>
+            <div className={`${css.askingPrice} ${css.container}`}>
               <FormattedMessage id="BookingPanel.askingPrice" />
             </div>
-            <div className={css.priceValue} title={priceTitle}>
+            <div className={`${css.priceValue} ${css.container}`} title={priceTitle}>
               {formattedPrice}
             </div>
           </div>
-          {!isOwnListing && (
-            <div className={css.priceContainer}>
-              <div className={css.askingPrice}>
-                <FormattedMessage id="BookingPanel.offer" />
-              </div>
-              <div className={css.priceValue}>
-                <form>
-                  <input id="price" name="price" className={css.priceInput} autoFocus />
-                </form>
-              </div>
+          <div className={css.priceContainer}>
+            <div className={`${css.askingPrice} ${css.container}`}>
+              <FormattedMessage id="BookingPanel.offer" />
             </div>
-          )}
-          {!isOwnListing && (
-            <div className={css.priceContainer}>
-              <div className={css.askingPrice}>
-                <FormattedMessage id="BookingPanel.yourOffer" />
-              </div>
-              <div className={css.priceValue}>
-                <form>
-                  <input id="price" name="price" className={css.priceInput} autoFocus />
-                </form>
-              </div>
+            <div className={`${css.priceValue} ${css.container}`}>
+              {formattedOffer}
             </div>
-          )}
+          </div>
+
+          {/* <div className={css.priceContainer}>
+            <div className={css.askingPrice}>
+              <FormattedMessage id="BookingPanel.yourOffer" />
+            </div>
+            <div className={css.priceValue}>
+              <form>
+                <input id="price" name="price" className={css.priceInput} autoFocus />
+              </form>
+            </div>
+          </div> */}
         </div>
         {showBookingDatesForm ? (
           <BookingDatesForm
