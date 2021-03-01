@@ -12,7 +12,6 @@ const SectionDetailMaybe = props => {
   if (!publicData) {
     return null;
   }
-  console.log(publicData);
   const category = publicData && publicData.category;
   const brand = publicData && publicData.brand;
   const model = publicData && publicData.model;

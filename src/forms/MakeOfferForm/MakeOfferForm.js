@@ -12,22 +12,26 @@ export const MakeOfferFormComponent = props => (
   <FinalForm
     {...props}
     render={formRenderProps => {
-      const { className, handleSubmit } = formRenderProps;
+      const { className, handleSubmit, disabled, pristine, invalid } = formRenderProps;
 
       const classes = classNames(css.root, className);
-
+    
+      const disableButton = disabled || pristine || invalid;
       return (
-        <Form className={classes} onSubmit={handleSubmit}>
+        <Form className={classes} onSubmit={value => {
+          handleSubmit(value)
+        }
+        }>
           <FieldCurrencyInput
-            id="makeOffer"
-            name="makeOffer"
+            id="offer"
+            name="offer"
             className={css.makeOffer}
             autoFocus
             currencyConfig={config.currencyConfig}
             label="Make Offer"
           />
 
-          <Button className={css.submitButton} type="submit">
+          <Button disabled={disableButton} className={css.submitButton} type="submit">
             <FormattedMessage id="MakeOffer.ctaButtonMessage" />
           </Button>
         </Form>

@@ -391,7 +391,7 @@
   "ListingPage.contactUser": "Contact",
   "ListingPage.ctaButtonWatchList": "Add To WatchList",
   "ListingPage.ctaButtonMessageSeller": "Message Seller",
-  
+  "ListingPage.confirmOffer": "This offer is final and canot be cancelled. If you wish to proceed, click the submit button below",
   "ListingPage.descriptionTitle": "About this item",
   "ListingPage.detailTitle": "Technical Specs",
   "ListingPage.categoryTitle": "{category}",
@@ -436,6 +436,7 @@
   "ListingPage.perDay": "per day",
   "ListingPage.perNight": "",
   "ListingPage.perUnit": "per unit",
+  "ListingPage.yourOffer": "Your Offer",
   "ListingPage.reviewsError": "Loading reviews failed.",
   "ListingPage.reviewsHeading": "Reviews ({count})",
   "ListingPage.rulesTitle": "Sauna rules",
@@ -1135,5 +1136,6 @@
   "SellOrConsignPage.ctaButtonConsign": "I want to submit items to consign",
   "BookingPanel.askingPrice": "Asking Price",
   "BookingPanel.offer": "# Offer",
-  "BookingPanel.yourOffer": "Your Offer"
+  "BookingPanel.yourOffer": "Your Offer",
+  "SubmitOffer.submitOffer": "Submit Offer"
 }
