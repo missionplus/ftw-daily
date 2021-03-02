@@ -41,7 +41,8 @@ const EditListingShippingPanel = props => {
             publicData: {
               domestic: { amount: domestic.amount, currency: domestic.currency },
               international: { amount: international.amount, currency: international.currency },
-              payment
+              payment,
+              numberOfOffers: 0,
             },
           };
           onSubmit(updateValues);

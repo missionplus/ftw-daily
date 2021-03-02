@@ -391,7 +391,7 @@
   "ListingPage.contactUser": "Contact",
   "ListingPage.ctaButtonWatchList": "Add To WatchList",
   "ListingPage.ctaButtonMessageSeller": "Message Seller",
-  
+  "ListingPage.confirmOffer": "This offer is final and canot be cancelled. If you wish to proceed, click the submit button below",
   "ListingPage.descriptionTitle": "About this item",
   "ListingPage.detailTitle": "Technical Specs",
   "ListingPage.categoryTitle": "{category}",
@@ -436,12 +436,15 @@
   "ListingPage.perDay": "per day",
   "ListingPage.perNight": "",
   "ListingPage.perUnit": "per unit",
+  "ListingPage.yourOffer": "Your Offer",
   "ListingPage.reviewsError": "Loading reviews failed.",
   "ListingPage.reviewsHeading": "Reviews ({count})",
   "ListingPage.rulesTitle": "Sauna rules",
   "ListingPage.schemaTitle": "{title} - {price} | {siteTitle}",
   "ListingPage.viewImagesButton": "View photos ({count})",
   "ListingPage.yourHostHeading": "Seller",
+  "ListingPage.offerSubmitted": "Thank you for your offer",
+  "ListingPage.offerEmail": "The seller will notify you within 24 hours if your offer is accepted",
   "LocationAutocompleteInput.currentLocation": "Current location",
   "LocationSearchForm.placeholder": "Shop for new music gear...",
   "LoginForm.emailInvalid": "A valid email address is required",
@@ -1135,5 +1138,6 @@
   "SellOrConsignPage.ctaButtonConsign": "I want to submit items to consign",
   "BookingPanel.askingPrice": "Asking Price",
   "BookingPanel.offer": "# Offer",
-  "BookingPanel.yourOffer": "Your Offer"
+  "BookingPanel.yourOffer": "Your Offer",
+  "SubmitOffer.submitOffer": "Submit Offer"
 }

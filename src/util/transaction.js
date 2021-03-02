@@ -43,6 +43,8 @@ export const TRANSITION_CANCEL = 'transition/cancel';
 // The backend will mark the transaction completed.
 export const TRANSITION_COMPLETE = 'transition/complete';
 
+export const TRANSITION_MAKE_BID = 'transition/make-bid';
+
 // Reviews are given through transaction transitions. Review 1 can be
 // by provider or customer, and review 2 will be the other party of
 // the transaction.
@@ -87,6 +89,7 @@ const STATE_ENQUIRY = 'enquiry';
 const STATE_PENDING_PAYMENT = 'pending-payment';
 const STATE_PAYMENT_EXPIRED = 'payment-expired';
 const STATE_PREAUTHORIZED = 'preauthorized';
+const STATE_BID_MADE = 'bid-made';
 const STATE_DECLINED = 'declined';
 const STATE_ACCEPTED = 'accepted';
 const STATE_CANCELED = 'canceled';
@@ -136,6 +139,11 @@ const stateDescription = {
 
     [STATE_PAYMENT_EXPIRED]: {},
     [STATE_PREAUTHORIZED]: {
+      on: {
+        [TRANSITION_MAKE_BID]: STATE_BID_MADE,
+      }
+    },
+    [STATE_BID_MADE]: {
       on: {
         [TRANSITION_DECLINE]: STATE_DECLINED,
         [TRANSITION_EXPIRE]: STATE_DECLINED,

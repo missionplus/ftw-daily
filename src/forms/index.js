@@ -30,3 +30,4 @@ export { default as StripeConnectAccountForm } from './StripeConnectAccountForm/
 export { default as TopbarSearchForm } from './TopbarSearchForm/TopbarSearchForm';
 export { default as VerifyingUserForm } from './VerifyingUserForm/VerifyingUserForm';
 export { default as MakeOfferForm } from './MakeOfferForm/MakeOfferForm';
+export { default as SubmitOfferFormComponent } from './SubmitOfferForm/SubmitOfferForm';

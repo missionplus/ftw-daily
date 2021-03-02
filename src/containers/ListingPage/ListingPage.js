@@ -38,6 +38,7 @@ import {
   LayoutWrapperFooter,
   Footer,
   BookingPanel,
+  Modal,
 } from '../../components';
 import { TopbarContainer, NotFoundPage } from '../../containers';
 
@@ -47,6 +48,9 @@ import {
   setInitialValues,
   fetchTransactionLineItems,
 } from './ListingPage.duck';
+import {
+  requestUpdateListing,
+} from '../EditListingPage/EditListingPage.duck';
 import SectionImages from './SectionImages';
 import SectionListImages from './SectionListImage';
 import SectionAvatar from './SectionAvatar';
@@ -63,6 +67,8 @@ import SectionMessageSeller from './SectionMessageSeller';
 import SectionMakeOffer from './SectionMakeOffer';
 import SectionPrice from './SectionPrice';
 import css from './ListingPage.module.css';
+
+import { SubmitOfferFormComponent } from '../../forms';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -95,14 +101,30 @@ export class ListingPageComponent extends Component {
       imageCarouselOpen: false,
       indexImages: 0,
       enquiryModalOpen: enquiryModalOpenForListingId === params.id,
+      showPreviewOffer: false,
+      offerValue: 0,
+      numberOfOffers: 0,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onContactUser = this.onContactUser.bind(this);
     this.onSubmitEnquiry = this.onSubmitEnquiry.bind(this);
+    this.handleOffer = this.handleOffer.bind(this);
+    this.handleQuitOffer = this.handleQuitOffer.bind(this);
+    this.handleSubmitOffer = this.handleSubmitOffer.bind(this);
   }
 
-  handleSubmit() {
+  handleQuitOffer() {
+    this.setState({ showPreviewOffer: false });
+  }
+
+  handleOffer(value) {
+    this.setState({ showPreviewOffer: true });
+    const { offer } = value;
+    this.setState({ offerValue: offer ? offer.amount : 0 });
+  }
+
+  handleSubmitOffer(offer) {
     const {
       history,
       getListing,
@@ -113,14 +135,50 @@ export class ListingPageComponent extends Component {
     const listingId = new UUID(params.id);
     const listing = getListing(listingId);
 
+    const initialValues = {
+      listing,
+      confirmPaymentError: null,
+    };
+
+    const saveToSessionStorage = !this.props.currentUser;
+
+    const routes = routeConfiguration();
+    // Customize checkout page state with current listing and selected bookingDates
+    const { setInitialValues } = findRouteByRouteName('CheckoutPage', routes);
+
+    callSetInitialValues(setInitialValues, initialValues, saveToSessionStorage);
+
+    // Clear previous Stripe errors from store if there is any
+    onInitializeCardPaymentData();
+
+    // Redirect to CheckoutPage
+    history.push(
+      createResourceLocatorString(
+        'CheckoutPage',
+        routes,
+        { id: listing.id.uuid, slug: createSlug(listing.attributes.title) },
+        {}
+      )
+    );
+  }
+
+  handleSubmit() {
+    const {
+      history,
+      getListing,
+      params,
+      callSetInitialValues,
+      onInitializeCardPaymentData,
+      publicData,
+    } = this.props;
+
+    const listingId = new UUID(params.id);
+    const listing = getListing(listingId);
+
     // const { ...bookingData } = values;
 
     const initialValues = {
       listing,
-      // bookingDates: {
-      //   bookingStart: bookingDates.startDate,
-      //   bookingEnd: bookingDates.endDate,
-      // },
       confirmPaymentError: null,
     };
 
@@ -406,63 +464,66 @@ export class ListingPageComponent extends Component {
         </span>
       ) : null;
 
+    const numberOfOffers = publicData && publicData.numberOfOffers ? publicData.numberOfOffers : 0;
+
     return (
-      <Page
-        title={schemaTitle}
-        scrollingDisabled={scrollingDisabled}
-        author={authorDisplayName}
-        contentType="website"
-        description={description}
-        facebookImages={facebookImages}
-        twitterImages={twitterImages}
-        schema={{
-          '@context': 'http://schema.org',
-          '@type': 'ItemPage',
-          description: description,
-          name: schemaTitle,
-          image: schemaImages,
-        }}
-      >
-        <LayoutSingleColumn className={css.pageRoot}>
-          <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
-          <LayoutWrapperMain>
-            <div className={css.containerFluid}>
-              <div className={css.twoColMain}>
-                <div className={css.imageContent}>
-                  <SectionImages
-                    title={title}
-                    indexImages={this.state.indexImages}
-                    listing={currentListing}
-                    isOwnListing={isOwnListing}
-                    editParams={{
-                      id: listingId.uuid,
-                      slug: listingSlug,
-                      type: listingType,
-                      tab: listingTab,
-                    }}
-                    imageCarouselOpen={this.state.imageCarouselOpen}
-                    onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
-                    handleViewPhotosClick={handleViewPhotosClick}
-                    onManageDisableScrolling={onManageDisableScrolling}
-                  />
-                  <SectionListImages
-                    title={title}
-                    listing={currentListing}
-                    isOwnListing={isOwnListing}
-                    editParams={{
-                      id: listingId.uuid,
-                      slug: listingSlug,
-                      type: listingType,
-                      tab: listingTab,
-                    }}
-                    handlePhotosClick={handlePhotosClick}
-                  />
-                </div>
-                <div className={css.descriptionContent}>
-                  <SectionDescriptionMaybe description={description} />
-                  <SectionDetailMaybe publicData={publicData} />
-                  <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
-                  {/* <SectionHostMaybe
+      <div>
+        <Page
+          title={schemaTitle}
+          scrollingDisabled={scrollingDisabled}
+          author={authorDisplayName}
+          contentType="website"
+          description={description}
+          facebookImages={facebookImages}
+          twitterImages={twitterImages}
+          schema={{
+            '@context': 'http://schema.org',
+            '@type': 'ItemPage',
+            description: description,
+            name: schemaTitle,
+            image: schemaImages,
+          }}
+        >
+          <LayoutSingleColumn className={css.pageRoot}>
+            <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
+            <LayoutWrapperMain>
+              <div className={css.containerFluid}>
+                <div className={css.twoColMain}>
+                  <div className={css.imageContent}>
+                    <SectionImages
+                      title={title}
+                      indexImages={this.state.indexImages}
+                      listing={currentListing}
+                      isOwnListing={isOwnListing}
+                      editParams={{
+                        id: listingId.uuid,
+                        slug: listingSlug,
+                        type: listingType,
+                        tab: listingTab,
+                      }}
+                      imageCarouselOpen={this.state.imageCarouselOpen}
+                      onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
+                      handleViewPhotosClick={handleViewPhotosClick}
+                      onManageDisableScrolling={onManageDisableScrolling}
+                    />
+                    <SectionListImages
+                      title={title}
+                      listing={currentListing}
+                      isOwnListing={isOwnListing}
+                      editParams={{
+                        id: listingId.uuid,
+                        slug: listingSlug,
+                        type: listingType,
+                        tab: listingTab,
+                      }}
+                      handlePhotosClick={handlePhotosClick}
+                    />
+                  </div>
+                  <div className={css.descriptionContent}>
+                    <SectionDescriptionMaybe description={description} />
+                    <SectionDetailMaybe publicData={publicData} />
+                    <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
+                    {/* <SectionHostMaybe
                     title={title}
                     listing={currentListing}
                     authorDisplayName={authorDisplayName}
@@ -475,66 +536,88 @@ export class ListingPageComponent extends Component {
                     currentUser={currentUser}
                     onManageDisableScrolling={onManageDisableScrolling}
                   /> */}
+                  </div>
+                </div>
+                <div className={css.sidebar}>
+                  <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
+                  <SectionPrice priceTitle={priceTitle} formattedPrice={formattedPrice} numberOfOffers={numberOfOffers} />
+                  {!isOwnListing && <SectionMakeOffer onSubmit={this.handleOffer} />}
+
+                  <BookingPanel
+                    className={css.bookingPanel}
+                    listing={currentListing}
+                    isOwnListing={isOwnListing}
+                    unitType={unitType}
+                    onSubmit={handleBookingSubmit}
+                    editParams={{
+                      id: listingId.uuid,
+                      slug: listingSlug,
+                      type: listingType,
+                      tab: listingTab,
+                    }}
+                    // title={bookingTitle}
+                    subTitle={bookingSubTitle}
+                    authorDisplayName={authorDisplayName}
+                    onManageDisableScrolling={onManageDisableScrolling}
+                    timeSlots={timeSlots}
+                    fetchTimeSlotsError={fetchTimeSlotsError}
+                    onFetchTransactionLineItems={onFetchTransactionLineItems}
+                    lineItems={lineItems}
+                    fetchLineItemsInProgress={fetchLineItemsInProgress}
+                    fetchLineItemsError={fetchLineItemsError}
+                  />
+
+                  {!isOwnListing && (
+                    <div className={css.ctaButton}>
+                      <div className={css.ctaButtonMain}>
+                        <SectionWatchList />
+                      </div>
+                      <div className={css.ctaButtonMain}>
+                        <SectionMessageSeller
+                          title={title}
+                          authorDisplayName={authorDisplayName}
+                          showContactUser={showContactUser}
+                          onContactUser={this.onContactUser}
+                          isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
+                          onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
+                          sendEnquiryError={sendEnquiryError}
+                          sendEnquiryInProgress={sendEnquiryInProgress}
+                          onSubmitEnquiry={this.onSubmitEnquiry}
+                          currentUser={currentUser}
+                          onManageDisableScrolling={onManageDisableScrolling}
+                          showContactUser={showContactUser}
+                          onContactUser={this.onContactUser}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className={css.sidebar}>
-                <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
-                <SectionPrice priceTitle={priceTitle} formattedPrice={formattedPrice} />
-                {!isOwnListing && <SectionMakeOffer />}
-                <BookingPanel
-                  className={css.bookingPanel}
-                  listing={currentListing}
-                  isOwnListing={isOwnListing}
-                  unitType={unitType}
-                  onSubmit={handleBookingSubmit}
-                  editParams={{
-                    id: listingId.uuid,
-                    slug: listingSlug,
-                    type: listingType,
-                    tab: listingTab,
-                  }}
-                  // title={bookingTitle}
-                  subTitle={bookingSubTitle}
-                  authorDisplayName={authorDisplayName}
-                  onManageDisableScrolling={onManageDisableScrolling}
-                  timeSlots={timeSlots}
-                  fetchTimeSlotsError={fetchTimeSlotsError}
-                  onFetchTransactionLineItems={onFetchTransactionLineItems}
-                  lineItems={lineItems}
-                  fetchLineItemsInProgress={fetchLineItemsInProgress}
-                  fetchLineItemsError={fetchLineItemsError}
-                />
-
-                {!isOwnListing && (
-                  <div className={css.ctaButton}>
-                    <div className={css.ctaButtonMain}>
-                      <SectionWatchList />
-                    </div>
-                    <div className={css.ctaButtonMain}>
-                      <SectionMessageSeller
-                        title={title}
-                        authorDisplayName={authorDisplayName}
-                        showContactUser={showContactUser}
-                        onContactUser={this.onContactUser}
-                        isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
-                        onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
-                        sendEnquiryError={sendEnquiryError}
-                        sendEnquiryInProgress={sendEnquiryInProgress}
-                        onSubmitEnquiry={this.onSubmitEnquiry}
-                        currentUser={currentUser}
-                        onManageDisableScrolling={onManageDisableScrolling}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </LayoutWrapperMain>
-          <LayoutWrapperFooter>
-            <Footer />
-          </LayoutWrapperFooter>
-        </LayoutSingleColumn>
-      </Page>
+            </LayoutWrapperMain>
+            <LayoutWrapperFooter>
+              <Footer />
+            </LayoutWrapperFooter>
+          </LayoutSingleColumn>
+        </Page>
+        <Modal
+          id="offerModal"
+          isOpen={this.state.showPreviewOffer}
+          onClose={this.handleQuitOffer}
+          onManageDisableScrolling={onManageDisableScrolling}
+          usePortal
+        >
+          <div className={css.modalPayoutDetailsWrapper}>
+            <h1 className={css.modalTitle}>
+              <FormattedMessage id="ListingPage.yourOffer" />
+            </h1>
+            <SubmitOfferFormComponent
+              offerValue={this.state.offerValue}          
+              onSubmit={this.handleSubmitOffer}  
+            >
+            </SubmitOfferFormComponent>
+          </div>
+        </Modal>
+      </div>
     );
   }
 }
@@ -655,6 +738,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchTransactionLineItems(listingId, isOwnListing)),
   onSendEnquiry: (listingId, message) => dispatch(sendEnquiry(listingId, message)),
   onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
+  onCreatingOffer: (value) => dispatch(requestUpdateListing(null, value))
 });
 
 // Note: it is important that the withRouter HOC is **outside** the

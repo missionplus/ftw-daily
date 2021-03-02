@@ -741,3 +741,7 @@
   min-width: 100px;
   margin-right: 30px;
 }
+
+.modalTitle {
+  text-align: center;
+}

@@ -665,7 +665,9 @@ export function requestUpdateListing(tab, data) {
         return dispatch(requestShowListing(payload));
       })
       .then(() => {
-        dispatch(markTabUpdated(tab));
+        if(tab) {
+          dispatch(markTabUpdated(tab));
+        }
         dispatch(updateListingSuccess(updateResponse));
         return updateResponse;
       })
