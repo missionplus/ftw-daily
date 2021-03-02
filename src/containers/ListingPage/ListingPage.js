@@ -124,30 +124,7 @@ export class ListingPageComponent extends Component {
     this.setState({ offerValue: offer ? offer.amount : 0 });
   }
 
-  handleSubmitOffer() {
-    const {
-      history,
-      onCreatingOffer,
-      params,
-    } = this.props;
-
-    const listingId = new UUID(params.id);
-
-    const { offerValue } = this.state;
-
-    // this.setState({ numberOfOffers: numberOfOffers + 1});
-    const publicData = {
-      highestBid: offerValue,
-      numberOfOffers: this.state.numberOfOffers
-    }
-
-    const value = {
-      publicData: publicData
-    }
-    onCreatingOffer( {...value, id: listingId} );
-  }
-
-  handleSubmit() {
+  handleSubmitOffer(offer) {
     const {
       history,
       getListing,
@@ -158,14 +135,50 @@ export class ListingPageComponent extends Component {
     const listingId = new UUID(params.id);
     const listing = getListing(listingId);
 
+    const initialValues = {
+      listing,
+      confirmPaymentError: null,
+    };
+
+    const saveToSessionStorage = !this.props.currentUser;
+
+    const routes = routeConfiguration();
+    // Customize checkout page state with current listing and selected bookingDates
+    const { setInitialValues } = findRouteByRouteName('CheckoutPage', routes);
+
+    callSetInitialValues(setInitialValues, initialValues, saveToSessionStorage);
+
+    // Clear previous Stripe errors from store if there is any
+    onInitializeCardPaymentData();
+
+    // Redirect to CheckoutPage
+    history.push(
+      createResourceLocatorString(
+        'CheckoutPage',
+        routes,
+        { id: listing.id.uuid, slug: createSlug(listing.attributes.title) },
+        {}
+      )
+    );
+  }
+
+  handleSubmit() {
+    const {
+      history,
+      getListing,
+      params,
+      callSetInitialValues,
+      onInitializeCardPaymentData,
+      publicData,
+    } = this.props;
+
+    const listingId = new UUID(params.id);
+    const listing = getListing(listingId);
+
     // const { ...bookingData } = values;
 
     const initialValues = {
       listing,
-      // bookingDates: {
-      //   bookingStart: bookingDates.startDate,
-      //   bookingEnd: bookingDates.endDate,
-      // },
       confirmPaymentError: null,
     };
 
@@ -451,6 +464,8 @@ export class ListingPageComponent extends Component {
         </span>
       ) : null;
 
+    const numberOfOffers = publicData && publicData.numberOfOffers ? publicData.numberOfOffers : 0;
+
     return (
       <div>
         <Page
@@ -525,7 +540,7 @@ export class ListingPageComponent extends Component {
                 </div>
                 <div className={css.sidebar}>
                   <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
-                  <SectionPrice priceTitle={priceTitle} formattedPrice={formattedPrice} />
+                  <SectionPrice priceTitle={priceTitle} formattedPrice={formattedPrice} numberOfOffers={numberOfOffers} />
                   {!isOwnListing && <SectionMakeOffer onSubmit={this.handleOffer} />}
 
                   <BookingPanel

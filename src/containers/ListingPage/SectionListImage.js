@@ -14,7 +14,6 @@ const SectionListImages = props => {
   } = props;
 
   const hasImages = listing.images && listing.images.length > 0;
-  
   const image = listing.images.map((item, index) => {
       return (
           <ResponsiveImage

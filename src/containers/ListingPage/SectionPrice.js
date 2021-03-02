@@ -4,8 +4,8 @@ import { FormattedMessage } from '../../util/reactIntl';
 import css from './ListingPage.module.css';
 
 const SectionPrice = props => {
-  const { priceTitle, formattedPrice } = props;
-  const formattedOffer = 0;
+  const { priceTitle, formattedPrice, numberOfOffers } = props;
+  const formattedOffer = numberOfOffers ? numberOfOffers : 0;
 
   return (
     <div className={css.sectionPrice}>
