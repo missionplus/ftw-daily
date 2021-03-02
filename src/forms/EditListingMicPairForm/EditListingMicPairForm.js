@@ -106,6 +106,7 @@ export const EditListingMicPairFormComponent = props => (
                       name="yearMicPairA"
                       className={css.micpair}
                       type="number"
+                      min={0}
                       label="Year"
                     />
                     <FieldTextInput
@@ -129,6 +130,7 @@ export const EditListingMicPairFormComponent = props => (
                       name="yearMicPairB"
                       className={css.micpair}
                       type="number"
+                      min={0}
                       label="Year"
                     />
                     <FieldTextInput
@@ -478,6 +480,7 @@ export const EditListingMicPairFormComponent = props => (
                   name="yearMicPair"
                   className={css.micpair}
                   type="number"
+                  min={0}
                   label="Year"
                 />
 

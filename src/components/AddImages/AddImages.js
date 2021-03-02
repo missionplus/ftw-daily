@@ -78,6 +78,7 @@ ThumbnailWrapper.propTypes = {
 const AddImages = props => {
   const {
     children,
+    label,
     className,
     thumbnailClassName,
     images,
@@ -87,6 +88,7 @@ const AddImages = props => {
   const classes = classNames(css.root, className);
   return (
     <div className={classes}>
+      {label ? <label>{label}</label> : null}
       {images.map((image, index) => {
         return (
           <ThumbnailWrapper
