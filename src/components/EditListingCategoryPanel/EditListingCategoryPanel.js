@@ -3,13 +3,15 @@ import { bool, func, object, string } from 'prop-types';
 import classNames from 'classnames';
 import { FormattedMessage } from '../../util/reactIntl';
 import { ensureOwnListing } from '../../util/data';
+import { findOptionsForSelectFilter } from '../../util/search';
 import { LISTING_STATE_DRAFT } from '../../util/types';
 import { ListingLink } from '../../components';
-import { EditListingDescriptionForm } from '../../forms';
+import { EditListingCategoryForm } from '../../forms';
+import config from '../../config';
 
-import css from './EditListingDescriptionPanel.module.css';
+import css from './EditListingCategoryPanel.module.css';
 
-const EditListingDescriptionPanel = props => {
+const EditListingCategoryPanel = props => {
   const {
     className,
     rootClassName,
@@ -22,66 +24,58 @@ const EditListingDescriptionPanel = props => {
     panelUpdated,
     updateInProgress,
     errors,
-    images,
-    onImageUpload,
-    onRemoveImage,
-    onUpdateImageOrder
   } = props;
 
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureOwnListing(listing);
-  const { description, title, publicData } = currentListing.attributes;
+  const { publicData } = currentListing.attributes;
 
   const isPublished = currentListing.id && currentListing.attributes.state !== LISTING_STATE_DRAFT;
   const panelTitle = isPublished ? (
     <FormattedMessage
-      id="EditListingDescriptionPanel.title"
+      id="EditListingCategoryPanel.title"
       values={{ listingTitle: <ListingLink listing={listing} /> }}
     />
   ) : (
-    <FormattedMessage id="EditListingDescriptionPanel.createListingTitle" />
+    <FormattedMessage id="EditListingCategoryPanel.createListingTitle" />
   );
 
+  const categoryOptions = findOptionsForSelectFilter('category', config.custom.filters);
   return (
     <div className={classes}>
       <h1 className={css.title}>{panelTitle}</h1>
-      <EditListingDescriptionForm
+      <EditListingCategoryForm
         className={css.form}
-        initialValues={{ title, description, category: publicData.category }}
+        initialValues={{ category: publicData.category }}
         saveActionMsg={submitButtonText}
         onSubmit={values => {
-          const { title, description, category } = values;
+          const { category } = values;
           const updateValues = {
-            title: title.trim(),
-            description,
             publicData: { category },
           };
 
           onSubmit(updateValues);
         }}
-        images={images}
-        onImageUpload={onImageUpload}
-        onRemoveImage={onRemoveImage}
-        onUpdateImageOrder={onUpdateImageOrder}
         onChange={onChange}
         disabled={disabled}
         ready={ready}
         updated={panelUpdated}
         updateInProgress={updateInProgress}
         fetchErrors={errors}
+        categories={categoryOptions}
       />
     </div>
   );
 };
 
-EditListingDescriptionPanel.defaultProps = {
+EditListingCategoryPanel.defaultProps = {
   className: null,
   rootClassName: null,
   errors: null,
   listing: null,
 };
 
-EditListingDescriptionPanel.propTypes = {
+EditListingCategoryPanel.propTypes = {
   className: string,
   rootClassName: string,
 
@@ -96,9 +90,6 @@ EditListingDescriptionPanel.propTypes = {
   panelUpdated: bool.isRequired,
   updateInProgress: bool.isRequired,
   errors: object.isRequired,
-  onImageUpload: func.isRequired,
-  onRemoveImage: func.isRequired,
-  onUpdateImageOrder: func.isRequired
 };
 
-export default EditListingDescriptionPanel;
+export default EditListingCategoryPanel;

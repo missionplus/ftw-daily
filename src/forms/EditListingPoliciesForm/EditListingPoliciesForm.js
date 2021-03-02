@@ -79,6 +79,7 @@ export const EditListingPoliciesFormComponent = props => (
             name="year"
             className={css.policy}
             type="number"
+            min={0}
             label="Year"
           />
 
@@ -102,6 +103,7 @@ export const EditListingPoliciesFormComponent = props => (
             name="quantity"
             className={css.policy}
             type="number"
+            min={0}
             label="Quantity"
           />
 

@@ -10,10 +10,8 @@ import {
 import { ensureListing } from '../../util/data';
 import { createResourceLocatorString } from '../../util/routes';
 import {
-  EditListingAvailabilityPanel,
   EditListingDescriptionPanel,
-  EditListingFeaturesPanel,
-  EditListingLocationPanel,
+  EditListingCategoryPanel,
   EditListingPhotosPanel,
   EditListingPoliciesPanel,
   EditListingPricingPanel,
@@ -25,6 +23,7 @@ import css from './EditListingWizard.module.css';
 
 export const AVAILABILITY = 'availability';
 export const DESCRIPTION = 'description';
+export const CATEGORY = 'category';
 export const FEATURES = 'features';
 export const POLICY = 'policy';
 export const LOCATION = 'location';
@@ -36,6 +35,7 @@ export const SHIPPING = 'shipping';
 // EditListingWizardTab component supports these tabs
 export const SUPPORTED_TABS = [
   DESCRIPTION,
+  CATEGORY,
   POLICY,
   LOCATION,
   PRICING,
@@ -105,6 +105,7 @@ const EditListingWizardTab = props => {
   const isDraftURI = type === LISTING_PAGE_PARAM_TYPE_DRAFT;
   const isNewListingFlow = isNewURI || isDraftURI;
 
+
   const currentListing = ensureListing(listing);
   const imageIds = images => {
     return images ? images.map(img => img.imageId || img.id) : null;
@@ -169,26 +170,32 @@ const EditListingWizardTab = props => {
         <EditListingDescriptionPanel
           {...panelProps(DESCRIPTION)}
           submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+          images={images}
+          onImageUpload={onImageUpload}
+          onRemoveImage={onRemoveImage}
+          onSubmit={values => {
+            onCompleteEditListingWizardTab(tab, values);
+          }}
+          onUpdateImageOrder={onUpdateImageOrder}
+        />
+      );
+    }
+
+    case CATEGORY: {
+      const submitButtonTranslationKey = isNewListingFlow
+        ? 'EditListingWizard.saveNewCategory'
+        : 'EditListingWizard.saveEditCategory';
+      return (
+        <EditListingCategoryPanel
+          {...panelProps(CATEGORY)}
+          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
           onSubmit={values => {
             onCompleteEditListingWizardTab(tab, values);
           }}
         />
       );
     }
-    // case FEATURES: {
-    //   const submitButtonTranslationKey = isNewListingFlow
-    //     ? 'EditListingWizard.saveNewFeatures'
-    //     : 'EditListingWizard.saveEditFeatures';
-    //   return (
-    //     <EditListingFeaturesPanel
-    //       {...panelProps(FEATURES)}
-    //       submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-    //       onSubmit={values => {
-    //         onCompleteEditListingWizardTab(tab, values);
-    //       }}
-    //     />
-    //   );
-    // }
+
     case POLICY: {
       const submitButtonTranslationKey = isNewListingFlow
         ? 'EditListingWizard.saveNewPolicies'
@@ -203,20 +210,7 @@ const EditListingWizardTab = props => {
         />
       );
     }
-    // case LOCATION: {
-    //   const submitButtonTranslationKey = isNewListingFlow
-    //     ? 'EditListingWizard.saveNewLocation'
-    //     : 'EditListingWizard.saveEditLocation';
-    //   return (
-    //     <EditListingLocationPanel
-    //       {...panelProps(LOCATION)}
-    //       submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-    //       onSubmit={values => {
-    //         onCompleteEditListingWizardTab(tab, values);
-    //       }}
-    //     />
-    //   );
-    // }
+
     case PRICING: {
       const submitButtonTranslationKey = isNewListingFlow
         ? 'EditListingWizard.saveNewPricing'
@@ -231,21 +225,7 @@ const EditListingWizardTab = props => {
         />
       );
     }
-    // case AVAILABILITY: {
-    //   const submitButtonTranslationKey = isNewListingFlow
-    //     ? 'EditListingWizard.saveNewAvailability'
-    //     : 'EditListingWizard.saveEditAvailability';
-    //   return (
-    //     <EditListingAvailabilityPanel
-    //       {...panelProps(AVAILABILITY)}
-    //       availability={availability}
-    //       submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-    //       onSubmit={values => {
-    //         onCompleteEditListingWizardTab(tab, values);
-    //       }}
-    //     />
-    //   );
-    // }
+
     case PHOTOS: {
       const submitButtonTranslationKey = isNewListingFlow
         ? 'EditListingWizard.saveNewPhotos'

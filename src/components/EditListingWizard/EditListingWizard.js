@@ -21,6 +21,7 @@ import { StripeConnectAccountForm } from '../../forms';
 import EditListingWizardTab, {
   AVAILABILITY,
   DESCRIPTION,
+  CATEGORY,
   FEATURES,
   POLICY,
   LOCATION,
@@ -40,6 +41,7 @@ const availabilityMaybe = config.enableAvailability ? [AVAILABILITY] : [];
 // and listing publishing happens after last panel.
 export const TABS = [
   DESCRIPTION,
+  CATEGORY,
   // FEATURES,
   POLICY,
   // LOCATION,
@@ -59,6 +61,8 @@ const tabLabel = (intl, tab) => {
   let key = null;
   if (tab === DESCRIPTION) {
     key = 'EditListingWizard.tabLabelDescription';
+  } else if (tab === CATEGORY) {
+    key = 'EditListingWizard.tabLabelCategory';
   } else if (tab === POLICY) {
     key = 'EditListingWizard.tabLabelPolicy';
   } else if (tab === PRICING) {
@@ -95,8 +99,12 @@ const tabCompleted = (tab, listing) => {
   switch (tab) {
     case DESCRIPTION:
       return !!(description && title);
+    case CATEGORY:
+      return !!(publicData && publicData.category);
     case POLICY:
-      return !!(publicData && publicData.category == 'microphones' ? publicData.sellingPair : publicData.condition); 
+      return !!(publicData && publicData.category == 'microphones'
+        ? publicData.sellingPair
+        : publicData.condition);
     case PRICING:
       return !!price;
     case PHOTOS:
@@ -104,7 +112,12 @@ const tabCompleted = (tab, listing) => {
     case HYPERLINK:
       return !!(publicData && publicData.hyperlink);
     case SHIPPING:
-      return !!(publicData && publicData.domestic && publicData.international && publicData.payment);
+      return !!(
+        publicData &&
+        publicData.domestic &&
+        publicData.international &&
+        publicData.payment
+      );
     default:
       return false;
   }
