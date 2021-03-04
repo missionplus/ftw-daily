@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from '../../util/reactIntl';
-import { isScrollingDisabled } from '../../ducks/UI.duck';
+import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/UI.duck';
 import config from '../../config';
 import {
   Page,
@@ -19,13 +19,16 @@ import {
   Footer,
 } from '../../components';
 import { TopbarContainer } from '../../containers';
+import { parse, stringify } from '../../util/urlHelpers';
+import { getListingsById } from '../../ducks/marketplaceData.duck';
+import { landingListings, landingMapListings, setActiveListing } from './LandingPage.duck';
 
 import facebookImage from '../../assets/saunatimeFacebook-1200x630.jpg';
 import twitterImage from '../../assets/saunatimeTwitter-600x314.jpg';
 import css from './LandingPage.module.css';
-
+const RESULT_PAGE_SIZE = 8;
 export const LandingPageComponent = props => {
-  const { history, intl, location, scrollingDisabled } = props;
+  const { history, intl, location, scrollingDisabled, listings } = props;
 
   // Schema for search engines (helps them to understand what this page is about)
   // http://schema.org
@@ -67,7 +70,7 @@ export const LandingPageComponent = props => {
             <li className={css.section}>
               <div className={css.sectionContentFirstChild}>
                 {/* <SectionLocations /> */}
-                <SectionProduct category='hero' />
+                <SectionProduct category='hero' listings={listings} />
               </div>
             </li>
             {/* <li className={css.section}>
@@ -114,10 +117,22 @@ LandingPageComponent.propTypes = {
 };
 
 const mapStateToProps = state => {
+  const {
+    currentPageResultIds,
+  } = state.LandingPage;
+  const listings = getListingsById(state, currentPageResultIds);
   return {
+    listings,
     scrollingDisabled: isScrollingDisabled(state),
   };
 };
+
+const mapDispatchToProps = dispatch => ({
+  onManageDisableScrolling: (componentId, disableScrolling) =>
+    dispatch(manageDisableScrolling(componentId, disableScrolling)),
+  onLandingMapListings: landingParams => dispatch(landingMapListings(landingParams)),
+  onActivateListing: listingId => dispatch(setActiveListing(listingId)),
+});
 
 // Note: it is important that the withRouter HOC is **outside** the
 // connect HOC, otherwise React Router won't rerender any Route
@@ -127,8 +142,28 @@ const mapStateToProps = state => {
 // See: https://github.com/ReactTraining/react-router/issues/4671
 const LandingPage = compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   injectIntl
 )(LandingPageComponent);
+
+LandingPage.loadData = (params, landing) => {
+  const queryParams = parse(landing, {
+    latlng: ['origin'],
+    latlngBounds: ['bounds'],
+  });
+  const { page = 1, address, origin, ...rest } = queryParams;
+  const originMaybe = config.sortSearchByDistance && origin ? { origin } : {};
+  return landingListings({
+    ...rest,
+    ...originMaybe,
+    page,
+    perPage: RESULT_PAGE_SIZE,
+    include: ['author', 'images'],
+    'fields.listing': ['title', 'geolocation', 'price'],
+    'fields.user': ['profile.displayName', 'profile.abbreviatedName'],
+    'fields.image': ['variants.landscape-crop', 'variants.landscape-crop2x'],
+    'limit.images': 1,
+  });
+};
 
 export default LandingPage;

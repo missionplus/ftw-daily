@@ -67,7 +67,7 @@
     width: calc(50% - 12px);
     margin: 0 24px 24px 0;
 
-    &:nth-child(even) {
+    &:nth-child(odd) {
       margin: 0 0 24px 0;
     }
   }
