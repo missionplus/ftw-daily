@@ -48,9 +48,7 @@ import {
   setInitialValues,
   fetchTransactionLineItems,
 } from './ListingPage.duck';
-import {
-  requestUpdateListing,
-} from '../EditListingPage/EditListingPage.duck';
+import { requestUpdateListing } from '../EditListingPage/EditListingPage.duck';
 import SectionImages from './SectionImages';
 import SectionListImages from './SectionListImage';
 import SectionAvatar from './SectionAvatar';
@@ -73,6 +71,7 @@ import { SubmitOfferFormComponent } from '../../forms';
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
 const { UUID } = sdkTypes;
+
 
 const priceData = (price, intl) => {
   if (price && price.currency === config.currency) {
@@ -488,7 +487,118 @@ export class ListingPageComponent extends Component {
             <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
             <LayoutWrapperMain>
               <div className={css.containerFluid}>
-                <div className={css.twoColMain}>
+                <div className={css.mainFluid}>
+                  <div className={css.twoColMain}>
+                    <div className={css.imageContent}>
+                      <SectionImages
+                        title={title}
+                        indexImages={this.state.indexImages}
+                        listing={currentListing}
+                        isOwnListing={isOwnListing}
+                        editParams={{
+                          id: listingId.uuid,
+                          slug: listingSlug,
+                          type: listingType,
+                          tab: listingTab,
+                        }}
+                        imageCarouselOpen={this.state.imageCarouselOpen}
+                        onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
+                        handleViewPhotosClick={handleViewPhotosClick}
+                        onManageDisableScrolling={onManageDisableScrolling}
+                      />
+                      <SectionListImages
+                        title={title}
+                        listing={currentListing}
+                        isOwnListing={isOwnListing}
+                        editParams={{
+                          id: listingId.uuid,
+                          slug: listingSlug,
+                          type: listingType,
+                          tab: listingTab,
+                        }}
+                        handlePhotosClick={handlePhotosClick}
+                      />
+                    </div>
+                    <div className={css.descriptionContent}>
+                      <SectionDescriptionMaybe description={description} />
+                      <SectionDetailMaybe publicData={publicData} />
+                      {/* <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} /> */}
+                      {/* <SectionHostMaybe
+                    title={title}
+                    listing={currentListing}
+                    authorDisplayName={authorDisplayName}
+                    onContactUser={this.onContactUser}
+                    isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
+                    onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
+                    sendEnquiryError={sendEnquiryError}
+                    sendEnquiryInProgress={sendEnquiryInProgress}
+                    onSubmitEnquiry={this.onSubmitEnquiry}
+                    currentUser={currentUser}
+                    onManageDisableScrolling={onManageDisableScrolling}
+                  /> */}
+                    </div>
+                  </div>
+                  <div className={css.sidebar}>
+                    <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
+                    <SectionPrice
+                      priceTitle={priceTitle}
+                      formattedPrice={formattedPrice}
+                      numberOfOffers={numberOfOffers}
+                    />
+                    {!isOwnListing && <SectionMakeOffer onSubmit={this.handleOffer} />}
+
+                    <BookingPanel
+                      className={css.bookingPanel}
+                      listing={currentListing}
+                      isOwnListing={isOwnListing}
+                      unitType={unitType}
+                      onSubmit={handleBookingSubmit}
+                      editParams={{
+                        id: listingId.uuid,
+                        slug: listingSlug,
+                        type: listingType,
+                        tab: listingTab,
+                      }}
+                      // title={bookingTitle}
+                      subTitle={bookingSubTitle}
+                      authorDisplayName={authorDisplayName}
+                      onManageDisableScrolling={onManageDisableScrolling}
+                      timeSlots={timeSlots}
+                      fetchTimeSlotsError={fetchTimeSlotsError}
+                      onFetchTransactionLineItems={onFetchTransactionLineItems}
+                      lineItems={lineItems}
+                      fetchLineItemsInProgress={fetchLineItemsInProgress}
+                      fetchLineItemsError={fetchLineItemsError}
+                    />
+
+                    {!isOwnListing && (
+                      <div className={css.ctaButton}>
+                        <div className={css.ctaButtonMain}>
+                          <SectionWatchList />
+                        </div>
+                        <div className={css.ctaButtonMain}>
+                          <SectionMessageSeller
+                            title={title}
+                            authorDisplayName={authorDisplayName}
+                            showContactUser={showContactUser}
+                            onContactUser={this.onContactUser}
+                            isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
+                            onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
+                            sendEnquiryError={sendEnquiryError}
+                            sendEnquiryInProgress={sendEnquiryInProgress}
+                            onSubmitEnquiry={this.onSubmitEnquiry}
+                            currentUser={currentUser}
+                            onManageDisableScrolling={onManageDisableScrolling}
+                            showContactUser={showContactUser}
+                            onContactUser={this.onContactUser}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className={css.main}>
                   <div className={css.imageContent}>
                     <SectionImages
                       title={title}
@@ -519,78 +629,6 @@ export class ListingPageComponent extends Component {
                       handlePhotosClick={handlePhotosClick}
                     />
                   </div>
-                  <div className={css.descriptionContent}>
-                    <SectionDescriptionMaybe description={description} />
-                    <SectionDetailMaybe publicData={publicData} />
-                    <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
-                    {/* <SectionHostMaybe
-                    title={title}
-                    listing={currentListing}
-                    authorDisplayName={authorDisplayName}
-                    onContactUser={this.onContactUser}
-                    isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
-                    onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
-                    sendEnquiryError={sendEnquiryError}
-                    sendEnquiryInProgress={sendEnquiryInProgress}
-                    onSubmitEnquiry={this.onSubmitEnquiry}
-                    currentUser={currentUser}
-                    onManageDisableScrolling={onManageDisableScrolling}
-                  /> */}
-                  </div>
-                </div>
-                <div className={css.sidebar}>
-                  <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
-                  <SectionPrice priceTitle={priceTitle} formattedPrice={formattedPrice} numberOfOffers={numberOfOffers} />
-                  {!isOwnListing && <SectionMakeOffer onSubmit={this.handleOffer} />}
-
-                  <BookingPanel
-                    className={css.bookingPanel}
-                    listing={currentListing}
-                    isOwnListing={isOwnListing}
-                    unitType={unitType}
-                    onSubmit={handleBookingSubmit}
-                    editParams={{
-                      id: listingId.uuid,
-                      slug: listingSlug,
-                      type: listingType,
-                      tab: listingTab,
-                    }}
-                    // title={bookingTitle}
-                    subTitle={bookingSubTitle}
-                    authorDisplayName={authorDisplayName}
-                    onManageDisableScrolling={onManageDisableScrolling}
-                    timeSlots={timeSlots}
-                    fetchTimeSlotsError={fetchTimeSlotsError}
-                    onFetchTransactionLineItems={onFetchTransactionLineItems}
-                    lineItems={lineItems}
-                    fetchLineItemsInProgress={fetchLineItemsInProgress}
-                    fetchLineItemsError={fetchLineItemsError}
-                  />
-
-                  {!isOwnListing && (
-                    <div className={css.ctaButton}>
-                      <div className={css.ctaButtonMain}>
-                        <SectionWatchList />
-                      </div>
-                      <div className={css.ctaButtonMain}>
-                        <SectionMessageSeller
-                          title={title}
-                          authorDisplayName={authorDisplayName}
-                          showContactUser={showContactUser}
-                          onContactUser={this.onContactUser}
-                          isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
-                          onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
-                          sendEnquiryError={sendEnquiryError}
-                          sendEnquiryInProgress={sendEnquiryInProgress}
-                          onSubmitEnquiry={this.onSubmitEnquiry}
-                          currentUser={currentUser}
-                          onManageDisableScrolling={onManageDisableScrolling}
-                          showContactUser={showContactUser}
-                          onContactUser={this.onContactUser}
-                        />
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </LayoutWrapperMain>
@@ -611,10 +649,9 @@ export class ListingPageComponent extends Component {
               <FormattedMessage id="ListingPage.yourOffer" />
             </h1>
             <SubmitOfferFormComponent
-              offerValue={this.state.offerValue}          
-              onSubmit={this.handleSubmitOffer}  
-            >
-            </SubmitOfferFormComponent>
+              offerValue={this.state.offerValue}
+              onSubmit={this.handleSubmitOffer}
+            ></SubmitOfferFormComponent>
           </div>
         </Modal>
       </div>
@@ -738,7 +775,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchTransactionLineItems(listingId, isOwnListing)),
   onSendEnquiry: (listingId, message) => dispatch(sendEnquiry(listingId, message)),
   onInitializeCardPaymentData: () => dispatch(initializeCardPaymentData()),
-  onCreatingOffer: (value) => dispatch(requestUpdateListing(null, value))
+  onCreatingOffer: value => dispatch(requestUpdateListing(null, value)),
 });
 
 // Note: it is important that the withRouter HOC is **outside** the

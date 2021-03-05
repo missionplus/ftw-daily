@@ -1,84 +1,61 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
-import { lazyLoadWithDimensions } from '../../util/contextHelpers';
 
-import { NamedLink } from '../../components';
 
 import css from './SectionProduct.module.css';
-
-import Electric from './images/electricguitar.jpg';
-import Bass from './images/bassGuitar.jpg';
-import guitars from './images/guitar.jpg';
-
-class ProductImage extends Component {
-  render() {
-    const { alt, ...rest } = this.props;
-    return <img alt={alt} {...rest} />;
-  }
-}
-const LazyImage = lazyLoadWithDimensions(ProductImage);
-
-const productLink = (name, image, searchQuery) => {
-  const nameText = <span className={css.productName}>{name}</span>;
-  return (
-    <NamedLink name="SearchPage" to={{ search: searchQuery }} className={css.product}>
-      <div className={css.imageWrapper}>
-        <div className={css.aspectWrapper}>
-          <LazyImage src={image} alt={name} className={css.productImage} />
-        </div>
-      </div>
-      <div className={css.linkText}>
-        <FormattedMessage
-          id="SectionProduct.listingsInProduct"
-          values={{ product: nameText }}
-        />
-      </div>
-    </NamedLink>
-  );
-};
+import { ListingProduct } from '../../components';
 
 const SectionProduct = props => {
-  const { rootClassName, className } = props;
+  const { rootClassName, className, listings } = props;
+  console.log(listings);
   const classes = classNames(rootClassName || css.root, className);
   let id;
   switch (props.category) {
     case 'hero':
-      id = "SectionProduct.hero"
+      id = 'SectionProduct.hero';
       break;
     case 'newlyList':
-      id = "SectionProduct.newlyList"
+      id = 'SectionProduct.newlyList';
       break;
     case 'mostView':
-      id = "SectionProduct.mostView"
+      id = 'SectionProduct.mostView';
       break;
     case 'watching':
-      id = "SectionProduct.watching"
+      id = 'SectionProduct.watching';
       break;
   }
 
+  // Panel width relative to the viewport
+  const panelMediumWidth = 50;
+  const panelLargeWidth = 62.5;
+  const cardRenderSizes = [
+    '(max-width: 767px) 100vw',
+    `(max-width: 1023px) ${panelMediumWidth}vw`,
+    `(max-width: 1920px) ${panelLargeWidth / 2}vw`,
+    `${panelLargeWidth / 3}vw`,
+  ].join(', ');
   return (
     <div className={classes}>
       <div className={css.title}>
         <FormattedMessage id={id} />
       </div>
-      <div className={css.products}>
-        {productLink(
-          'Acoustic Guitars',
-          guitars,
-          '',
-        )}
-        {productLink(
-          'Electric Guitars',
-          Electric,
-          '',
-        )}
-        {productLink(
-          'Bass Guitars',
-          Bass,
-          '',
-        )}
+      <div className={css.listingCards}>
+        <div className={css.listingCardsInner}>
+          <ul className={css.rowList}>
+            {listings.map(l => (
+              <li className={css.colList}>
+                <ListingProduct
+                  className={css.listingCard}
+                  key={l.id.uuid}
+                  listing={l}
+                  renderSizes={cardRenderSizes}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
