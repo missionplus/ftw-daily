@@ -5,7 +5,7 @@ import { FieldSelect } from '../../components';
 import css from './EditListingPricingForm.module.css';
 
 const CustomListAskingPriceSelect = props => {
-  const { name, id, askingPrice, acceptOffer, intl } = props;
+  const { name, id, askingPrice, acceptOffer, acceptBuyItNow, intl } = props;
   const askingPriceLabel = intl.formatMessage({
     id: 'EditListingPricingForm.askingPriceLabel',
   });
@@ -17,6 +17,12 @@ const CustomListAskingPriceSelect = props => {
   });
   const acceptOfferPlaceholder = intl.formatMessage({
     id: 'EditListingPricingForm.acceptOfferPlaceholder',
+  });
+  const acceptBuyItNowLabel = intl.formatMessage({
+    id: 'EditListingPricingForm.acceptBuyItNowLabel',
+  });
+  const acceptBuyItNowPlaceholder = intl.formatMessage({
+    id: 'EditListingPricingForm.acceptBuyItNowPlaceholder',
   });
 //   const askingPriceRequired = required(
 //     intl.formatMessage({
@@ -51,6 +57,22 @@ const CustomListAskingPriceSelect = props => {
         {acceptOfferPlaceholder}
       </option>
       {acceptOffer.map(c => (
+        <option key={c.key} value={c.key}>
+          {c.label}
+        </option>
+      ))}
+    </FieldSelect>
+  ) : acceptBuyItNow ? (
+    <FieldSelect
+      className={css.askingPrice}
+      name={name}
+      id={id}
+      label={acceptBuyItNowLabel}
+    >
+      <option disabled value="">
+        {acceptBuyItNowPlaceholder}
+      </option>
+      {acceptBuyItNow.map(c => (
         <option key={c.key} value={c.key}>
           {c.label}
         </option>

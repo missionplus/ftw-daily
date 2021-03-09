@@ -45,19 +45,22 @@ const EditListingPricingPanel = props => {
 
   const askingPriceOptions = findOptionsForSelectFilter('askingPrice', config.custom.filters);
   const acceptOfferOptions = findOptionsForSelectFilter('acceptOffer', config.custom.filters);
+  const acceptBuyItNowOptions = findOptionsForSelectFilter('acceptBuyItNow', config.custom.filters);
+
 
   const priceCurrencyValid = price instanceof Money ? price.currency === config.currency : true;
   const form = priceCurrencyValid ? (
     <EditListingPricingForm
       className={css.form}
-      initialValues={{ price, askingPrice: publicData.askingPrice, acceptOffer: publicData.acceptOffer }}
+      initialValues={{ price, askingPrice: publicData.askingPrice, acceptOffer: publicData.acceptOffer, acceptBuyItNow: publicData.acceptBuyItNow }}
       onSubmit={values => {
-        const { price , askingPrice, acceptOffer } = values;
+        const { price , askingPrice, acceptOffer, acceptBuyItNow } = values;
         const updateValues = {
           price,
           publicData: {
             askingPrice,
-            acceptOffer
+            acceptOffer,
+            acceptBuyItNow
           },
         };
         onSubmit(updateValues);
@@ -71,6 +74,7 @@ const EditListingPricingPanel = props => {
       fetchErrors={errors}
       askingPrice={askingPriceOptions}
       acceptOffer={acceptOfferOptions}
+      acceptBuyItNow={acceptBuyItNowOptions}
     />
   ) : (
     <div className={css.priceCurrencyInvalid}>
