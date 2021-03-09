@@ -188,6 +188,24 @@ export const filters = [
     },
   },
   {
+    id: 'acceptBuyItNow',
+    label: 'AcceptBuyItNow',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_acceptBuyItNow'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'yes', label: 'Yes' },
+        { key: 'no', label: 'No' },
+
+      ],
+    },
+  },
+  {
     id: 'original',
     label: 'Original',
     type: 'SelectSingleFilter',

@@ -9,7 +9,14 @@ import { required, bookingDatesRequired, composeValidators } from '../../util/va
 import { START_DATE, END_DATE } from '../../util/dates';
 import { propTypes } from '../../util/types';
 import config from '../../config';
-import { Form, IconSpinner, PrimaryButton, FieldDateRangeInput, NamedLink } from '../../components';
+import {
+  Form,
+  IconSpinner,
+  PrimaryButton,
+  FieldCurrencyInput,
+  NamedLink,
+  Button,
+} from '../../components';
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
 
 import css from './BookingDatesForm.module.css';
@@ -19,7 +26,7 @@ const identity = v => v;
 export class BookingDatesFormComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { focusedInput: null };
+    this.state = { focusedInput: null, showModal: false };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.onFocusedInputChange = this.onFocusedInputChange.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -35,7 +42,7 @@ export class BookingDatesFormComponent extends Component {
   // In case start or end date for the booking is missing
   // focus on that input, otherwise continue with the
   // default handleSubmit function.
-  handleFormSubmit() {
+  handleFormSubmit(e) {
     // const { startDate, endDate } = e.bookingDates || {};
     // if (!startDate) {
     //   e.preventDefault();
@@ -57,7 +64,7 @@ export class BookingDatesFormComponent extends Component {
     //     endDate,
     //   }
     // };
-    this.props.onSubmit();
+    this.props.onSubmit(e);
   }
 
   // When the values of the form are updated we need to fetch
@@ -65,14 +72,13 @@ export class BookingDatesFormComponent extends Component {
   // In case you add more fields to the form, make sure you add
   // the values here to the bookingData object.
   handleOnChange(formValues) {
-    const { startDate, endDate } =
-      formValues.values && formValues.values.bookingDates ? formValues.values.bookingDates : {};
+    const offer = formValues.values && formValues.values.offer ? formValues.values.offer : {};
     const listingId = this.props.listingId;
     const isOwnListing = this.props.isOwnListing;
 
-    if (startDate && endDate && !this.props.fetchLineItemsInProgress) {
+    if (offer && !this.props.fetchLineItemsInProgress) {
       this.props.onFetchTransactionLineItems({
-        bookingData: { startDate, endDate },
+        bookingData: {},
         listingId,
         isOwnListing,
       });
@@ -124,8 +130,11 @@ export class BookingDatesFormComponent extends Component {
             fetchLineItemsInProgress,
             fetchLineItemsError,
             editParams,
+            handleSubmitOffer,
+            acceptOffer,
+            acceptBuyItNow
           } = fieldRenderProps;
-          const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
+          const offer = values && values.offer ? values.offer : 0;
 
           const timeSlotsError = fetchTimeSlotsError ? (
             <p className={css.sideBarError}>
@@ -138,23 +147,21 @@ export class BookingDatesFormComponent extends Component {
           // so we need to pass only booking data that is needed otherwise
           // If you have added new fields to the form that will affect to pricing,
           // you need to add the values to handleOnChange function
-          const bookingData =
-            startDate && endDate
-              ? {
-                  unitType,
-                  startDate,
-                  endDate,
-                }
-              : null;
+          const bookingData = offer
+            ? {
+                unitType,
+                offer,
+              }
+            : null;
 
           const showEstimatedBreakdown =
-            bookingData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
+            bookingData && lineItems && !fetchLineItemsError && !fetchLineItemsInProgress;
 
           const bookingInfoMaybe = showEstimatedBreakdown ? (
             <div className={css.priceBreakdownContainer}>
-              <h3 className={css.priceBreakdownTitle}>
+              {/* <h3 className={css.priceBreakdownTitle}>
                 <FormattedMessage id="BookingDatesForm.priceBreakdownTitle" />
-              </h3>
+              </h3> */}
               <EstimatedBreakdownMaybe bookingData={bookingData} lineItems={lineItems} />
             </div>
           ) : null;
@@ -198,6 +205,18 @@ export class BookingDatesFormComponent extends Component {
                   this.handleOnChange(values);
                 }}
               />
+              {!isOwnListing && acceptOffer === 'yes' && (
+                <FieldCurrencyInput
+                  id="offer"
+                  name="offer"
+                  className={css.makeOffer}
+                  autoFocus
+                  currencyConfig={config.currencyConfig}
+                  label="Make Offer"
+                  disabled={fetchLineItemsInProgress}
+                />
+              )}
+              {bookingInfoMaybe}
               {loadingSpinnerMaybe}
               {bookingInfoErrorMaybe}
               {/* <p className={css.smallPrint}>
@@ -209,11 +228,24 @@ export class BookingDatesFormComponent extends Component {
                   }
                 />
               </p> */}
+
               {!isOwnListing && (
                 <div className={submitButtonClasses}>
-                  <PrimaryButton type="submit">
-                    <FormattedMessage id="BookingDatesForm.requestToBook" />
-                  </PrimaryButton>
+                  {acceptOffer === 'yes' && (
+                    <Button
+                      disabled={!offer}
+                      className={css.makeOffer}
+                      type="button"
+                      onClick={() => {}}
+                    >
+                      <FormattedMessage id="MakeOffer.ctaButtonMessage" />
+                    </Button>
+                  )}
+                  {acceptBuyItNow === 'yes' && (
+                    <PrimaryButton type="submit">
+                      <FormattedMessage id="BookingDatesForm.requestToBook" />
+                    </PrimaryButton>
+                  )}
                 </div>
               )}
               {isOwnListing && (

@@ -4,8 +4,7 @@ import { FormattedMessage } from '../../util/reactIntl';
 import css from './ListingPage.module.css';
 
 const SectionPrice = props => {
-  const { priceTitle, formattedPrice, numberOfOffers } = props;
-  const formattedOffer = numberOfOffers ? numberOfOffers : 0;
+  const { priceTitle, formattedPrice, formattedOfferPrice } = props;
 
   return (
     <div className={css.sectionPrice}>
@@ -17,12 +16,12 @@ const SectionPrice = props => {
           {formattedPrice}
         </div>
       </div>
-      <div className={css.priceContainer}>
+      {/* <div className={css.priceContainer}>
         <div className={`${css.askingPrice} ${css.container}`}>
           <FormattedMessage id="BookingPanel.offer" />
         </div>
-        <div className={`${css.priceValue} ${css.container}`}>{formattedOffer}</div>
-      </div>
+        <div className={`${css.priceValue} ${css.container}`}>{formattedOfferPrice.formattedPrice}</div>
+      </div> */}
     </div>
   );
 };

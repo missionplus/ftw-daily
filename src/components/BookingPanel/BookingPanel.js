@@ -70,9 +70,9 @@ const BookingPanel = props => {
     fetchLineItemsInProgress,
     fetchLineItemsError,
     editParams,
+    acceptOffer,
+    acceptBuyItNow
   } = props;
-
-  const formattedOffer = 0;
 
   const price = listing.attributes.price;
   const hasListingState = !!listing.attributes.state;
@@ -148,14 +148,16 @@ const BookingPanel = props => {
             </div>
           </div> */}
         </div>
-        {showBookingDatesForm ? (
           <BookingDatesForm
             className={css.bookingForm}
             formId="BookingPanel"
             submitButtonWrapperClassName={css.bookingDatesSubmitButtonWrapper}
             unitType={unitType}
             onSubmit={onSubmit}
+            formattedPrice={formattedPrice}
             price={price}
+            acceptOffer={acceptOffer}
+            acceptBuyItNow={acceptBuyItNow}
             editParams={editParams}
             listingId={listing.id}
             isOwnListing={isOwnListing}
@@ -166,7 +168,6 @@ const BookingPanel = props => {
             fetchLineItemsInProgress={fetchLineItemsInProgress}
             fetchLineItemsError={fetchLineItemsError}
           />
-        ) : null}
       </ModalInMobile>
       <div className={css.openBookingForm}>
         <div className={css.priceContainer}>
@@ -216,7 +217,7 @@ BookingPanel.propTypes = {
   isOwnListing: bool,
   unitType: propTypes.bookingUnitType,
   onSubmit: func.isRequired,
-  title: oneOfType([node, string]).isRequired,
+  // title: oneOfType([node, string]).isRequired,
   subTitle: oneOfType([node, string]),
   authorDisplayName: oneOfType([node, string]).isRequired,
   onManageDisableScrolling: func.isRequired,

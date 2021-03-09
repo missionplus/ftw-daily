@@ -596,13 +596,13 @@ export class CheckoutPageComponent extends Component {
     const tx = existingTransaction.booking ? existingTransaction : speculatedTransaction;
     const txBooking = ensureBooking(tx.booking);
     const breakdown =
-      tx.id && txBooking.id ? (
+      tx.id ? (
         <BookingBreakdown
           className={css.bookingBreakdown}
           userRole="customer"
           unitType={config.bookingUnitType}
           transaction={tx}
-          booking={txBooking}
+          booking={tx.booking}
           dateType={DATE_TYPE_DATE}
         />
       ) : null;
