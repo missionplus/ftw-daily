@@ -6,6 +6,7 @@ import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { Form, Button, FieldTextInput } from '../../components';
+import * as validators from '../../util/validators';
 
 import css from './EditListingHyperlinkForm.module.css';
 
@@ -39,6 +40,22 @@ export const EditListingHyperlinkFormComponent = props => (
         </p>
       ) : null;
 
+      const hyperlinkRequiredMessage = intl.formatMessage({
+        id: 'EditListingHyperlinkForm.hyperlinkRequired',
+      });
+      const hyperlinkValidUrlMessage = intl.formatMessage({
+        id: 'EditListingHyperlinkForm.hyperlinkValidUrl',
+      });
+
+      const hyperlinkRequired = validators.required(hyperlinkRequiredMessage);
+
+      const hyperlinkValidUrl = validators.validUrl(hyperlinkValidUrlMessage)
+
+      const hyperlinkValidators = validators.composeValidators(
+        hyperlinkRequired,
+        hyperlinkValidUrl
+      );
+
       const classes = classNames(css.root, className);
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
@@ -55,6 +72,7 @@ export const EditListingHyperlinkFormComponent = props => (
             className={css.hyperlink}
             type="textarea"
             label="Add Url"
+            validate={hyperlinkValidators}
           />
 
           <Button

@@ -226,11 +226,20 @@ export const validSGID = message => value => {
 export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), VALID);
 
-// not match password 
+// not match password
 export const notMatch = (message, oldPassword) => value => {
   if (typeof value !== undefined && typeof oldPassword !== undefined) {
     if (value !== oldPassword) {
       return message;
     }
   }
+};
+
+export const validUrl = message => value => {
+  if (typeof value === 'undefined' || value === null) {
+    return message;
+  }
+  const pattern = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+  const invalidUrl = !!value.match(pattern);
+  return invalidUrl ? VALID : message;
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from '../../util/reactIntl';
 import { richText } from '../../util/richText';
+import { ExternalLink } from '../../components';
 
 import css from './ListingPage.module.css';
 
@@ -17,12 +18,12 @@ const SectionHyperlinkMaybe = props => {
       <h2 className={css.descriptionTitle}>
         <FormattedMessage id="ListingPage.hyperlinkTitle" />
       </h2>
-      <p className={css.hyperlink}>
+      <ExternalLink href={hyperlink} className={css.hyperlink}>
         {richText(hyperlink, {
           longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
           longWordClass: css.longWord,
         })}
-      </p>
+      </ExternalLink>
     </div>
   ) : null;
 };

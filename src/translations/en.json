@@ -247,6 +247,7 @@
   "EditListingPoliciesPanel.title": "Edit the rules of {listingTitle}",
   "EditListingHyperlinkPanel.createListingTitle": "Discogs, CDDB search bar hyperlink",
   "EditListingHyperlinkForm.hyperlinkRequired": "A hyperlink is required.",
+  "EditListingHyperlinkForm.hyperlinkValidUrl": "A hyperlink is valid Url.",
   "EditListingPricingForm.priceInputPlaceholder": "Choose your price…",
   "EditListingPricingForm.pricePerDay": "Price per day in USD",
   "EditListingPricingForm.pricePerNight": "Asking Price",
