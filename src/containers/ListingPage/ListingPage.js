@@ -71,7 +71,7 @@ import { SubmitOfferFormComponent } from '../../forms';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
-const { UUID } = sdkTypes;
+const { UUID, Money } = sdkTypes;
 
 const priceData = (price, intl) => {
   if (price && price.currency === config.currency) {
@@ -102,7 +102,6 @@ export class ListingPageComponent extends Component {
       enquiryModalOpen: enquiryModalOpenForListingId === params.id,
       showPreviewOffer: false,
       offerValue: 0,
-      numberOfOffers: 0,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -123,7 +122,7 @@ export class ListingPageComponent extends Component {
     this.setState({ offerValue: offer ? offer.amount : 0 });
   }
 
-  handleSubmitOffer(offer) {
+  handleSubmitOffer() {
     const {
       history,
       getListing,
@@ -161,7 +160,7 @@ export class ListingPageComponent extends Component {
     );
   }
 
-  handleSubmit() {
+  handleSubmit(values) {
     const {
       history,
       getListing,
@@ -173,11 +172,11 @@ export class ListingPageComponent extends Component {
 
     const listingId = new UUID(params.id);
     const listing = getListing(listingId);
-
-    // const { ...bookingData } = values;
+    const { ...offer } = values;
 
     const initialValues = {
       listing,
+      offer,
       confirmPaymentError: null,
     };
 
@@ -312,6 +311,9 @@ export class ListingPageComponent extends Component {
       publicData,
     } = currentListing.attributes;
 
+    const acceptOffer = publicData && publicData.acceptOffer ? publicData.acceptOffer : null;
+    const acceptBuyItNow = publicData && publicData.acceptBuyItNow ? publicData.acceptBuyItNow : null;
+
     const richTitle = (
       <span>
         {richText(title, {
@@ -408,12 +410,16 @@ export class ListingPageComponent extends Component {
 
     const { formattedPrice, priceTitle } = priceData(price, intl);
 
-    const handleBookingSubmit = () => {
+    const offerMoney = new Money(this.state.offerValue, config.currency);
+    
+    const formattedOfferPrice = priceData(offerMoney, intl);
+
+    const handleBookingSubmit = values => {
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
       if (isOwnListing || isCurrentlyClosed) {
         window.scrollTo(0, 0);
       } else {
-        this.handleSubmit();
+        this.handleSubmit(values);
       }
     };
 
@@ -463,7 +469,6 @@ export class ListingPageComponent extends Component {
         </span>
       ) : null;
 
-    const numberOfOffers = publicData && publicData.numberOfOffers ? publicData.numberOfOffers : 0;
     return (
       <div>
         <Page
@@ -495,7 +500,7 @@ export class ListingPageComponent extends Component {
                     <SectionPrice
                       priceTitle={priceTitle}
                       formattedPrice={formattedPrice}
-                      numberOfOffers={numberOfOffers}
+                      // numberOfOffers={numberOfOffers}
                     />
                     <BookingPanel
                       className={css.bookingPanel}
@@ -503,6 +508,8 @@ export class ListingPageComponent extends Component {
                       isOwnListing={isOwnListing}
                       unitType={unitType}
                       onSubmit={handleBookingSubmit}
+                      acceptOffer={acceptOffer}
+                      acceptBuyItNow={acceptBuyItNow}
                       editParams={{
                         id: listingId.uuid,
                         slug: listingSlug,
@@ -586,7 +593,7 @@ export class ListingPageComponent extends Component {
                   </div>
                   <div className={css.sidebar}>
                     <SectionDetailMaybe publicData={publicData} />
-                    {!isOwnListing && <SectionMakeOffer onSubmit={this.handleOffer} />}
+                    {/* {!isOwnListing && <SectionMakeOffer onSubmit={this.handleOffer} />} */}
                   </div>
                 </div>
 
