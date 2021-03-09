@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { maxLength, required, composeValidators, nonEmptyArray } from '../../util/validators';
 import { Form, Button, FieldTextInput, AddImages, ValidationError } from '../../components';
+import { FieldArray } from 'react-final-form-arrays';
+import arrayMutators from 'final-form-arrays'
 
 import css from './EditListingDescriptionForm.module.css';
 import { Fragment } from 'react';
@@ -16,17 +18,11 @@ const ACCEPT_IMAGES = 'image/*';
 export class EditListingDescriptionFormComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { imageUploadRequested: false, inputs: this.props.inputs || [] };
+    this.state = { imageUploadRequested: false };
     this.onImageUploadHandler = this.onImageUploadHandler.bind(this);
     this.submittedImages = [];
-    this.handleNewParagraph = this.handleNewParagraph.bind(this);
   }
 
-  componentDidMount() {
-    const paragraph = this.props.listing.attributes?.publicData?.paragraph || []
-    const inputs = paragraph?.length ? paragraph.map(el => Object.keys(el)[0]) : []
-    this.setState({ inputs: [...this.state.inputs, ...inputs]})
-  }
   onImageUploadHandler(file) {
     if (file) {
       this.setState({ imageUploadRequested: true });
@@ -40,20 +36,17 @@ export class EditListingDescriptionFormComponent extends Component {
         });
     }
   }
-  handleNewParagraph(e) {
-    e.preventDefault();
-    const newInput = `description_${this.state.inputs.length}`;
-    this.setState(prevState => ({ inputs: prevState.inputs.concat([newInput]) }));
-  }
   render() {
     return (
       <FinalForm
         {...this.props}
         onImageUploadHandler={this.onImageUploadHandler}
         imageUploadRequested={this.state.imageUploadRequested}
+        mutators={{
+          ...arrayMutators
+        }}
         render={formRenderProps => {
           const {
-            form,
             className,
             disabled,
             ready,
@@ -69,6 +62,10 @@ export class EditListingDescriptionFormComponent extends Component {
             onImageUploadHandler,
             onRemoveImage,
             imageUploadRequested,
+            form: {
+              mutators: { push, pop }
+            },
+            values
           } = formRenderProps;
           const titleMessage = intl.formatMessage({ id: 'EditListingDescriptionForm.title' });
           const titlePlaceholderMessage = intl.formatMessage({
@@ -139,7 +136,7 @@ export class EditListingDescriptionFormComponent extends Component {
           const imageRequiredMessage = intl.formatMessage({
             id: 'EditListingPhotosForm.imageRequired',
           });
-
+          
           return (
             <Form className={classes} onSubmit={handleSubmit}>
               {errorMessageCreateListingDraft}
@@ -225,12 +222,13 @@ export class EditListingDescriptionFormComponent extends Component {
                 />
               </AddImages>
 
-              {this.state.inputs.map((element, index) => {
-                return (
-                  <Fragment key={index}>
+              <FieldArray name="paragraph">
+                {({ fields }) =>
+                  fields.map((name, index) => (
+                    <Fragment key={name}>
                     <FieldTextInput
-                      id={element}
-                      name={element}
+                      id={`${name}.description`}
+                      name={`${name}.description`}
                       className={css.description}
                       type="textarea"
                       label={descriptionMessage}
@@ -297,10 +295,11 @@ export class EditListingDescriptionFormComponent extends Component {
                       />
                     </AddImages>
                   </Fragment>
-                );
-              })}
+                  ))
+                }
+              </FieldArray>
 
-              <Button className={css.paragraph} type="button" onClick={this.handleNewParagraph}>
+              <Button className={css.paragraph} type="button" onClick={() => push('paragraph', undefined)}>
                 <FormattedMessage id="EditListingDescriptionForm.addNewParagraph" />
               </Button>
               <Button

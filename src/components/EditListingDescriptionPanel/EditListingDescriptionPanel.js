@@ -34,12 +34,7 @@ const EditListingDescriptionPanel = props => {
   const { description, title, publicData } = currentListing.attributes;
 
   const paragraph = publicData && publicData.paragraph ? publicData.paragraph : [];
-  let discripttions = {}
-  if (paragraph.length > 0) {
-    for (let i of paragraph) {
-      discripttions= {...discripttions, ...i}
-    }
-  }
+
   const isPublished = currentListing.id && currentListing.attributes.state !== LISTING_STATE_DRAFT;
   const panelTitle = isPublished ? (
     <FormattedMessage
@@ -55,17 +50,11 @@ const EditListingDescriptionPanel = props => {
       <h1 className={css.title}>{panelTitle}</h1>
       <EditListingDescriptionForm
         className={css.form}
-        initialValues={{ title, description, ...discripttions }}
+        initialValues={{ title, description, paragraph }}
         saveActionMsg={submitButtonText}
         onSubmit={values => {
-          const { title, description } = values;
-          const paragraph = []
-          const newDescription = pickBy(values, (value, key) => key.startsWith('description_'));
-          for (const [key, value] of Object.entries(newDescription)) {
-            paragraph.push({[key]: value})
-          }
-
-
+          console.log(values);
+          const { title, description, paragraph } = values;
           const updateValues = {
             title: title.trim(),
             description,

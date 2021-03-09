@@ -73,7 +73,6 @@ const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
 const { UUID } = sdkTypes;
 
-
 const priceData = (price, intl) => {
   if (price && price.currency === config.currency) {
     const formattedPrice = formatMoney(intl, price);
@@ -487,6 +486,67 @@ export class ListingPageComponent extends Component {
             <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
             <LayoutWrapperMain>
               <div className={css.containerFluid}>
+                <div className={css.topMainFluid}>
+                  <div className={css.colTitle}>
+                    <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
+                  </div>
+                  <div className={css.colRight}>
+                    <div className={css.colRightMain}>
+                    <SectionPrice
+                      priceTitle={priceTitle}
+                      formattedPrice={formattedPrice}
+                      numberOfOffers={numberOfOffers}
+                    />
+                    <BookingPanel
+                      className={css.bookingPanel}
+                      listing={currentListing}
+                      isOwnListing={isOwnListing}
+                      unitType={unitType}
+                      onSubmit={handleBookingSubmit}
+                      editParams={{
+                        id: listingId.uuid,
+                        slug: listingSlug,
+                        type: listingType,
+                        tab: listingTab,
+                      }}
+                      // title={bookingTitle}
+                      subTitle={bookingSubTitle}
+                      authorDisplayName={authorDisplayName}
+                      onManageDisableScrolling={onManageDisableScrolling}
+                      timeSlots={timeSlots}
+                      fetchTimeSlotsError={fetchTimeSlotsError}
+                      onFetchTransactionLineItems={onFetchTransactionLineItems}
+                      lineItems={lineItems}
+                      fetchLineItemsInProgress={fetchLineItemsInProgress}
+                      fetchLineItemsError={fetchLineItemsError}
+                    />
+                    {!isOwnListing && (
+                      <div className={css.ctaButton}>
+                        <div className={css.ctaButtonMain}>
+                          <SectionWatchList />
+                        </div>
+                        <div className={css.ctaButtonMain}>
+                          <SectionMessageSeller
+                            title={title}
+                            authorDisplayName={authorDisplayName}
+                            showContactUser={showContactUser}
+                            onContactUser={this.onContactUser}
+                            isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
+                            onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
+                            sendEnquiryError={sendEnquiryError}
+                            sendEnquiryInProgress={sendEnquiryInProgress}
+                            onSubmitEnquiry={this.onSubmitEnquiry}
+                            currentUser={currentUser}
+                            onManageDisableScrolling={onManageDisableScrolling}
+                            showContactUser={showContactUser}
+                            onContactUser={this.onContactUser}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    </div>
+                  </div>
+                </div>
                 <div className={css.mainFluid}>
                   <div className={css.twoColMain}>
                     <div className={css.imageContent}>
@@ -521,81 +581,12 @@ export class ListingPageComponent extends Component {
                     </div>
                     <div className={css.descriptionContent}>
                       <SectionDescriptionMaybe description={description} publicData={publicData} />
-                      <SectionDetailMaybe publicData={publicData} />
                       <SectionHyperlinkMaybe publicData={publicData} />
-                      {/* <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} /> */}
-                      {/* <SectionHostMaybe
-                    title={title}
-                    listing={currentListing}
-                    authorDisplayName={authorDisplayName}
-                    onContactUser={this.onContactUser}
-                    isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
-                    onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
-                    sendEnquiryError={sendEnquiryError}
-                    sendEnquiryInProgress={sendEnquiryInProgress}
-                    onSubmitEnquiry={this.onSubmitEnquiry}
-                    currentUser={currentUser}
-                    onManageDisableScrolling={onManageDisableScrolling}
-                  /> */}
                     </div>
                   </div>
                   <div className={css.sidebar}>
-                    <SectionHeading richTitle={richTitle} category={category} hostLink={hostLink} />
-                    <SectionPrice
-                      priceTitle={priceTitle}
-                      formattedPrice={formattedPrice}
-                      numberOfOffers={numberOfOffers}
-                    />
+                    <SectionDetailMaybe publicData={publicData} />
                     {!isOwnListing && <SectionMakeOffer onSubmit={this.handleOffer} />}
-
-                    <BookingPanel
-                      className={css.bookingPanel}
-                      listing={currentListing}
-                      isOwnListing={isOwnListing}
-                      unitType={unitType}
-                      onSubmit={handleBookingSubmit}
-                      editParams={{
-                        id: listingId.uuid,
-                        slug: listingSlug,
-                        type: listingType,
-                        tab: listingTab,
-                      }}
-                      // title={bookingTitle}
-                      subTitle={bookingSubTitle}
-                      authorDisplayName={authorDisplayName}
-                      onManageDisableScrolling={onManageDisableScrolling}
-                      timeSlots={timeSlots}
-                      fetchTimeSlotsError={fetchTimeSlotsError}
-                      onFetchTransactionLineItems={onFetchTransactionLineItems}
-                      lineItems={lineItems}
-                      fetchLineItemsInProgress={fetchLineItemsInProgress}
-                      fetchLineItemsError={fetchLineItemsError}
-                    />
-
-                    {!isOwnListing && (
-                      <div className={css.ctaButton}>
-                        <div className={css.ctaButtonMain}>
-                          <SectionWatchList />
-                        </div>
-                        <div className={css.ctaButtonMain}>
-                          <SectionMessageSeller
-                            title={title}
-                            authorDisplayName={authorDisplayName}
-                            showContactUser={showContactUser}
-                            onContactUser={this.onContactUser}
-                            isEnquiryModalOpen={isAuthenticated && this.state.enquiryModalOpen}
-                            onCloseEnquiryModal={() => this.setState({ enquiryModalOpen: false })}
-                            sendEnquiryError={sendEnquiryError}
-                            sendEnquiryInProgress={sendEnquiryInProgress}
-                            onSubmitEnquiry={this.onSubmitEnquiry}
-                            currentUser={currentUser}
-                            onManageDisableScrolling={onManageDisableScrolling}
-                            showContactUser={showContactUser}
-                            onContactUser={this.onContactUser}
-                          />
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
 
