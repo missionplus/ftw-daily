@@ -55,6 +55,7 @@ import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
 import SectionDescriptionMaybe from './SectionDescriptionMaybe';
 import SectionDetailMaybe from './SectionDetailMaybe';
+import SectionHyperlinkMaybe from './SectionHyperlinkMaybe';
 import SectionFeaturesMaybe from './SectionFeaturesMaybe';
 import SectionReviews from './SectionReviews';
 import SectionHostMaybe from './SectionHostMaybe';
@@ -469,7 +470,6 @@ export class ListingPageComponent extends Component {
         </span>
       ) : null;
 
-
     return (
       <div>
         <Page
@@ -525,8 +525,9 @@ export class ListingPageComponent extends Component {
                       />
                     </div>
                     <div className={css.descriptionContent}>
-                      <SectionDescriptionMaybe description={description} />
+                      <SectionDescriptionMaybe description={description} publicData={publicData} />
                       <SectionDetailMaybe publicData={publicData} />
+                      <SectionHyperlinkMaybe publicData={publicData} />
                       {/* <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} /> */}
                       {/* <SectionHostMaybe
                     title={title}

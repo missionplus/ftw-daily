@@ -155,8 +155,6 @@ export const EditListingPageComponent = props => {
     const currentListingImages =
       currentListing && currentListing.images ? currentListing.images : [];
 
-      console.log(currentListing)
-
     // Images not yet connected to the listing
     const imageOrder = page.imageOrder || [];
     const unattachedImages = imageOrder.map(i => page.images[i]);

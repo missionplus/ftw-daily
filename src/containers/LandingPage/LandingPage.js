@@ -28,7 +28,7 @@ import twitterImage from '../../assets/saunatimeTwitter-600x314.jpg';
 import css from './LandingPage.module.css';
 const RESULT_PAGE_SIZE = 8;
 export const LandingPageComponent = props => {
-  const { history, intl, location, scrollingDisabled, listings } = props;
+  const { history, intl, location, scrollingDisabled, listings, onActivateListing } = props;
 
   // Schema for search engines (helps them to understand what this page is about)
   // http://schema.org
@@ -70,7 +70,7 @@ export const LandingPageComponent = props => {
             <li className={css.section}>
               <div className={css.sectionContentFirstChild}>
                 {/* <SectionLocations /> */}
-                <SectionProduct category='hero' listings={listings} />
+                <SectionProduct category='hero' listings={listings} onActivateListing={onActivateListing} />
               </div>
             </li>
             {/* <li className={css.section}>

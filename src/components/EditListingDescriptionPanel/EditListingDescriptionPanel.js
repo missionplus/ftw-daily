@@ -6,6 +6,7 @@ import { ensureOwnListing } from '../../util/data';
 import { LISTING_STATE_DRAFT } from '../../util/types';
 import { ListingLink } from '../../components';
 import { EditListingDescriptionForm } from '../../forms';
+import pickBy from 'lodash/pickBy';
 
 import css from './EditListingDescriptionPanel.module.css';
 
@@ -32,6 +33,13 @@ const EditListingDescriptionPanel = props => {
   const currentListing = ensureOwnListing(listing);
   const { description, title, publicData } = currentListing.attributes;
 
+  const paragraph = publicData && publicData.paragraph ? publicData.paragraph : [];
+  let discripttions = {}
+  if (paragraph.length > 0) {
+    for (let i of paragraph) {
+      discripttions= {...discripttions, ...i}
+    }
+  }
   const isPublished = currentListing.id && currentListing.attributes.state !== LISTING_STATE_DRAFT;
   const panelTitle = isPublished ? (
     <FormattedMessage
@@ -47,16 +55,22 @@ const EditListingDescriptionPanel = props => {
       <h1 className={css.title}>{panelTitle}</h1>
       <EditListingDescriptionForm
         className={css.form}
-        initialValues={{ title, description, category: publicData.category }}
+        initialValues={{ title, description, ...discripttions }}
         saveActionMsg={submitButtonText}
         onSubmit={values => {
-          const { title, description, category } = values;
+          const { title, description } = values;
+          const paragraph = []
+          const newDescription = pickBy(values, (value, key) => key.startsWith('description_'));
+          for (const [key, value] of Object.entries(newDescription)) {
+            paragraph.push({[key]: value})
+          }
+
+
           const updateValues = {
             title: title.trim(),
             description,
-            publicData: { category },
+            publicData: { paragraph },
           };
-
           onSubmit(updateValues);
         }}
         images={images}
@@ -69,6 +83,7 @@ const EditListingDescriptionPanel = props => {
         updated={panelUpdated}
         updateInProgress={updateInProgress}
         fetchErrors={errors}
+        listing={listing}
       />
     </div>
   );

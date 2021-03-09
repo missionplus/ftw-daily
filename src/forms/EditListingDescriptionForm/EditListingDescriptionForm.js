@@ -6,19 +6,26 @@ import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { maxLength, required, composeValidators, nonEmptyArray } from '../../util/validators';
-import { Form, Button, FieldTextInput, AddImages, ValidationError  } from '../../components';
+import { Form, Button, FieldTextInput, AddImages, ValidationError } from '../../components';
 
 import css from './EditListingDescriptionForm.module.css';
+import { Fragment } from 'react';
 
 const TITLE_MAX_LENGTH = 60;
 const ACCEPT_IMAGES = 'image/*';
-
 export class EditListingDescriptionFormComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { imageUploadRequested: false };
+    this.state = { imageUploadRequested: false, inputs: this.props.inputs || [] };
     this.onImageUploadHandler = this.onImageUploadHandler.bind(this);
     this.submittedImages = [];
+    this.handleNewParagraph = this.handleNewParagraph.bind(this);
+  }
+
+  componentDidMount() {
+    const paragraph = this.props.listing.attributes?.publicData?.paragraph || []
+    const inputs = paragraph?.length ? paragraph.map(el => Object.keys(el)[0]) : []
+    this.setState({ inputs: [...this.state.inputs, ...inputs]})
   }
   onImageUploadHandler(file) {
     if (file) {
@@ -32,6 +39,11 @@ export class EditListingDescriptionFormComponent extends Component {
           this.setState({ imageUploadRequested: false });
         });
     }
+  }
+  handleNewParagraph(e) {
+    e.preventDefault();
+    const newInput = `description_${this.state.inputs.length}`;
+    this.setState(prevState => ({ inputs: prevState.inputs.concat([newInput]) }));
   }
   render() {
     return (
@@ -58,7 +70,6 @@ export class EditListingDescriptionFormComponent extends Component {
             onRemoveImage,
             imageUploadRequested,
           } = formRenderProps;
-
           const titleMessage = intl.formatMessage({ id: 'EditListingDescriptionForm.title' });
           const titlePlaceholderMessage = intl.formatMessage({
             id: 'EditListingDescriptionForm.titlePlaceholder',
@@ -145,7 +156,6 @@ export class EditListingDescriptionFormComponent extends Component {
                 validate={composeValidators(required(titleRequiredMessage), maxLength60Message)}
                 autoFocus
               />
-
               <FieldTextInput
                 id="description"
                 name="description"
@@ -155,7 +165,6 @@ export class EditListingDescriptionFormComponent extends Component {
                 placeholder={descriptionPlaceholderMessage}
                 validate={composeValidators(required(descriptionRequiredMessage))}
               />
-
               <AddImages
                 className={css.imagesField}
                 label={descriptionImage}
@@ -216,6 +225,84 @@ export class EditListingDescriptionFormComponent extends Component {
                 />
               </AddImages>
 
+              {this.state.inputs.map((element, index) => {
+                return (
+                  <Fragment key={index}>
+                    <FieldTextInput
+                      id={element}
+                      name={element}
+                      className={css.description}
+                      type="textarea"
+                      label={descriptionMessage}
+                      placeholder={descriptionPlaceholderMessage}
+                      validate={composeValidators(required(descriptionRequiredMessage))}
+                    />
+                    <AddImages
+                      className={css.imagesField}
+                      label={descriptionImage}
+                      // images={images}
+                      thumbnailClassName={css.thumbnail}
+                      savedImageAltText={intl.formatMessage({
+                        id: 'EditListingPhotosForm.savedImageAltText',
+                      })}
+                      onRemoveImage={onRemoveImage}
+                    >
+                      <Field
+                        id="addImage"
+                        name="addImage"
+                        accept={ACCEPT_IMAGES}
+                        form={null}
+                        label={chooseImageText}
+                        type="file"
+                        disabled={imageUploadRequested}
+                      >
+                        {fieldprops => {
+                          const { accept, input, label, disabled: fieldDisabled } = fieldprops;
+                          const { name, type } = input;
+                          const onChange = e => {
+                            const file = e.target.files[0];
+                            form.change(`addImage`, file);
+                            form.blur(`addImage`);
+                            onImageUploadHandler(file);
+                          };
+                          const inputProps = { accept, id: name, name, onChange, type };
+                          return (
+                            <div className={css.addImageWrapper}>
+                              <div className={css.aspectRatioWrapper}>
+                                {fieldDisabled ? null : (
+                                  <input {...inputProps} className={css.addImageInput} />
+                                )}
+                                <label htmlFor={name} className={css.addImage}>
+                                  {label}
+                                </label>
+                              </div>
+                            </div>
+                          );
+                        }}
+                      </Field>
+
+                      <Field
+                        component={props => {
+                          const { input, meta } = props;
+                          return (
+                            <div className={css.imageRequiredWrapper}>
+                              <input {...input} />
+                              <ValidationError fieldMeta={meta} />
+                            </div>
+                          );
+                        }}
+                        name="images"
+                        type="hidden"
+                        // validate={composeValidators(nonEmptyArray(imageRequiredMessage))}
+                      />
+                    </AddImages>
+                  </Fragment>
+                );
+              })}
+
+              <Button className={css.paragraph} type="button" onClick={this.handleNewParagraph}>
+                <FormattedMessage id="EditListingDescriptionForm.addNewParagraph" />
+              </Button>
               <Button
                 className={css.submitButton}
                 type="submit"

@@ -190,3 +190,13 @@
     margin-bottom: 0;
   }
 }
+
+.paragraph {
+  border: 1px solid #2ecc71;
+  background: none;
+  color: #2ecc71;
+}
+.paragraph:hover, .paragraph:focus {
+  background: none;
+  box-shadow: none;
+}
