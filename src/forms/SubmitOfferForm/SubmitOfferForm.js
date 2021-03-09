@@ -42,31 +42,20 @@ export class SubmitOfferFormComponent extends Component {
 
           const classes = classNames(css.root, className);
 
-          let offerSubmitted = false;
-
           return (
             <Form
               className={classes}
-              onSubmit={e => {
-                offerSubmitted = true;
-                handleSubmit(e);
-              }}
+              onSubmit={handleSubmit}
             >
-              {!offerSubmitted ? (
-                <div>
-                  <div className={css.offerValue}>{formattedOfferPrice.formattedPrice}</div>
-                  <p className={css.modalMessage}>
-                    <FormattedMessage id="ListingPage.confirmOffer" />
-                  </p>
-                  <PrimaryButton className={css.submitButton} type="button" onClick={handleSubmit}>
-                    <FormattedMessage id="SubmitOffer.submitOffer" />
-                  </PrimaryButton>
-                </div>
-              ) : (
-                <div>
-                  
-                </div>
-              )}
+              <div>
+                <div className={css.offerValue}>{formattedOfferPrice.formattedPrice}</div>
+                <p className={css.modalMessage}>
+                  <FormattedMessage id="ListingPage.confirmOffer" />
+                </p>
+                <PrimaryButton className={css.submitButton} type="button" onClick={handleSubmit}>
+                  <FormattedMessage id="SubmitOffer.submitOffer" />
+                </PrimaryButton>
+              </div>
             </Form>
           );
         }}

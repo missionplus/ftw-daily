@@ -22,6 +22,7 @@ export const EditListingPricingFormComponent = props => (
       const {
         askingPrice,
         acceptOffer,
+        acceptBuyItNow,
         className,
         disabled,
         ready,
@@ -114,6 +115,13 @@ export const EditListingPricingFormComponent = props => (
             id="acceptOffer"
             name="acceptOffer"
             acceptOffer={acceptOffer}
+            intl={intl}
+          />
+
+          <CustomListAskingPriceSelect
+            id="acceptBuyItNow"
+            name="acceptBuyItNow"
+            acceptBuyItNow={acceptBuyItNow}
             intl={intl}
           />
 
