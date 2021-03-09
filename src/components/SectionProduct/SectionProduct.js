@@ -8,8 +8,7 @@ import css from './SectionProduct.module.css';
 import { ListingProduct } from '../../components';
 
 const SectionProduct = props => {
-  const { rootClassName, className, listings } = props;
-  console.log(listings);
+  const { rootClassName, className, listings, onActivateListing } = props;
   const classes = classNames(rootClassName || css.root, className);
   let id;
   switch (props.category) {
@@ -44,13 +43,14 @@ const SectionProduct = props => {
       <div className={css.listingCards}>
         <div className={css.listingCardsInner}>
           <ul className={css.rowList}>
-            {listings.map(l => (
-              <li className={css.colList}>
+            {listings.map((l, index) => (
+              <li key={index} className={css.colList}>
                 <ListingProduct
                   className={css.listingCard}
                   key={l.id.uuid}
                   listing={l}
                   renderSizes={cardRenderSizes}
+                  setActiveListing={onActivateListing}
                 />
               </li>
             ))}
