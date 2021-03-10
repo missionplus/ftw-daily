@@ -98,13 +98,13 @@ const tabCompleted = (tab, listing) => {
   const images = listing.images;
   switch (tab) {
     case DESCRIPTION:
-      return !!(description && title);
+      return !!(description && title && publicData && publicData.linkImages);
     case CATEGORY:
       return !!(publicData && publicData.category);
     case POLICY:
       return !!(publicData && publicData.category == 'microphones'
         ? publicData.sellingPair
-        : publicData.condition);
+        : publicData);
     case PRICING:
       return !!price;
     case PHOTOS:
@@ -113,10 +113,7 @@ const tabCompleted = (tab, listing) => {
       return !!(publicData && publicData.hyperlink);
     case SHIPPING:
       return !!(
-        publicData &&
-        publicData.domestic &&
-        publicData.international &&
-        publicData.payment
+        publicData
       );
     default:
       return false;
