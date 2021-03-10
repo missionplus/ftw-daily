@@ -1,11 +1,11 @@
 @import '../../styles/propertySets.css';
 
-.root {
-}
+.root {}
 
 .pageRoot {
   display: flex;
   padding-bottom: 90px;
+
   @media (--viewportLarge) {
     padding-bottom: 0;
   }
@@ -19,23 +19,27 @@
   color: var(--failColor);
   margin: 24px;
 }
+
 .imageContent {
   margin-bottom: 2rem;
   border: 0.1rem solid #ddd;
   background: #fff;
   display: block;
 }
-.descriptionContent {
-}
+
+.descriptionContent {}
+
 .sectionImages {
   border: none;
   padding: 1rem;
 }
+
 .sectionListImages {
   padding: 1rem 0;
   margin: 0;
   border-top: 1px solid var(--matterColorNegative);
 }
+
 .imageWrapper {
   padding: 0 0 1rem 1rem;
   display: flex;
@@ -44,6 +48,7 @@
   z-index: 1;
   margin-bottom: -1rem;
 }
+
 .listImageContent {
   display: flex;
   flex-basis: 6rem;
@@ -52,12 +57,14 @@
   transition: opacity 0.1s;
   cursor: pointer;
 }
+
 .listImageContent .rootForImage {
   margin: 0 0.5rem;
   opacity: 0.99;
   -webkit-transition: opacity 0.5s;
   transition: opacity 0.5s;
 }
+
 .listImageContent .rootForImage:first-child {
   margin-left: 0;
 }
@@ -79,15 +86,19 @@
 
 /* Firefox doesn't support image aspect ratio inside flexbox */
 .aspectWrapper {
-  position: relative; /* allow positioning own listing action bar */
-  padding-bottom: 66.6667%; /* 3:2 Aspect Ratio */
-  background-color: var(--matterColorNegative); /* Loading BG color */
+  position: relative;
+  /* allow positioning own listing action bar */
+  padding-bottom: 66.6667%;
+  /* 3:2 Aspect Ratio */
+  background-color: var(--matterColorNegative);
+  /* Loading BG color */
 
   /* Image carousel can be opened from the image, therefore we should show a pointer */
   cursor: pointer;
 
   @media (--viewportMedium) {
-    padding-bottom: 0; /* No fixed aspect on desktop layouts */
+    padding-bottom: 0;
+    /* No fixed aspect on desktop layouts */
   }
 }
 
@@ -100,7 +111,8 @@
   width: calc(100% - 26px);
   color: var(--matterColorNegative);
   background-color: var(--matterColor);
-  z-index: 1; /* bring on top of mobile image */
+  z-index: 1;
+  /* bring on top of mobile image */
 
   /* Action bar prevents the image click events going to the parent and
    should not show a pointer */
@@ -226,6 +238,7 @@
   width: 100%;
   height: 100%;
 }
+
 .containerFluid {
   @media (--viewportMedium) {
     max-width: 100%;
@@ -242,9 +255,34 @@
     padding: 0;
   }
 }
+
 .main {
   width: 100%;
 }
+
+.topMainFluid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.colTitle {
+  width: 40%;
+  order: 1;
+}
+
+.colRight {
+  order: 2;
+  flex: 0 0 60%;
+  font-size: 1.6rem;
+  max-width: 60%;
+}
+.colRightMain {
+  display: flex;
+  flex-direction: row;
+}
+
 .mainFluid {
   display: flex;
   align-items: flex-start;
@@ -252,6 +290,7 @@
   margin-bottom: 30px;
   border-bottom: 1px solid #ddd;
 }
+
 .twoColMain {
   width: 62%;
   -webkit-box-ordinal-group: 2;
@@ -288,12 +327,15 @@
     flex-shrink: 0;
     flex-basis: 0%;
   }
+
   @media (--viewportLarge) {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 0%;
+    order: 2;
   }
 }
+
 .SectionWatchList {
   margin-bottom: 0;
 }
@@ -321,12 +363,14 @@
   display: flex;
 
   @media (--viewportMedium) {
-    display: none; /* Hide the medium avatar from the bigger screens */
+    display: none;
+    /* Hide the medium avatar from the bigger screens */
   }
 }
 
 .avatarDesktop {
-  display: none; /* Hide the large avatar from the smaller screens */
+  display: none;
+  /* Hide the large avatar from the smaller screens */
 
   @media (--viewportMedium) {
     display: flex;
@@ -339,6 +383,7 @@
     flex-direction: column;
   }
 }
+
 .desktopPriceContainer {
   display: none;
 
@@ -375,12 +420,9 @@
 }
 
 .heading {
-  margin-bottom: 33px;
   padding: 0 24px;
 
   @media (--viewportMedium) {
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--matterColorNegative);
     padding: 0 0 20px 0;
   }
 }
@@ -394,6 +436,7 @@
   width: 100%;
   margin-top: 0;
   margin-bottom: 0;
+
   @media (--viewportMedium) {
     margin-top: 0;
     margin-bottom: 2px;
@@ -452,6 +495,7 @@
 
   margin-top: 0;
   margin-bottom: 13px;
+
   @media (--viewportMedium) {
     margin-top: 0;
     margin-bottom: 12px;
@@ -475,6 +519,7 @@
 
   margin-top: 0;
   margin-bottom: 16px;
+
   @media (--viewportMedium) {
     margin-top: 0;
     margin-bottom: 12px;
@@ -511,6 +556,7 @@
 
   margin-top: 0;
   margin-bottom: 20px;
+
   @media (--viewportMedium) {
     margin-top: 0;
     margin-bottom: 28px;
@@ -524,6 +570,7 @@
   @media (--viewportMedium) {
     padding: 0;
   }
+
   @media (--viewportLarge) {
     margin-bottom: 3px;
   }
@@ -538,6 +585,7 @@
   @media (--viewportMedium) {
     margin: 53px 0 27px 0;
   }
+
   @media (--viewportLarge) {
     margin: 50px 0 26px 0;
   }
@@ -551,6 +599,7 @@
   @media (--viewportMedium) {
     padding: 0;
   }
+
   @media (--viewportLarge) {
     margin-bottom: 3px;
   }
@@ -565,6 +614,7 @@
   @media (--viewportMedium) {
     margin: 53px 0 27px 0;
   }
+
   @media (--viewportLarge) {
     margin: 53px 0 27px 0;
   }
@@ -631,6 +681,7 @@
   word-break: break-word;
   hyphens: auto;
 }
+
 .sectionDetail {
   padding: 0;
 }
@@ -647,29 +698,36 @@
     margin-bottom: 1rem;
   }
 }
+
 .categoryTitle {
   text-transform: uppercase;
 }
+
 .readMoreState {
   display: none;
 }
+
 .readMoreTarget {
   opacity: 0;
   max-height: 0;
   font-size: 0;
   transition: 0.25s ease;
 }
-.readMoreState:checked ~ .sectionDetail .readMoreTarget {
+
+.readMoreState:checked~.sectionDetail .readMoreTarget {
   opacity: 1;
   font-size: inherit;
   max-height: 999em;
 }
-.readMoreState ~ .readMoreTrigger:before {
+
+.readMoreState~.readMoreTrigger:before {
   content: 'Show more...';
 }
-.readMoreState:checked ~ .readMoreTrigger:before {
+
+.readMoreState:checked~.readMoreTrigger:before {
   content: 'Show less...';
 }
+
 .readMoreTrigger {
   cursor: pointer;
   display: inline-block;
@@ -682,16 +740,20 @@
 .ctaButton {
   @media (--viewportMedium) {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    order: 3;
+    flex-direction: column;
+    margin-left: 20px;
   }
 }
+
 .ctaButtonMain {
   flex: 1;
 }
+
 .ctaButtonMain:last-child {
-  margin-left: 30px;
+  margin-top: 10px;
 }
+
 .sectionMakeOffer {
   @apply --marketplaceModalInMobileBaseStyles;
 
@@ -713,6 +775,7 @@
     margin-bottom: 20px;
   }
 }
+
 .btn {
   border: 1px solid #ccc;
   background: #fff;
@@ -721,7 +784,12 @@
   width: 100%;
   white-space: normal;
   min-height: 50px;
+  padding: 0 20px;
 }
+.btn > * {
+  font-size: 13px;
+}
+
 .btn:hover,
 .btn:focus {
   background-color: #fff;
@@ -729,10 +797,12 @@
   color: #2ecc71;
   fill: #2ecc71;
 }
+
 .sectionPrice {
-  display: block;
-  margin-bottom: 20px;
+  order: 1;
+  width: 40%;
 }
+
 .priceContainer {
   /* Layout */
   display: flex;
@@ -740,9 +810,11 @@
   align-items: center;
   padding: 10px 0;
 }
+
 .container {
   flex: 1;
 }
+
 .askingPrice {
   min-width: 100px;
   margin-right: 30px;
