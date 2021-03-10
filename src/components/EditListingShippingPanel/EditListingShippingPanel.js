@@ -29,6 +29,7 @@ const EditListingShippingPanel = props => {
   publicData && publicData.domestic ? Object.setPrototypeOf(publicData.domestic, Money.prototype) : null;
   publicData && publicData.international ? Object.setPrototypeOf(publicData.international, Money.prototype) : null;
 
+
   return (
     <div className={classes}>
       <EditListingShippingForm
@@ -39,8 +40,8 @@ const EditListingShippingPanel = props => {
           const { domestic, international, payment } = values;
           const updateValues = {
             publicData: {
-              domestic: { amount: domestic.amount, currency: domestic.currency },
-              international: { amount: international.amount, currency: international.currency },
+              domestic: { amount: domestic && domestic.amount ? domestic.amount : null, currency: domestic && domestic.currency ? domestic.currency : null },
+              international: { amount: international && international.amount ? international.amount : null, currency: international && international.currency ? international.currency : null },
               payment,
               numberOfOffers: 0,
             },
