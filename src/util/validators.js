@@ -223,9 +223,6 @@ export const validSGID = message => value => {
   return value.length === 9 ? VALID : message;
 };
 
-export const composeValidators = (...validators) => value =>
-  validators.reduce((error, validator) => error || validator(value), VALID);
-
 // not match password
 export const notMatch = (message, oldPassword) => value => {
   if (typeof value !== undefined && typeof oldPassword !== undefined) {
@@ -243,3 +240,6 @@ export const validUrl = message => value => {
   const invalidUrl = !!value.match(pattern);
   return invalidUrl ? VALID : message;
 };
+export const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), VALID);
+
