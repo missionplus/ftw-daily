@@ -6,7 +6,6 @@ import { ensureOwnListing } from '../../util/data';
 import { LISTING_STATE_DRAFT } from '../../util/types';
 import { ListingLink } from '../../components';
 import { EditListingDescriptionForm } from '../../forms';
-import pickBy from 'lodash/pickBy';
 
 import css from './EditListingDescriptionPanel.module.css';
 
@@ -23,10 +22,6 @@ const EditListingDescriptionPanel = props => {
     panelUpdated,
     updateInProgress,
     errors,
-    images,
-    onImageUpload,
-    onRemoveImage,
-    onUpdateImageOrder
   } = props;
 
   const classes = classNames(rootClassName || css.root, className);
@@ -34,6 +29,7 @@ const EditListingDescriptionPanel = props => {
   const { description, title, publicData } = currentListing.attributes;
 
   const paragraph = publicData && publicData.paragraph ? publicData.paragraph : [];
+  const linkImages = publicData && publicData.linkImages;
 
   const isPublished = currentListing.id && currentListing.attributes.state !== LISTING_STATE_DRAFT;
   const panelTitle = isPublished ? (
@@ -50,22 +46,17 @@ const EditListingDescriptionPanel = props => {
       <h1 className={css.title}>{panelTitle}</h1>
       <EditListingDescriptionForm
         className={css.form}
-        initialValues={{ title, description, paragraph }}
+        initialValues={{ title, description, paragraph, linkImages }}
         saveActionMsg={submitButtonText}
         onSubmit={values => {
-          console.log(values);
-          const { title, description, paragraph } = values;
+          const { title, description, paragraph, linkImages = [] } = values;
           const updateValues = {
             title: title.trim(),
             description,
-            publicData: { paragraph },
+            publicData: { paragraph, linkImages },
           };
           onSubmit(updateValues);
         }}
-        images={images}
-        onImageUpload={onImageUpload}
-        onRemoveImage={onRemoveImage}
-        onUpdateImageOrder={onUpdateImageOrder}
         onChange={onChange}
         disabled={disabled}
         ready={ready}
@@ -100,9 +91,6 @@ EditListingDescriptionPanel.propTypes = {
   panelUpdated: bool.isRequired,
   updateInProgress: bool.isRequired,
   errors: object.isRequired,
-  onImageUpload: func.isRequired,
-  onRemoveImage: func.isRequired,
-  onUpdateImageOrder: func.isRequired
 };
 
 export default EditListingDescriptionPanel;

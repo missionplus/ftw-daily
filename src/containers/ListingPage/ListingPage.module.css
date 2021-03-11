@@ -249,38 +249,15 @@
     max-width: 1428px;
     margin: 0 auto;
   }
-
-  @media (--viewportXLarge) {
-    max-width: 1256px;
-    padding: 0;
-  }
+}
+.mainDescription {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 30px;
 }
 
 .main {
   width: 100%;
-}
-
-.topMainFluid {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
-
-.colTitle {
-  width: 40%;
-  order: 1;
-}
-
-.colRight {
-  order: 2;
-  flex: 0 0 60%;
-  font-size: 1.6rem;
-  max-width: 60%;
-}
-.colRightMain {
-  display: flex;
-  flex-direction: row;
 }
 
 .mainFluid {
@@ -290,19 +267,29 @@
   margin-bottom: 30px;
   border-bottom: 1px solid #ddd;
 }
+.hyperlink {
+  color: var(--matterColor);
+}
 
 .twoColMain {
-  width: 62%;
-  -webkit-box-ordinal-group: 2;
-  -ms-flex-order: 1;
+  width: 50%;
   order: 1;
+}
+.titleColMain {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .sidebar {
   order: 2;
-  flex: 0 0 34%;
   font-size: 1.6rem;
-  max-width: 34%;
+  max-width: 30%;
+}
+
+.watchList {
+  order: 3;
+  max-width: 20%;
 }
 
 .mainContent {
@@ -796,11 +783,6 @@
   box-shadow: none;
   color: #2ecc71;
   fill: #2ecc71;
-}
-
-.sectionPrice {
-  order: 1;
-  width: 40%;
 }
 
 .priceContainer {

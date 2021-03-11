@@ -170,13 +170,9 @@ const EditListingWizardTab = props => {
         <EditListingDescriptionPanel
           {...panelProps(DESCRIPTION)}
           submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
-          images={images}
-          onImageUpload={onImageUpload}
-          onRemoveImage={onRemoveImage}
           onSubmit={values => {
             onCompleteEditListingWizardTab(tab, values);
           }}
-          onUpdateImageOrder={onUpdateImageOrder}
         />
       );
     }

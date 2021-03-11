@@ -19,7 +19,7 @@ const SectionHyperlinkMaybe = props => {
         <FormattedMessage id="ListingPage.hyperlinkTitle" />
       </h2>
       <ExternalLink href={hyperlink} className={css.hyperlink}>
-        {richText(hyperlink, {
+        {richText('discogs', {
           longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS_IN_DESCRIPTION,
           longWordClass: css.longWord,
         })}

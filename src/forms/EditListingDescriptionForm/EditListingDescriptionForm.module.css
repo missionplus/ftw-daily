@@ -38,7 +38,7 @@
   flex-shrink: 0;
 }
 
-.category {
+.linkImages {
   composes: formMargins;
 }
 
@@ -199,4 +199,8 @@
 .paragraph:hover, .paragraph:focus {
   background: none;
   box-shadow: none;
+}
+
+.removeParagraph {
+  margin-bottom: 20px;
 }
