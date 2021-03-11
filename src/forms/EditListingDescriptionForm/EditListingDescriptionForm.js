@@ -6,20 +6,20 @@ import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { Form, Button, FieldTextInput } from '../../components';
-import { FieldArray } from 'react-final-form-arrays';
-import arrayMutators from 'final-form-arrays';
+// import { FieldArray } from 'react-final-form-arrays';
+// import arrayMutators from 'final-form-arrays';
 
 import * as validators from '../../util/validators';
 import css from './EditListingDescriptionForm.module.css';
-import { Fragment } from 'react';
+// import { Fragment } from 'react';
 
 const TITLE_MAX_LENGTH = 60;
 export const EditListingDescriptionFormComponent = props => (
   <FinalForm
     {...props}
-    mutators={{
-      ...arrayMutators,
-    }}
+    // mutators={{
+    //   ...arrayMutators,
+    // }}
     render={formRenderProps => {
       const {
         className,
@@ -33,9 +33,9 @@ export const EditListingDescriptionFormComponent = props => (
         updated,
         updateInProgress,
         fetchErrors,
-        form: {
-          mutators: { push, pop },
-        },
+        // form: {
+        //   mutators: { push, pop },
+        // },
       } = formRenderProps;
 
       // title
@@ -74,28 +74,28 @@ export const EditListingDescriptionFormComponent = props => (
       const descriptionValidators = validators.composeValidators(descriptionRequired);
 
       // link Image
-      const linkImagesMessage = intl.formatMessage({
-        id: 'EditListingDescriptionForm.linkImages',
-      });
-      const linkImagesPlaceholderMessage = intl.formatMessage({
-        id: 'EditListingDescriptionForm.linkImagesPlaceholder',
-      });
+      // const linkImagesMessage = intl.formatMessage({
+      //   id: 'EditListingDescriptionForm.linkImages',
+      // });
+      // const linkImagesPlaceholderMessage = intl.formatMessage({
+      //   id: 'EditListingDescriptionForm.linkImagesPlaceholder',
+      // });
 
-      const linkImagesRequiredMessage = intl.formatMessage({
-        id: 'EditListingDescriptionForm.linkImagesRequired',
-      });
-      const linkImagesValidUrlMessage = intl.formatMessage({
-        id: 'EditListingDescriptionForm.linkImagesValidUrl',
-      });
+      // const linkImagesRequiredMessage = intl.formatMessage({
+      //   id: 'EditListingDescriptionForm.linkImagesRequired',
+      // });
+      // const linkImagesValidUrlMessage = intl.formatMessage({
+      //   id: 'EditListingDescriptionForm.linkImagesValidUrl',
+      // });
 
-      const linkImagesRequired = validators.required(linkImagesRequiredMessage);
+      // const linkImagesRequired = validators.required(linkImagesRequiredMessage);
 
-      const linkImagesValidUrl = validators.validUrl(linkImagesValidUrlMessage);
+      // const linkImagesValidUrl = validators.validUrl(linkImagesValidUrlMessage);
 
-      const linkImagesValidators = validators.composeValidators(
-        linkImagesRequired,
-        linkImagesValidUrl
-      );
+      // const linkImagesValidators = validators.composeValidators(
+      //   linkImagesRequired,
+      //   linkImagesValidUrl
+      // );
 
       const { updateListingError, createListingDraftError, showListingsError } = fetchErrors || {};
       const errorMessageUpdateListing = updateListingError ? (
@@ -147,7 +147,7 @@ export const EditListingDescriptionFormComponent = props => (
             placeholder={descriptionPlaceholderMessage}
             validate={descriptionValidators}
           />
-          <FieldTextInput
+          {/* <FieldTextInput
             id="linkImages"
             name="linkImages"
             className={css.linkImages}
@@ -181,22 +181,22 @@ export const EditListingDescriptionFormComponent = props => (
                   <Button
                     className={css.removeParagraph}
                     type="button"
-                    onClick={() => fields.remove(index)}
+                    onClick={() => pop('paragraph')}
                   >
                     <FormattedMessage id="EditListingDescriptionForm.deleteParagraph" />
                   </Button>
                 </Fragment>
               ))
             }
-          </FieldArray>
+          </FieldArray> */}
 
-          <Button
+          {/* <Button
             className={css.paragraph}
             type="button"
             onClick={() => push('paragraph', undefined)}
           >
             <FormattedMessage id="EditListingDescriptionForm.addNewParagraph" />
-          </Button>
+          </Button> */}
           <Button
             className={css.submitButton}
             type="submit"

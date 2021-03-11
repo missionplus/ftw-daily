@@ -423,8 +423,8 @@
     border-radius: var(--borderRadius);
 
     /* Colors */
-    background-color: var(--marketplaceColor);
-    color: var(--matterColorLight);
+    background-color: var(--matterColorLight);
+    color: var(--marketplaceColor);
 
     /* Text */
     text-align: center;
@@ -437,7 +437,7 @@
     &:hover,
     &:focus {
       outline: none;
-      background-color: var(--marketplaceColorDark);
+      /* background-color: var(--marketplaceColorDark); */
       text-decoration: none;
       box-shadow: var(--boxShadowButton);
     }

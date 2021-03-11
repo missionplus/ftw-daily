@@ -1,6 +1,7 @@
 @import '../../styles/propertySets.css';
 
-.root {}
+.root {
+}
 
 .pageRoot {
   display: flex;
@@ -27,7 +28,8 @@
   display: block;
 }
 
-.descriptionContent {}
+.descriptionContent {
+}
 
 .sectionImages {
   border: none;
@@ -239,7 +241,10 @@
   height: 100%;
 }
 
+
 .containerFluid {
+  max-width: 100%;
+    margin: 24px;
   @media (--viewportMedium) {
     max-width: 100%;
     margin: 24px;
@@ -261,19 +266,44 @@
 }
 
 .mainFluid {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #ddd;
+  flex-direction: column;
+    margin-bottom: 20px;
+  @media (--viewportMedium) {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  @media (--viewportLarge) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+  }
 }
 .hyperlink {
   color: var(--matterColor);
 }
 
 .twoColMain {
-  width: 50%;
-  order: 1;
+  width: 100%;
+  @media (--viewportMedium) {
+    width: 100%;
+  }
+  @media (--viewportLarge) {
+    width: 50%;
+    order: 1;
+  }
+}
+.twoColMainIsOwn {
+  width: 100%;
+  @media (--viewportMedium) {
+    width: 100%;
+  }
+  @media (--viewportLarge) {
+    width: 62%;
+    order: 1;
+  }
 }
 .titleColMain {
   display: flex;
@@ -282,14 +312,36 @@
 }
 
 .sidebar {
-  order: 2;
-  font-size: 1.6rem;
-  max-width: 30%;
+  max-width: 100%;
+  @media (--viewportMedium) {
+    max-width: 100%;
+  }
+  @media (--viewportLarge) {
+    order: 2;
+    font-size: 1.6rem;
+    max-width: 30%;
+  }
 }
-
+.sidebarIsOwn {
+  max-width: 100%;
+  @media (--viewportMedium) {
+    max-width: 100%;
+  }
+  @media (--viewportLarge) {
+    order: 2;
+    font-size: 1.6rem;
+    max-width: 34%;
+  }
+}
 .watchList {
-  order: 3;
-  max-width: 20%;
+  max-width: 100%;
+  @media (--viewportMedium) {
+    max-width: 100%;
+  }
+  @media (--viewportLarge) {
+    order: 3;
+    max-width: 20%;
+  }
 }
 
 .mainContent {
@@ -699,33 +751,37 @@
   max-height: 0;
   font-size: 0;
   transition: 0.25s ease;
+  display: flex;
 }
 
-.readMoreState:checked~.sectionDetail .readMoreTarget {
+.readMoreState:checked ~ .sectionDetail .readMoreTarget {
   opacity: 1;
   font-size: inherit;
   max-height: 999em;
 }
 
-.readMoreState~.readMoreTrigger:before {
+.readMoreState ~ .readMoreTrigger:before {
   content: 'Show more...';
 }
 
-.readMoreState:checked~.readMoreTrigger:before {
+.readMoreState:checked ~ .readMoreTrigger:before {
   content: 'Show less...';
 }
 
 .readMoreTrigger {
   cursor: pointer;
   display: inline-block;
-  font-size: 0.9em;
+  font-size: 0.6em;
   line-height: 2;
-  color: #2ecc71;
+  color: #057bc4;
   padding: 0;
 }
 
 .ctaButton {
   @media (--viewportMedium) {
+    margin-left: 0;
+  }
+  @media (--viewportLarge) {
     display: flex;
     order: 3;
     flex-direction: column;
@@ -766,8 +822,8 @@
 .btn {
   border: 1px solid #ccc;
   background: #fff;
-  color: #414141;
-  fill: #414141;
+  color: rgba(16,16,16);
+  fill: rgba(16,16,16);
   width: 100%;
   white-space: normal;
   min-height: 50px;
@@ -781,8 +837,8 @@
 .btn:focus {
   background-color: #fff;
   box-shadow: none;
-  color: #2ecc71;
-  fill: #2ecc71;
+  color: rgba(16,16,16,.8);
+  fill: rgba(16,16,16,.8);
 }
 
 .priceContainer {
@@ -800,8 +856,28 @@
 .askingPrice {
   min-width: 100px;
   margin-right: 30px;
+  font-size: 20px;
+}
+.priceValue {
+  font-size: 20px;
 }
 
 .modalTitle {
   text-align: center;
+}
+.readmoreContent {
+  display: flex;
+}
+.row {
+  display: flex;
+}
+.col {
+  flex: 0 0 50%;
+}
+.category {
+  text-align: center;
+  text-transform: uppercase;
+}
+.column {
+  flex: 0 0 100%;
 }
