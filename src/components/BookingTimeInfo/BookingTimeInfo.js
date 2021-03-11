@@ -21,7 +21,7 @@ const bookingData = (unitType, tx, isOrder, intl) => {
   // from actual start and end times used for availability reservation. It can help in situations
   // where there are preparation time needed between bookings.
   // Read more: https://www.sharetribe.com/api-reference/marketplace.html#bookings
-  const { start, end, displayStart, displayEnd } = tx.booking.attributes;
+  const { start, end, displayStart, displayEnd } = tx && tx.booking && tx.booking.attributes ? tx.booking.attributes : {};
   const startDate = dateFromAPIToLocalNoon(displayStart || start);
   const endDateRaw = dateFromAPIToLocalNoon(displayEnd || end);
   const isDaily = unitType === LINE_ITEM_DAY;
